@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HospitalManagementSystem.Api.Queries;
 using MediatR;
+using HospitalManagementSystem.Api.Helpers;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
@@ -25,6 +26,11 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDoctors([FromQuery] DoctorsQuery query)
         {
+            var validation = await ModelValidation.ValidateModelAsync(ModelState, nameof(DoctorsQuery), HttpContext);
+
+            if (validation != null)
+                return validation;
+
             try
             {
                 var response = await _mediator.Send(query);

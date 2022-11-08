@@ -1,13 +1,14 @@
 ﻿using HospitalManagementSystem.Api.Models;
+using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MediatR;
 
 namespace HospitalManagementSystem.Api.Queries
 {
     public class DoctorsQueryHandler : IRequestHandler<DoctorsQuery, DoctorsQueryResponse>
     {
-        private readonly IBroadcastingRepository _repository;
+        private readonly IDoctorsRepository _repository;
 
-        public DoctorsQueryHandler(IBroadcastingRepository repository)
+        public DoctorsQueryHandler(IDoctorsRepository repository)
         {
             _repository = repository;
         }
