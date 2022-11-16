@@ -8,8 +8,8 @@
         Neurology,
         Gynaecology,
         Urology,
-        GeneralSurgeon,
-        Psychiatrist,
-        Psychologist
+        GeneralSurgery,
+        Psychiatry,
+        Psychology
     }
 }

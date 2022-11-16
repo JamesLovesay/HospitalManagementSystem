@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "inlPpiFpHG+M0dW6oiwip/Jrtv6ieStvaN5WSPkDDeJsYZYHFBZ8+vUHhvl/VA599oMsW5N3NR7HUP154PrGpA==",
+  "dgSpecHash": "HhXb22OMZsMYJoK/kF+ngrNfIBZ0tSz1/ouizGASYYuAa3ZzAaBS4GnKfmQkoN+j1dRjF1U++6n8CI+tuMwTlA==",
   "success": true,
   "projectFilePath": "C:\\Users\\james.lovesay_ivendi\\github\\PersonalProjects\\HospitalManagementSystem\\src\\HospitalManagementSystem.Api\\HospitalManagementSystem.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation\\11.2.1\\fluentvalidation.11.2.1.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.1\\fluentvalidation.dependencyinjectionextensions.11.2.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.0.0\\mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
