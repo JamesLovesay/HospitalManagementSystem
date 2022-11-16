@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using HospitalManagementSystem.Api.Helpers;
+using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
 using Microsoft.AspNetCore.WebUtilities;
 
@@ -35,6 +36,24 @@ namespace HospitalManagementSystem.Api.Validators
             {
                 RuleFor(cmd => cmd.Statuses).Must(x => QueryHelper.DoctorSortableStatuses.Any(y => y.Equals(x)));
             });
+
+            When(x => x.Specialisms != null, () =>
+            {
+                RuleFor(cmd => cmd)
+                    .Must(x => x.Specialisms.All(y => IsValidSpecialism(y).valid))
+                    .WithMessage(x => GetInvalidSpecialismsErrorMessage(x.Specialisms));
+            });
         }
+
+        private static (bool valid, string specialism) IsValidSpecialism(string specialism)
+        => (Enum.TryParse<DoctorSpecialism>(specialism, true, out var result), specialism);
+
+        private static string GetInvalidSpecialismsErrorMessage(List<string> specialisms)
+        => $"Specialism value(s) supplied were invalid: {GetInvalidSpecialisms(specialisms)}";
+
+        private static string GetInvalidSpecialisms(List<string> specialisms)
+            => string.Join(", ", specialisms.Select(x => IsValidSpecialism(x))
+            .Where(x => !x.valid)
+            .Select(x => x.specialism));
     }
 }

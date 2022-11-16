@@ -8,10 +8,10 @@ namespace HospitalManagementSystem.Api.Helpers
         public static string SortAscending = "ASC";
         public static string SortDescending = "DESC";
         public static List<string> DoctorSortableFields = new List<string>() 
-        { 
+        {
+            nameof(Doctor.Name),
             nameof(Doctor.Specialism),
             nameof(Doctor.Status),
-            nameof(Doctor.Name),
             nameof(Doctor.HourlyChargingRate)
         };
         public static List<string> DoctorSortableStatuses = new List<string>()

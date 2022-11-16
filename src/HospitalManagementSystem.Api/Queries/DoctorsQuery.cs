@@ -1,4 +1,5 @@
-﻿using HospitalManagementSystem.Api.Models;
+﻿using HospitalManagementSystem.Api.Helpers;
+using HospitalManagementSystem.Api.Models;
 using MediatR;
 
 namespace HospitalManagementSystem.Api.Queries
@@ -8,10 +9,17 @@ namespace HospitalManagementSystem.Api.Queries
         public List<Guid>? DoctorIds { get; set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
-        public string? SortBy { get; set; }
-        public string? SortDirection { get; set; }
+        public string SortBy { get; set; }
+        public string SortDirection { get; set; }
         public string? DoctorName { get; set; }
-        public List<DoctorStatus>? Statuses { get; set; }
-        public List<DoctorSpecialism>? Specialisms { get; set; }
+        public List<string>? Statuses { get; set; }
+        public List<string> Specialisms { get; set; }
+
+        public DoctorsQuery()
+        {
+            SortDirection = QueryHelper.SortDescending;
+            SortBy = QueryHelper.DoctorSortableFields[0];
+            Specialisms = new List<string>();
+        }
     }
 }
