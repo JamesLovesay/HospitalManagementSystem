@@ -1,0 +1,12 @@
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\bin\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.deps.json
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\bin\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.dll
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\bin\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.pdb
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.csproj.AssemblyReference.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.AssemblyInfoInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.AssemblyInfo.cs
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.csproj.CoreCompileInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.dll
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\refint\HospitalManagementSystem.Infra.MongoDBStructure.dll
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.pdb
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\net6.0\ref\HospitalManagementSystem.Infra.MongoDBStructure.dll

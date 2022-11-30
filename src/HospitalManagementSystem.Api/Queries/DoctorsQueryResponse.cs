@@ -4,6 +4,6 @@ namespace HospitalManagementSystem.Api.Queries
 {
     public class DoctorsQueryResponse
     {
-        public List<Doctor> Doctors { get; set; } = new List<Doctor>();
+        public List<DoctorReadModel> Doctors { get; set; } = new List<DoctorReadModel>();
     }
 }

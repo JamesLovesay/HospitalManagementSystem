@@ -1,0 +1,7 @@
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.csproj.AssemblyReference.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.AssemblyInfoInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.AssemblyInfo.cs
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.csproj.CoreCompileInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.MvcApplicationPartsAssemblyInfo.cache

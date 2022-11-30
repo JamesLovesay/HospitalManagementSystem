@@ -8,7 +8,7 @@ namespace HospitalManagementSystem.Api.Models
         public List<Guid>? DoctorIds { get; set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
-        public List<string> Specialisms { get; set; }
+        public List<string>? Specialisms { get; set; }
         public List<string>? Status { get; set; }
         public string? Name { get; set; }
         public string SortDirection { get; set; }

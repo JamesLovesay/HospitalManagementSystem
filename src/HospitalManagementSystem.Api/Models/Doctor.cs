@@ -1,7 +1,10 @@
-﻿namespace HospitalManagementSystem.Api.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace HospitalManagementSystem.Api.Models
 {
     public class Doctor
     {
+        [BsonId]
         public Guid DoctorId { get; set; }
         public string Name { get; set; }
         public decimal HourlyChargingRate { get; set; }
