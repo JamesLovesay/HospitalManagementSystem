@@ -4,8 +4,10 @@ using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.Config;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
+using MediatR;
 using MongoDB.Driver;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddSingleton(typeof(Serilog.ILogger), _ => Log.Logger);
 builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
 builder.Services.AddSingleton<IMongoFactory, MongoFactory>();
 builder.Services.AddSingleton<IReadStore, ReadStore>();
+builder.Services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

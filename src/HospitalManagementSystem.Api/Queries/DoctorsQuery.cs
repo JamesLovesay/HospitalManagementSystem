@@ -1,12 +1,13 @@
 ﻿using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Models;
 using MediatR;
+using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Queries
 {
     public class DoctorsQuery : IRequest<DoctorsQueryResponse>
     {
-        public List<Guid>? DoctorIds { get; set; }
+        public List<ObjectId>? DoctorIds { get; set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
         public string SortBy { get; set; }

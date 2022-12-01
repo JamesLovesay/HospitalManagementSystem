@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rnEbz6dm2OjI+g/rFY0TfsBLuSqHTPf256W+U6wdN8F3m2Kq+0V3QGKRwYxpTa5fXu8168aXHL0IjPgJZtuj9A==",
+  "dgSpecHash": "oY36yMvBTucgcgNYS87uamgyvw05qxgPC2nyrEPfKIrgu//4C5/7In/AN7UWgi/AQ6h4MARf8qAW9BTwjQn5Bw==",
   "success": true,
   "projectFilePath": "C:\\Users\\james.lovesay_ivendi\\github\\PersonalProjects\\HospitalManagementSystem\\TestProject1\\HospitalManagementSystem.Api.Tests.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,8 @@
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentassertions\\6.0.0\\fluentassertions.6.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentassertions.json\\6.1.0\\fluentassertions.json.6.1.0.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\7.0.0\\microsoft.aspnetcore.mvc.testing.7.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.aspnetcore.testhost\\7.0.0\\microsoft.aspnetcore.testhost.7.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",

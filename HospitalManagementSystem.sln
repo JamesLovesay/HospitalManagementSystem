@@ -21,6 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Infra.MongoDBStructure", "HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj", "{680BF4C0-3548-4EB1-9449-0D8FC54723F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject2", "TestProject2\TestProject2.csproj", "{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A60D76F-D711-426A-960F-191B2733B75D} = {1A60D76F-D711-426A-960F-191B2733B75D}
+		{680BF4C0-3548-4EB1-9449-0D8FC54723F2} = {680BF4C0-3548-4EB1-9449-0D8FC54723F2}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +45,10 @@ Global
 		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +57,7 @@ Global
 		{1A60D76F-D711-426A-960F-191B2733B75D} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
 		{B5D40A8D-BBB6-4ECC-B27C-FF6A9D4F80FD} = {81ED3324-B176-4343-A6C1-15758864A933}
 		{680BF4C0-3548-4EB1-9449-0D8FC54723F2} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
+		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5} = {81ED3324-B176-4343-A6C1-15758864A933}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C19BCDDF-B4F2-420B-855D-189C05048831}

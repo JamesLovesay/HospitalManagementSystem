@@ -18,7 +18,7 @@ namespace HospitalManagementSystem.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("doctors")]
+        [HttpGet("query")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DoctorsQueryResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

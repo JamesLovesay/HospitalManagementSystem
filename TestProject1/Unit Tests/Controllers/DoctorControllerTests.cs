@@ -13,7 +13,7 @@ namespace HospitalManagementSystem.DoctorTests
         [Fact]
         public async Task WhenGetBroadcastJobsByQuery_InvalidPageSizeLessThanOne_ThenExpectedResult()
         {
-            var response = await Client.GetAsync($"/api/broadcastjob/doctors?page=0&pagesize=-1");
+            var response = await Client.GetAsync($"/api/Doctors/doctors?page=0&pagesize=-1");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 

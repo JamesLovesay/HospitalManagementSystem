@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[6.1.0, )"
             },
+            "MediatR": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
             "Microsoft.AspNetCore.Mvc.Testing": {
               "target": "Package",
               "version": "[7.0.0, )"

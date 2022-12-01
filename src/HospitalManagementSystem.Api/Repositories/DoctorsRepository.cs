@@ -27,10 +27,10 @@ namespace HospitalManagementSystem.Api.Repositories
             await SaveModelAsync(model);
         }
 
-        public async Task<(List<DoctorReadModel> doctors, DoctorsQueryDetail detail)> GetDoctors(DoctorsQueryModel query)
+        public async Task<List<DoctorReadModel>> GetDoctors(DoctorsQueryModel query)
         {
-            var page = query.Page < 1 ? 1 : query.Page;
-            var pageSize = query.PageSize < 1 ? QueryHelper.DefaultPageSize : query.PageSize;
+            var page = (query.Page ?? 1) < 1 ? 1 : query.Page ?? 1;
+            var pageSize = (query.PageSize ?? QueryHelper.DefaultPageSize) < 1 ? QueryHelper.DefaultPageSize : query.PageSize ?? QueryHelper.DefaultPageSize;
 
             var filters = new List<FilterDefinition<DoctorReadModel>>();
 
@@ -47,11 +47,11 @@ namespace HospitalManagementSystem.Api.Repositories
             {
                 Skip = (page - 1) * pageSize,
                 Limit = pageSize,
-                Sort = sortBy
+                Sort = sort
             };
-
-            var countResult = await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).CountDocumentsAsync(filter);
-            var result = await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).FindAsync(filter, options);
+            var test = typeof(DoctorReadModel).Name;
+            var countResult = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).CountDocumentsAsync(filter);
+            var result = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter, options);
 
             var resultDetail = new DoctorsQueryDetail
             {
@@ -67,7 +67,7 @@ namespace HospitalManagementSystem.Api.Repositories
                 Status = query.Status?.Select(x => $"{x}").ToList(),
             };
 
-            return (result.ToList(), resultDetail);
+            return result.ToList();
         }
     }
 }

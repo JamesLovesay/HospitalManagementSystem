@@ -21,7 +21,7 @@ namespace HospitalManagementSystem.Api.Queries
 
             return new DoctorsQueryResponse
             {
-                Doctors = doctors.doctors
+                Doctors = doctors.ToList(),
             };
         }
     }

@@ -1,11 +1,12 @@
 ﻿using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Queries;
+using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Models
 {
     public class DoctorsQueryModel
     {
-        public List<Guid>? DoctorIds { get; set; }
+        public List<ObjectId>? DoctorIds { get; set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
         public List<string>? Specialisms { get; set; }
@@ -23,7 +24,7 @@ namespace HospitalManagementSystem.Api.Models
 
         public DoctorsQueryModel(DoctorsQuery query)
         {
-            DoctorIds = query.DoctorIds == null ? null : new List<Guid>(query.DoctorIds);
+            DoctorIds = query.DoctorIds == null ? null : new List<ObjectId>(query.DoctorIds);
             Page = query.Page;
             PageSize = query.PageSize;
             Specialisms = query.Specialisms == null ? new List<string>() : query.Specialisms;

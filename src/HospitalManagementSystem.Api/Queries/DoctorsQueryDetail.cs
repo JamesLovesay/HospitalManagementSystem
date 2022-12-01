@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.Api.Queries
+﻿using MongoDB.Bson;
+
+namespace HospitalManagementSystem.Api.Queries
 {
     public class DoctorsQueryDetail
     {
@@ -9,7 +11,7 @@
         public string? SortBy { get; set; }
         public string? SortDirection { get; set; }
         public List<string>? Specialisms { get; set; }
-        public List<Guid>? DoctorId { get; set; }
+        public List<ObjectId>? DoctorId { get; set; }
         public string? Name { get; set; }
         public List<string>? Status { get; set; }
     }
