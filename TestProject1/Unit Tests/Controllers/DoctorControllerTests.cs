@@ -1,10 +1,4 @@
 ﻿using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Moq;
-using Xunit;
-using System.Net.Http;
-using System;
 using FluentAssertions;
 using HospitalManagementSystem.DoctorTests.Unit_Tests.Factories;
 using HospitalManagementSystem.DoctorTests.Unit_Tests.Controllers;
