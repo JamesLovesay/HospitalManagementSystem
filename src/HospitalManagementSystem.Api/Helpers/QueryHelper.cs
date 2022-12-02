@@ -36,7 +36,7 @@ namespace HospitalManagementSystem.Api.Helpers
 
         public static (SortDefinition<DoctorReadModel> sortDefinition, string option, string direction) GetDoctorSortDetails(string sortBy, string sortDirection)
         {
-            var option = (new[] { nameof(Doctor.Name), nameof(Doctor.Specialism), nameof(Doctor.Status) }
+            var option = (new[] { nameof(Doctor.Name), nameof(Doctor.Specialism), nameof(Doctor.Status), nameof(Doctor.HourlyChargingRate) }
                             .FirstOrDefault(x => x.Equals(sortBy, StringComparison.InvariantCultureIgnoreCase)))
                             ?? nameof(Doctor.Name);
 

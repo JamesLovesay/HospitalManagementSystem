@@ -47,9 +47,9 @@ namespace HospitalManagementSystem.Api.Repositories
             {
                 Skip = (page - 1) * pageSize,
                 Limit = pageSize,
-                Sort = sort
+                Sort = sort,
+                
             };
-            var test = typeof(DoctorReadModel).Name;
             var countResult = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).CountDocumentsAsync(filter);
             var result = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter, options);
 
