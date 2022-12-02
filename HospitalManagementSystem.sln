@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Infra.MongoDBStructure", "HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj", "{680BF4C0-3548-4EB1-9449-0D8FC54723F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject2", "TestProject2\TestProject2.csproj", "{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Api.Tests", "TestProject2\HospitalManagementSystem.Api.Tests.csproj", "{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A60D76F-D711-426A-960F-191B2733B75D} = {1A60D76F-D711-426A-960F-191B2733B75D}
 		{680BF4C0-3548-4EB1-9449-0D8FC54723F2} = {680BF4C0-3548-4EB1-9449-0D8FC54723F2}
