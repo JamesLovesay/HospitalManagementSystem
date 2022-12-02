@@ -1,5 +1,0 @@
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject1\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.Tests.csproj.AssemblyReference.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject1\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.Tests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject1\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.Tests.AssemblyInfoInputs.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject1\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.Tests.AssemblyInfo.cs
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject1\obj\Debug\netcoreapp3.1\HospitalManagementSystem.Api.Tests.csproj.CoreCompileInputs.cache
