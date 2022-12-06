@@ -13,7 +13,7 @@ namespace HospitalManagementSystem.Api.Queries
         public string SortBy { get; set; }
         public string SortDirection { get; set; }
         public string? DoctorName { get; set; }
-        public List<string>? Statuses { get; set; }
+        public List<string> Statuses { get; set; }
         public List<string> Specialisms { get; set; }
 
         public DoctorsQuery()

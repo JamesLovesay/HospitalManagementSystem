@@ -8,7 +8,7 @@ namespace HospitalManagementSystem.Api.Models
         public ObjectId DoctorId { get; set; }
         public string Name { get; set; }
         public decimal HourlyChargingRate { get; set; }
-        public string? Status { get; set; }
-        public string? Specialism { get; set; }
+        public DoctorStatus Status { get; set; }
+        public DoctorSpecialism Specialism { get; set; }
     }
 }

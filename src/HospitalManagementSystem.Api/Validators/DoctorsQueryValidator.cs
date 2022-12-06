@@ -34,7 +34,9 @@ namespace HospitalManagementSystem.Api.Validators
 
             When(x => x.Statuses != null, () =>
             {
-                RuleFor(cmd => cmd.Statuses).Must(x => QueryHelper.DoctorSortableStatuses.Any(y => y.Equals(x)));
+                RuleFor(cmd => cmd)
+                .Must(x => x.Statuses.All(y => IsValidStatus(y).valid))
+                .WithMessage(x => GetInvalidStatusErrorMessage(x.Statuses));
             });
 
             When(x => x.Specialisms != null, () =>
@@ -48,12 +50,23 @@ namespace HospitalManagementSystem.Api.Validators
         private static (bool valid, string specialism) IsValidSpecialism(string specialism)
         => (Enum.TryParse<DoctorSpecialism>(specialism, true, out var result), specialism);
 
+        private static (bool valid, string status) IsValidStatus(string status)
+        => (Enum.TryParse<DoctorStatus>(status, true, out var result), status);
+
         private static string GetInvalidSpecialismsErrorMessage(List<string> specialisms)
         => $"Specialism value(s) supplied were invalid: {GetInvalidSpecialisms(specialisms)}";
+
+        private static string GetInvalidStatusErrorMessage(List<string> statusList)
+        => $"Status value(s) supplied were invalid: {GetInvalidStatus(statusList)}";
 
         private static string GetInvalidSpecialisms(List<string> specialisms)
             => string.Join(", ", specialisms.Select(x => IsValidSpecialism(x))
             .Where(x => !x.valid)
             .Select(x => x.specialism));
+
+        private static string GetInvalidStatus(List<string> statusList)
+            => string.Join(", ", statusList.Select(x => IsValidStatus(x))
+            .Where(x => !x.valid)
+            .Select(x => x.status));
     }
 }

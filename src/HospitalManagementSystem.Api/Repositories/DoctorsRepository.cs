@@ -47,25 +47,25 @@ namespace HospitalManagementSystem.Api.Repositories
             {
                 Skip = (page - 1) * pageSize,
                 Limit = pageSize,
-                Sort = sort,
-                
+                Sort = sort
             };
+
             var countResult = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).CountDocumentsAsync(filter);
             var result = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter, options);
 
-            var resultDetail = new DoctorsQueryDetail
-            {
-                Page = page,
-                PageSize = pageSize,
-                TotalRecords = (int) countResult,
-                TotalPages = (int)countResult / (int)pageSize + (countResult % pageSize > 0 ? 1 : 0),
-                SortBy = sortBy,
-                SortDirection = sortDirection,
-                Specialisms = query.Specialisms?.Select(x => $"{x}")?.ToList(),
-                DoctorId = query.DoctorIds,
-                Name = query.Name,
-                Status = query.Status?.Select(x => $"{x}").ToList(),
-            };
+            //var resultDetail = new DoctorsQueryDetail
+            //{
+            //    Page = page,
+            //    PageSize = pageSize,
+            //    TotalRecords = (int) countResult,
+            //    TotalPages = (int)countResult / (int)pageSize + (countResult % pageSize > 0 ? 1 : 0),
+            //    SortBy = sortBy,
+            //    SortDirection = sortDirection,
+            //    Specialisms = query.Specialisms?.Select(x => $"{x}")?.ToList(),
+            //    DoctorId = query.DoctorIds,
+            //    Name = query.Name,
+            //    Status = query.Status?.Select(x => $"{x}").ToList(),
+            //};
 
             return result.ToList();
         }

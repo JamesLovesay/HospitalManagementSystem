@@ -36,8 +36,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test A",
-                    Specialism = "Orthopaedics",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
                     DoctorId = doctorId1,
                     _id = new MongoDB.Bson.ObjectId(),
@@ -45,8 +45,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test B",
-                    Specialism = "Psychiatry",
-                    Status = "ActiveTemporary",
+                    Specialism = DoctorSpecialism.Psychiatry,
+                    Status = DoctorStatus.ActiveVisiting,
                     HourlyChargingRate = 500,
                     DoctorId = doctorId2,
                     _id = new MongoDB.Bson.ObjectId(),
@@ -54,8 +54,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test C",
-                    Specialism = "Neurology",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Neurology,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 600,
                     DoctorId = doctorId3,
                     _id = new MongoDB.Bson.ObjectId(),
@@ -63,8 +63,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Mr Test D",
-                    Specialism = "Psychology",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Psychology,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 700,
                     DoctorId = doctorId4,
                     _id = new MongoDB.Bson.ObjectId(),
@@ -72,8 +72,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test E",
-                    Specialism = "Urology",
-                    Status = "ActiveTemporary",
+                    Specialism = DoctorSpecialism.Urology,
+                    Status = DoctorStatus.ActiveVisiting,
                     HourlyChargingRate = 600,
                     DoctorId = doctorId5,
                     _id = new MongoDB.Bson.ObjectId(),
@@ -81,8 +81,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Mr Test F",
-                    Specialism = "Orthopaedics",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
                     DoctorId = doctorId6,
                     _id = new MongoDB.Bson.ObjectId(),
@@ -108,43 +108,43 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test A",
-                    Specialism = "Orthopaedics",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
                 },
                 new DoctorReadModel
                 {
                     Name = "Dr Test B",
-                    Specialism = "Psychiatry",
-                    Status = "ActiveTemporary",
+                    Specialism = DoctorSpecialism.Psychiatry,
+                    Status = DoctorStatus.ActiveVisiting,
                     HourlyChargingRate = 500,
                 },
                 new DoctorReadModel
                 {
                     Name = "Dr Test C",
-                    Specialism = "Neurology",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Neurology,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 600,
                 },
                 new DoctorReadModel
                 {
                     Name = "Mr Test D",
-                    Specialism = "Psychology",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Psychology,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 700,
                 },
                 new DoctorReadModel
                 {
                     Name = "Dr Test E",
-                    Specialism = "Urology",
-                    Status = "ActiveTemporary",
+                    Specialism = DoctorSpecialism.Urology,
+                    Status = DoctorStatus.ActiveVisiting,
                     HourlyChargingRate = 600,
                 },
                 new DoctorReadModel
                 {
                     Name = "Mr Test F",
-                    Specialism = "Orthopaedics",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
                 }
             }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
@@ -155,7 +155,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                Specialisms = new List<string> { "Orthopaedics" }
+                Specialisms = new List<DoctorSpecialism> { DoctorSpecialism.Orthopaedics }
             };
 
             var result = await _repository.GetDoctors(q);
@@ -166,15 +166,15 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test A",
-                    Specialism = "Orthopaedics",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
                 },
                 new DoctorReadModel
                 {
                     Name = "Mr Test F",
-                    Specialism = "Orthopaedics",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
                 }
             }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
@@ -185,7 +185,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                Specialisms = new List<string> { "Orthopaedics", "Neurology" }
+                Specialisms = new List<DoctorSpecialism> { DoctorSpecialism.Orthopaedics, DoctorSpecialism.Neurology }
             };
 
             var result = await _repository.GetDoctors(q);
@@ -200,7 +200,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                Status = new List<string> { "Inactive" }
+                Status = new List<DoctorStatus> { DoctorStatus.Inactive }
             };
 
             var result = await _repository.GetDoctors(q);
@@ -211,15 +211,15 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Mr Test F",
-                    Specialism = "Orthopaedics",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
                 },
                 new DoctorReadModel
                 {
                     Name = "Dr Test C",
-                    Specialism = "Neurology",
-                    Status = "Inactive",
+                    Specialism = DoctorSpecialism.Neurology,
+                    Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 600,
                 }
             }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
@@ -230,7 +230,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                Status = new List<string> { "Inactive", "ActivePermanent" }
+                Status = new List<DoctorStatus> { DoctorStatus.Inactive, DoctorStatus.ActivePermanent }
             };
             var result = await _repository.GetDoctors(q);
 
@@ -255,8 +255,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 new DoctorReadModel
                 {
                     Name = "Dr Test A",
-                    Specialism = "Orthopaedics",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
                 }
             }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
@@ -280,8 +280,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 {
                     DoctorId = doctorId1,
                     Name = "Dr Test A",
-                    Specialism = "Orthopaedics",
-                    Status = "ActivePermanent",
+                    Specialism = DoctorSpecialism.Orthopaedics,
+                    Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
                 }
             }, options => options.Excluding(x => x._id));
@@ -317,8 +317,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test C",
-                Specialism = "Neurology",
-                Status = "Inactive",
+                Specialism = DoctorSpecialism.Neurology,
+                Status = DoctorStatus.Inactive,
                 HourlyChargingRate = 600,
                 DoctorId = doctorId3,
             }, options => options.Excluding(x => x._id));
@@ -326,8 +326,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[5].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test E",
-                Specialism = "Urology",
-                Status = "ActiveTemporary",
+                Specialism = DoctorSpecialism.Urology,
+                Status = DoctorStatus.ActiveVisiting,
                 HourlyChargingRate = 600,
                 DoctorId = doctorId5,
             }, options => options.Excluding(x => x._id));
@@ -348,8 +348,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test C",
-                Specialism = "Neurology",
-                Status = "Inactive",
+                Specialism = DoctorSpecialism.Neurology,
+                Status = DoctorStatus.Inactive,
                 HourlyChargingRate = 600,
                 DoctorId = doctorId3,
             }, options => options.Excluding(x => x._id));
@@ -357,8 +357,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[5].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Mr Test D",
-                Specialism = "Psychology",
-                Status = "ActivePermanent",
+                Specialism = DoctorSpecialism.Psychology,
+                Status = DoctorStatus.ActivePermanent,
                 HourlyChargingRate = 700,
                 DoctorId = doctorId4,
             }, options => options.Excluding(x => x._id));
@@ -379,8 +379,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test B",
-                Specialism = "Psychiatry",
-                Status = "ActiveTemporary",
+                Specialism = DoctorSpecialism.Psychiatry,
+                Status = DoctorStatus.ActiveVisiting,
                 HourlyChargingRate = 500,
                 DoctorId = doctorId2,
             }, options => options.Excluding(x => x._id));
@@ -388,8 +388,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[5].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test A",
-                Specialism = "Orthopaedics",
-                Status = "ActivePermanent",
+                Specialism = DoctorSpecialism.Orthopaedics,
+                Status = DoctorStatus.ActivePermanent,
                 HourlyChargingRate = 800,
                 DoctorId = doctorId1,
             }, options => options.Excluding(x => x._id));
@@ -409,8 +409,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[3].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test C",
-                Specialism = "Neurology",
-                Status = "Inactive",
+                Specialism = DoctorSpecialism.Neurology,
+                Status = DoctorStatus.Inactive,
                 HourlyChargingRate = 600,
                 DoctorId = doctorId3,
             }, options => options.Excluding(x => x._id));
@@ -433,8 +433,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Mr Test D",
-                Specialism = "Psychology",
-                Status = "ActivePermanent",
+                Specialism = DoctorSpecialism.Psychology,
+                Status = DoctorStatus.ActivePermanent,
                 HourlyChargingRate = 700,
                 DoctorId = doctorId4,
             }, options => options.Excluding(x => x._id));
@@ -442,8 +442,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             result[1].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test E",
-                Specialism = "Urology",
-                Status = "ActiveTemporary",
+                Specialism = DoctorSpecialism.Urology,
+                Status = DoctorStatus.ActiveVisiting,
                 HourlyChargingRate = 600,
                 DoctorId = doctorId5,
             }, options => options.Excluding(x => x._id));
