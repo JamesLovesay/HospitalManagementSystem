@@ -13,6 +13,7 @@ namespace HospitalManagementSystem.Api.Models
         public decimal HourlyChargingRate { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public DoctorStatus Status { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public DoctorSpecialism Specialism { get; set; }
 
         public static Doctor From (DoctorReadModel model)

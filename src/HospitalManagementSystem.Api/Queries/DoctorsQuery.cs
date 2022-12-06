@@ -16,11 +16,5 @@ namespace HospitalManagementSystem.Api.Queries
         public List<string> Statuses { get; set; }
         public List<string> Specialisms { get; set; }
 
-        public DoctorsQuery()
-        {
-            SortDirection = QueryHelper.SortDescending;
-            SortBy = QueryHelper.DoctorSortableFields[0];
-            Specialisms = new List<string>();
-        }
     }
 }
