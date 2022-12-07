@@ -3,6 +3,8 @@ using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace HospitalManagementSystem.Api.Validators
 {
@@ -52,6 +54,16 @@ namespace HospitalManagementSystem.Api.Validators
 
         private static (bool valid, string status) IsValidStatus(string status)
         => (Enum.TryParse<DoctorStatus>(status, true, out var result), status);
+
+        // Want to turn the above in to a generic method to reduce repetition
+
+        //private static (bool valid, string fieldValue) IsValidFieldValue(string fieldValue, Type tEnum)
+        //{
+        //    if (tEnum is null) throw new ArgumentNullException(nameof(tEnum));
+        //    if (!tEnum.IsEnum) throw new ArgumentException("Not an enum type.", nameof(tEnum));
+
+        //    return (Enum.TryParse<tEnum>(fieldValue, true, out var result), fieldValue);
+        //}
 
         private static string GetInvalidSpecialismsErrorMessage(List<string> specialisms)
         => $"Specialism value(s) supplied were invalid: {GetInvalidSpecialisms(specialisms)}";
