@@ -2,9 +2,6 @@
 using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace HospitalManagementSystem.Api.Validators
 {

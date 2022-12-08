@@ -267,7 +267,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                DoctorIds = new List<ObjectId>() { doctorId1 }
+                DoctorId = new List<ObjectId>() { doctorId1 }
             };
 
             var result = await _repository.GetDoctors(q);
@@ -292,7 +292,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                DoctorIds = new List<ObjectId>() { doctorId1, doctorId2 }
+                DoctorId = new List<ObjectId>() { doctorId1, doctorId2 }
             };
 
             var result = await _repository.GetDoctors(q);

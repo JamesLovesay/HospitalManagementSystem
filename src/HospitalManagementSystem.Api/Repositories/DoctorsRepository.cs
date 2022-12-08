@@ -27,14 +27,14 @@ namespace HospitalManagementSystem.Api.Repositories
             await SaveModelAsync(model);
         }
 
-        public async Task<List<DoctorReadModel>> GetDoctors(DoctorsQueryModel query)
+        public async Task<List<DoctorReadModel>?> GetDoctors(DoctorsQueryModel query)
         {
             var page = (query.Page ?? 1) < 1 ? 1 : query.Page ?? 1;
             var pageSize = (query.PageSize ?? QueryHelper.DefaultPageSize) < 1 ? QueryHelper.DefaultPageSize : query.PageSize ?? QueryHelper.DefaultPageSize;
 
             var filters = new List<FilterDefinition<DoctorReadModel>>();
 
-            filters.AddFilter((x) => x.DoctorId, query.DoctorIds);
+            filters.AddFilter((x) => x.DoctorId, query.DoctorId);
             filters.AddFilter((x) => x.Specialism, query.Specialisms);
             filters.AddFilter((x) => x.Status, query.Status);
             filters.AddFilter((x) => x.Name, query.Name);
