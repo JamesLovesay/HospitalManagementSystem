@@ -1,13 +1,17 @@
+using FluentValidation;
 using HospitalManagementSystem.Api;
 using HospitalManagementSystem.Api.Models;
+using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
+using HospitalManagementSystem.Api.Validators;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.Config;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore;
 using Serilog;
+using System;
 using System.Reflection;
 
 public class Program
@@ -21,17 +25,17 @@ public class Program
             builder.Configuration.GetSection("HospitalManagementSystemDatabase"));
         builder.Services.AddSingleton<MongoConfig>();
         builder.Services.AddSingleton(typeof(Serilog.ILogger), _ => Log.Logger);
-        builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
         builder.Services.AddSingleton<IMongoFactory, MongoFactory>();
         builder.Services.AddSingleton<IReadStore, ReadStore>();
         builder.Services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
-
+        builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
+        builder.Services.AddScoped<IValidator<DoctorsQuery>, DoctorsQueryValidator>();
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
         var app = builder.Build();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

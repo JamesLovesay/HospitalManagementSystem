@@ -19,7 +19,7 @@ namespace HospitalManagementSystem.Infra.MongoDBStructure
             {
                 //alternate connection code from MongoDB Atlas
 
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://JamesLovesay:J3WZdocNHuW6AQ0W@hospitalmanagementsyste.oqbsjn2.mongodb.net/?retryWrites=true&w=majority");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://JamesLovesay:jQ70LRjw4SFnsFs3@hospitalmanagementsyste.oqbsjn2.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 _client = new MongoClient(settings);
                 _db = _client.GetDatabase("HospitalManagementSystem");
