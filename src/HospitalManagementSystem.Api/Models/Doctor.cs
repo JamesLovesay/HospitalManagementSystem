@@ -8,7 +8,7 @@ namespace HospitalManagementSystem.Api.Models
     public class Doctor
     {
         [BsonId]
-        public ObjectId DoctorId { get; set; }
+        public string DoctorId { get; set; }
         public string Name { get; set; }
         public decimal HourlyChargingRate { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
@@ -20,7 +20,7 @@ namespace HospitalManagementSystem.Api.Models
         {
             return new Doctor
             {
-                DoctorId = model.DoctorId,
+                DoctorId = model.DoctorId.ToString(),
                 Name = model.Name,
                 HourlyChargingRate= model.HourlyChargingRate,
                 Specialism = model.Specialism,

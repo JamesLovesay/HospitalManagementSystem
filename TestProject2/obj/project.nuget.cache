@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RdXwEcBXM+2KZwkEzGb/A5l2OryT17On0UCbyF6qxS4kp//oIxYNpewKDZ48VkmOY8ZTQV5XEJYGK1NzByXB8w==",
+  "dgSpecHash": "YHH3dATSCFthbCZxpqCSKra4a36UeykS8vvloo4vf6lfAkTVhp7qs04SREThbUf/+CgHAe9cQbX1ldAHEppPZg==",
   "success": true,
   "projectFilePath": "C:\\Users\\james.lovesay_ivendi\\github\\PersonalProjects\\HospitalManagementSystem\\TestProject2\\HospitalManagementSystem.Api.Tests.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,7 @@
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentassertions\\6.8.0\\fluentassertions.6.8.0.nupkg.sha512",
-    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation\\11.2.1\\fluentvalidation.11.2.1.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation\\11.4.0\\fluentvalidation.11.4.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.1\\fluentvalidation.dependencyinjectionextensions.11.2.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",

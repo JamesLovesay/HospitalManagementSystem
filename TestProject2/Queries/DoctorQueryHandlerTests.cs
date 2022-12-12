@@ -28,7 +28,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId }))))
                 .ReturnsAsync(((List<DoctorReadModel>)null));
 
-            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctorId }, Statuses = new List<string> { status }, Specialisms = new List<string> { specialism } },  new CancellationToken());
+            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctorId }, Status = new List<string> { status }, Specialism = new List<string> { specialism } },  new CancellationToken());
 
             result.Should().NotBeNull();
 
@@ -45,7 +45,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId }))))
                 .ReturnsAsync(new List<DoctorReadModel>());
 
-            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctorId }, Statuses = new List<string> { status }, Specialisms = new List<string> { specialism } }, new CancellationToken());
+            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctorId }, Status = new List<string> { status }, Specialism = new List<string> { specialism } }, new CancellationToken());
 
             result.Should().NotBeNull();
 
@@ -93,7 +93,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             {
                 new Doctor
                 {
-                    DoctorId= doctor1Id,
+                    DoctorId= doctor1Id.ToString(),
                     Name = "Dr A",
                     HourlyChargingRate = 100,
                     Status = status1,
@@ -101,7 +101,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                 },
                 new Doctor
                 {
-                    DoctorId= doctor2Id,
+                    DoctorId= doctor2Id.ToString(),
                     Name = "Dr B",
                     HourlyChargingRate = 300,
                     Status = status2,
@@ -112,7 +112,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<ObjectId> { doctor1Id, doctor2Id }))))
                 .ReturnsAsync(returnedDoctorReadModel);
 
-            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctor1Id, doctor2Id }, Statuses = new List<string> { nameof(status1), nameof(status2) }, Specialisms = new List<string> { nameof(specialism1), nameof(specialism2) } }, new CancellationToken());
+            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctor1Id, doctor2Id }, Status = new List<string> { nameof(status1), nameof(status2) }, Specialism = new List<string> { nameof(specialism1), nameof(specialism2) } }, new CancellationToken());
 
             result.Should().NotBeNull();
 

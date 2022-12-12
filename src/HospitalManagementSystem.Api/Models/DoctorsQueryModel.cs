@@ -24,8 +24,8 @@ namespace HospitalManagementSystem.Api.Models
             DoctorId = query.DoctorId == null ? null : new List<ObjectId>(query.DoctorId);
             Page = query.Page;
             PageSize = query.PageSize;
-            Specialisms = query.Specialisms == null ? null : query.Specialisms.Select(x => ParseJobSpecialisms(x)).ToList();
-            Status = query.Statuses == null ? null : query.Statuses.Select(x => ParseJobStatus(x)).ToList();
+            Specialisms = query.Specialism == null ? null : query.Specialism.Select(x => ParseJobSpecialisms(x)).ToList();
+            Status = query.Status == null ? null : query.Status.Select(x => ParseJobStatus(x)).ToList();
             Name = query.DoctorName == null ? null : query.DoctorName;
             SortDirection = query.SortDirection;
             SortBy = query.SortBy;

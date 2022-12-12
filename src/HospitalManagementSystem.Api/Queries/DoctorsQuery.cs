@@ -8,20 +8,20 @@ namespace HospitalManagementSystem.Api.Queries
     public class DoctorsQuery : IRequest<DoctorsQueryResponse>
     {
         public List<ObjectId>? DoctorId { get; set; }
-        [Range(0, int.MaxValue)]
+        //[Range(0, int.MaxValue)]
         public int? Page { get; set; }
-        [Range(0, 100)]
+        //[Range(0, 100)]
         public int? PageSize { get; set; }
-        [DoctorSortByValidator]
+        //[DoctorSortByValidator]
         public string? SortBy { get; set; }
-        [DoctorSortDirectionValidator]
+        //[DoctorSortDirectionValidator]
         public string? SortDirection { get; set; }
-        [StringLength(40)]
+        //[StringLength(40)]
         public string? DoctorName { get; set; }
-        [StringLength(20, MinimumLength = 1)]
-        public List<string>? Statuses { get; set; }
-        [StringLength(20, MinimumLength = 1)]
-        public List<string?>? Specialisms { get; set; }
+        //[StringLength(20, MinimumLength = 1)]
+        public List<string>? Status { get; set; }
+        //[StringLength(20, MinimumLength = 1)]
+        public List<string?>? Specialism { get; set; }
 
     }
 }

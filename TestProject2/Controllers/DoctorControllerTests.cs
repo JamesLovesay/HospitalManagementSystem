@@ -26,7 +26,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.GetAsync($"/api/Doctor/query?page=-1&pagesize=20");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-       }
+        }
 
         [Fact]
         public async Task WhenGetDoctorsByQuery_InvalidPageSizeLessThanOne_ThenExpectedResult()
@@ -68,11 +68,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.GetAsync($"/api/Doctor/query?specialism=notaspecialism");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            var result = await response.Content.ReadAsStringAsync();
-
-            SanitiseLineEnds(result).Should().BeEquivalentTo($"The Doctor query is invalid.{Environment.NewLine}1 error(s) found:{Environment.NewLine}[\"'Page Size' must be less than or equal to '100'.\"]");
-        }
+      }
 
         [Fact]
         public async Task WhenDoctorsByQuery_InvalidStatus_ThenExpectedResult()
@@ -80,85 +76,101 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.GetAsync($"/api/Doctor/query?status=notastatus");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            var result = await response.Content.ReadAsStringAsync();
-
-            SanitiseLineEnds(result).Should().BeEquivalentTo($"The Doctor query is invalid.{Environment.NewLine}1 error(s) found:{Environment.NewLine}[\"'Page Size' must be less than or equal to '100'.\"]");
-        }
+       }
 
         #endregion
 
         #region Get Doctors Query Valid
 
-
         [Fact]
-        public async Task WhenGetDoctorsByQuery_EmptyRequest_ThenExpectedResult()
+        public async Task WhenGetDoctorsByQuery_ValidButNonExistentIdReturnsNoResults_ThenExpectedResult()
         {
             var returned = new List<Doctor>();
+            var doctorId = new ObjectId("675845949586758586758587");
 
-            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()))
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == new List<ObjectId> { doctorId }), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
 
-            var response = await Client.GetAsync($"/api/Doctor/query");
+            var response = await Client.GetAsync($"/api/Doctor/query?doctorid={doctorId}");
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
-            var test = await response.Content.ReadAsStringAsync();
-
-            var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(test);
+            var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(await response.Content.ReadAsStringAsync());
 
             result.Should().BeEquivalentTo(new DoctorsQueryResponse
             {
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == new List<ObjectId> { doctorId }), It.IsAny<CancellationToken>()), Times.Once);
         }
 
-        [Fact]
-        public async Task WhenGetDoctorsByQuery_RequestHasData_ThenExpectedResult()
-        {
-            var doctorId1 = new ObjectId("858473646577474734835748");
-            var doctorId2 = new ObjectId("858473646577474734835749");
+        //[Fact]
+        //public async Task WhenGetDoctorsByQuery_EmptyRequest_ThenExpectedResult()
+        //{
+        //    var returned = new List<Doctor>();
 
-            var returned = new List<Doctor>
-            {
-                new Doctor
-                {
-                    Name = "Dr Test A",
-                    Specialism = DoctorSpecialism.Orthopaedics,
-                    Status = DoctorStatus.ActivePermanent,
-                    HourlyChargingRate = 800,
-                    DoctorId = doctorId1,
-                },
-                new Doctor
-                {
-                    Name = "Dr Test B",
-                    Specialism = DoctorSpecialism.Psychiatry,
-                    Status = DoctorStatus.ActiveVisiting,
-                    HourlyChargingRate = 500,
-                    DoctorId = doctorId2,
-                }
-            };
+        //    Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()))
+        //        .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
 
-            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId1, doctorId2 })), It.IsAny<CancellationToken>()))
-           .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
+        //    var response = await Client.GetAsync($"/api/Doctor/query");
 
-            var response = await Client.GetAsync($"/api/Doctor/query?doctorid={doctorId1}&doctorid={doctorId2}");
+        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        //    var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(await response.Content.ReadAsStringAsync());
 
-            var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(await response.Content.ReadAsStringAsync());
+        //    result.Should().BeEquivalentTo(new DoctorsQueryResponse
+        //    {
+        //        Doctors = new List<Doctor>(),
+        //    });
 
-            result.Should().BeEquivalentTo(new DoctorsQueryResponse
-            {
-                Doctors = returned
-            });
+        //    Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()), Times.Once);
+        //}
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId1, doctorId2 })), It.IsAny<CancellationToken>()), Times.Once);
+        //[Fact]
+        //public async Task WhenGetDoctorsByQuery_RequestHasData_ThenExpectedResult()
+        //{
+        //    var doctorId1 = new ObjectId("858473646577474734835748");
+        //    var doctorId2 = new ObjectId("858473646577474734835749");
+
+        //    var returned = new List<Doctor>
+        //    {
+        //        new Doctor
+        //        {
+        //            Name = "Dr Test A",
+        //            Specialism = DoctorSpecialism.Orthopaedics,
+        //            Status = DoctorStatus.ActivePermanent,
+        //            HourlyChargingRate = 800,
+        //            DoctorId = doctorId1,
+        //        },
+        //        new Doctor
+        //        {
+        //            Name = "Dr Test B",
+        //            Specialism = DoctorSpecialism.Psychiatry,
+        //            Status = DoctorStatus.ActiveVisiting,
+        //            HourlyChargingRate = 500,
+        //            DoctorId = doctorId2,
+        //        }
+        //    };
+
+        //    Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId1, doctorId2 })), It.IsAny<CancellationToken>()))
+        //   .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
+
+        //    var response = await Client.GetAsync($"/api/Doctor/query?doctorid={doctorId1}&doctorid={doctorId2}");
+
+        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        //    var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(await response.Content.ReadAsStringAsync());
+
+        //    result.Should().BeEquivalentTo(new DoctorsQueryResponse
+        //    {
+        //        Doctors = returned
+        //    });
+
+        //    Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId1, doctorId2 })), It.IsAny<CancellationToken>()), Times.Once);
 
 
-        }
+        //}
 
         #endregion
     }

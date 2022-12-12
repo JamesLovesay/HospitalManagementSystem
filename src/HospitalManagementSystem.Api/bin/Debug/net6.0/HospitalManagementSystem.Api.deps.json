@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "HospitalManagementSystem.Api/1.0.0": {
         "dependencies": {
+          "FluentValidation": "11.4.0",
           "FluentValidation.AspNetCore": "11.2.2",
           "HospitalManagementSystem.Infra.MongoDBStructure": "1.0.0",
           "MediatR": "11.0.0",
@@ -32,17 +33,17 @@
           }
         }
       },
-      "FluentValidation/11.2.1": {
+      "FluentValidation/11.4.0": {
         "runtime": {
           "lib/net6.0/FluentValidation.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.2.1.0"
+            "fileVersion": "11.4.0.0"
           }
         }
       },
       "FluentValidation.AspNetCore/11.2.2": {
         "dependencies": {
-          "FluentValidation": "11.2.1",
+          "FluentValidation": "11.4.0",
           "FluentValidation.DependencyInjectionExtensions": "11.2.1"
         },
         "runtime": {
@@ -54,7 +55,7 @@
       },
       "FluentValidation.DependencyInjectionExtensions/11.2.1": {
         "dependencies": {
-          "FluentValidation": "11.2.1",
+          "FluentValidation": "11.4.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "runtime": {
@@ -303,12 +304,12 @@
       "path": "dnsclient/1.6.1",
       "hashPath": "dnsclient.1.6.1.nupkg.sha512"
     },
-    "FluentValidation/11.2.1": {
+    "FluentValidation/11.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ZrQD0TGd0mHqf/zErZOEaba8cBeInaJj02nqinO+0La3uE08sJ5ScTYqsCbdx9fLHsX8rh+5KH5RtL2eOUS+OA==",
-      "path": "fluentvalidation/11.2.1",
-      "hashPath": "fluentvalidation.11.2.1.nupkg.sha512"
+      "sha512": "sha512-WZJyrNf4suiaI6avVG32W9kmBLC3+V5rDTcLeRJjeU4tDmTyDIOz1459DzCKppXs34YpZg9rCUzDY3M4XxG7Ug==",
+      "path": "fluentvalidation/11.4.0",
+      "hashPath": "fluentvalidation.11.4.0.nupkg.sha512"
     },
     "FluentValidation.AspNetCore/11.2.2": {
       "type": "package",

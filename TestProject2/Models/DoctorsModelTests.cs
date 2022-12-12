@@ -96,7 +96,7 @@ namespace HospitalManagementSystem.Api.Tests.Models
 
             var response = Doctor.From(data);
 
-            response.DoctorId.Should().Be(id);
+            response.DoctorId.Should().Be(id.ToString());
         }
     }
 }
