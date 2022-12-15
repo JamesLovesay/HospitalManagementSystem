@@ -13,7 +13,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
     public class DoctorsRepositoryTests
     {
         private readonly IMongoCollection<DoctorReadModel>? _doctorCollection;
-        private readonly DoctorsRepository? _repository;
+        private readonly DoctorsRepository _repository;
 
         private readonly ObjectId doctorId1 = new ObjectId("094354543459057938450398");
         private readonly ObjectId doctorId2 = new ObjectId("458094358094545845890988");
@@ -104,7 +104,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(new DoctorsQueryModel { });
 
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(new List<DoctorReadModel> {
+            result.doctors.Should().BeEquivalentTo(new List<DoctorReadModel> {
                 new DoctorReadModel
                 {
                     Name = "Dr Test A",
@@ -161,8 +161,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(2);
-            result.Should().BeEquivalentTo(new List<DoctorReadModel> {
+            result.doctors.Count().Should().Be(2);
+            result.doctors.Should().BeEquivalentTo(new List<DoctorReadModel> {
                 new DoctorReadModel
                 {
                     Name = "Dr Test A",
@@ -191,7 +191,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(3);
+            result.doctors.Count().Should().Be(3);
 
         }
 
@@ -206,8 +206,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(2);
-            result.Should().BeEquivalentTo(new List<DoctorReadModel> {
+            result.doctors.Count().Should().Be(2);
+            result.doctors.Should().BeEquivalentTo(new List<DoctorReadModel> {
                 new DoctorReadModel
                 {
                     Name = "Mr Test F",
@@ -235,7 +235,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(4);
+            result.doctors.Count().Should().Be(4);
         }
 
         [Fact]
@@ -249,8 +249,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(1);
-            result.Should().BeEquivalentTo(new List<DoctorReadModel>()
+            result.doctors.Count().Should().Be(1);
+            result.doctors.Should().BeEquivalentTo(new List<DoctorReadModel>()
             {
                 new DoctorReadModel
                 {
@@ -273,8 +273,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(1);
-            result.Should().BeEquivalentTo(new List<DoctorReadModel>()
+            result.doctors.Count().Should().Be(1);
+            result.doctors.Should().BeEquivalentTo(new List<DoctorReadModel>()
             {
                 new DoctorReadModel
                 {
@@ -298,7 +298,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(2);
+            result.doctors.Count().Should().Be(2);
         }
 
         [Fact]
@@ -313,8 +313,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(6);
-            result[0].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors.Count().Should().Be(6);
+            result.doctors[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test C",
                 Specialism = DoctorSpecialism.Neurology,
@@ -323,7 +323,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 DoctorId = doctorId3,
             }, options => options.Excluding(x => x._id));
 
-            result[5].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors[5].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test E",
                 Specialism = DoctorSpecialism.Urology,
@@ -344,8 +344,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(6);
-            result[0].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors.Count().Should().Be(6);
+            result.doctors[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test C",
                 Specialism = DoctorSpecialism.Neurology,
@@ -354,7 +354,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 DoctorId = doctorId3,
             }, options => options.Excluding(x => x._id));
 
-            result[5].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors[5].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Mr Test D",
                 Specialism = DoctorSpecialism.Psychology,
@@ -375,8 +375,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(6);
-            result[0].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors.Count().Should().Be(6);
+            result.doctors[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test B",
                 Specialism = DoctorSpecialism.Psychiatry,
@@ -385,7 +385,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 DoctorId = doctorId2,
             }, options => options.Excluding(x => x._id));
 
-            result[5].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors[5].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test A",
                 Specialism = DoctorSpecialism.Orthopaedics,
@@ -405,8 +405,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(4);
-            result[3].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors.Count().Should().Be(4);
+            result.doctors[3].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test C",
                 Specialism = DoctorSpecialism.Neurology,
@@ -429,8 +429,8 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(q);
 
             result.Should().NotBeNull();
-            result.Count().Should().Be(2);
-            result[0].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors.Count().Should().Be(2);
+            result.doctors[0].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Mr Test D",
                 Specialism = DoctorSpecialism.Psychology,
@@ -439,7 +439,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 DoctorId = doctorId4,
             }, options => options.Excluding(x => x._id));
 
-            result[1].Should().BeEquivalentTo(new DoctorReadModel
+            result.doctors[1].Should().BeEquivalentTo(new DoctorReadModel
             {
                 Name = "Dr Test E",
                 Specialism = DoctorSpecialism.Urology,

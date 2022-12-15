@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj" />
     <ProjectReference Include="..\src\HospitalManagementSystem.Api\HospitalManagementSystem.Api.csproj" />
   </ItemGroup>
 

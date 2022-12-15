@@ -15,13 +15,14 @@ namespace HospitalManagementSystem.Api.Queries
 
         public async Task<DoctorsQueryResponse> Handle(DoctorsQuery request, CancellationToken cancellationToken)
         {
-            var query = new DoctorsQueryModel(request);
+            DoctorsQueryModel query = new DoctorsQueryModel(request);
 
-            var doctors = await _repository.GetDoctors(query);
+            var (doctors, detail) = await _repository.GetDoctors(query);
 
             return new DoctorsQueryResponse
             {
-                Doctors = doctors?.Select(x => Doctor.From(x)).ToList(),
+                Doctors = doctors.Select(x => Doctor.From(x)).ToList(),
+                Detail = detail
             };
         }
     }
