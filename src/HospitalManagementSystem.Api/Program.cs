@@ -36,6 +36,7 @@ public class Program
         builder.Services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
         builder.Services.AddMediatR(typeof(DoctorsQueryHandler).GetTypeInfo().Assembly);
+        builder.Services.AddMediatR(typeof(DoctorsQueryHandler));
         builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddTransient<Mediator>();
         builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();

@@ -245,16 +245,14 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task WhenGetDoctorsByQuery_ValidButNonExistentIdReturnsNoResults_ThenExpectedResult()
+        public async Task WhenGetDoctorsByQuery_ValidButNonExistentStatusReturnsNoResults_ThenExpectedResult()
         {
             List<Doctor> returned = new List<Doctor>();
-            var doctorId = new ObjectId("675845949586758586758587");
-            string stringDoctorId = doctorId.ToString();
 
-            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == new List<ObjectId> { doctorId }), It.IsAny<CancellationToken>()))
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { "inactive" }), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
 
-            HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?doctorid={stringDoctorId}");
+            HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?status=inactive");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -265,7 +263,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == new List<ObjectId> { doctorId }), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { "inactive" }), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         //[Fact]
