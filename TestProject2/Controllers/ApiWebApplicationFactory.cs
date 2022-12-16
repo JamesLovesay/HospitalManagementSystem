@@ -1,6 +1,12 @@
-﻿using HospitalManagementSystem.Api.Controllers;
+﻿using FluentValidation;
+using HospitalManagementSystem.Api.Controllers;
+using HospitalManagementSystem.Api.Models;
+using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
+using HospitalManagementSystem.Api.Validators;
+using HospitalManagementSystem.Infra.MongoDBStructure.Config;
+using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +14,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Serilog;
+using System.Reflection;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers
 {
@@ -31,9 +39,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         {
             builder.ConfigureTestServices(services =>
             {
-                services.AddSingleton(new Mock<ILogger>().Object);
+                //services.AddSingleton(new Mock<ILogger>().Object);
                 services.AddSingleton(_mockMediator.Object);
                 services.AddSingleton(_mockRepository.Object);
+
             });
         }
         public Mock<IDoctorsRepository> Repository => _mockRepository;

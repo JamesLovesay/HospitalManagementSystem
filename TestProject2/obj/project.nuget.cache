@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "YHH3dATSCFthbCZxpqCSKra4a36UeykS8vvloo4vf6lfAkTVhp7qs04SREThbUf/+CgHAe9cQbX1ldAHEppPZg==",
+  "dgSpecHash": "AHeFpSwoRfdt39ZqFDEnKlovfsOVsKxydwrhQnbqbXyadD0E94G/vxDfiaCFbMJbEEsxyzhYIWQPDljyqNfgqw==",
   "success": true,
   "projectFilePath": "C:\\Users\\james.lovesay_ivendi\\github\\PersonalProjects\\HospitalManagementSystem\\TestProject2\\HospitalManagementSystem.Api.Tests.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
@@ -17,6 +18,7 @@
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\7.0.0\\microsoft.aspnetcore.mvc.testing.7.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.aspnetcore.testhost\\7.0.0\\microsoft.aspnetcore.testhost.7.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0\\microsoft.extensions.configuration.7.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",

@@ -27,7 +27,7 @@ namespace HospitalManagementSystem.Api.Repositories
             await SaveModelAsync(model);
         }
 
-        public async Task<List<DoctorReadModel>?> GetDoctors(DoctorsQueryModel query)
+        public async Task<(List<DoctorReadModel> doctors, DoctorsQueryDetail detail)> GetDoctors(DoctorsQueryModel query)
         {
             var page = (query.Page ?? 1) < 1 ? 1 : query.Page ?? 1;
             var pageSize = (query.PageSize ?? QueryHelper.DefaultPageSize) < 1 ? QueryHelper.DefaultPageSize : query.PageSize ?? QueryHelper.DefaultPageSize;
@@ -53,21 +53,21 @@ namespace HospitalManagementSystem.Api.Repositories
             var countResult = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).CountDocumentsAsync(filter);
             var result = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter, options);
 
-            //var resultDetail = new DoctorsQueryDetail
-            //{
-            //    Page = page,
-            //    PageSize = pageSize,
-            //    TotalRecords = (int) countResult,
-            //    TotalPages = (int)countResult / (int)pageSize + (countResult % pageSize > 0 ? 1 : 0),
-            //    SortBy = sortBy,
-            //    SortDirection = sortDirection,
-            //    Specialisms = query.Specialisms?.Select(x => $"{x}")?.ToList(),
-            //    DoctorId = query.DoctorIds,
-            //    Name = query.Name,
-            //    Status = query.Status?.Select(x => $"{x}").ToList(),
-            //};
+            var resultDetail = new DoctorsQueryDetail
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalRecords = (int)countResult,
+                TotalPages = (int)countResult / (int)pageSize + (countResult % pageSize > 0 ? 1 : 0),
+                SortBy = sortBy,
+                SortDirection = sortDirection,
+                Specialisms = query.Specialisms?.Select(x => $"{x}")?.ToList(),
+                DoctorId = query.DoctorId,
+                Name = query.Name,
+                Status = query.Status?.Select(x => $"{x}").ToList(),
+            };
 
-            return result.ToList();
+            return (result.ToList(), resultDetail);
         }
     }
 }

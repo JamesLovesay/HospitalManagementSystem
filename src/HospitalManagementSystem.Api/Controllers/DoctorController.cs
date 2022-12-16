@@ -3,17 +3,18 @@ using HospitalManagementSystem.Api.Queries;
 using MediatR;
 using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Validators;
+using Serilog;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DoctorController : Controller
+    public class DoctorsController : Controller
     {
-        private readonly ILogger<DoctorController> _logger;
+        private readonly ILogger<DoctorsController> _logger;
         private readonly IMediator _mediator;
 
-        public DoctorController(IMediator mediator, ILogger<DoctorController> logger)
+        public DoctorsController(IMediator mediator, ILogger<DoctorsController> logger)
         {
             _logger = logger;
             _mediator = mediator;

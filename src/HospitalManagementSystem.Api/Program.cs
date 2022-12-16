@@ -15,6 +15,8 @@ using HospitalManagementSystem.Api;
 using Microsoft.AspNetCore;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using MediatR.Pipeline;
+using HospitalManagementSystem.Api.Controllers;
 
 public class Program
 {
@@ -32,6 +34,11 @@ public class Program
         builder.Services.AddSingleton<IMongoFactory, MongoFactory>();
         builder.Services.AddSingleton<IReadStore, ReadStore>();
         builder.Services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
+        builder.Services.AddMediatR(typeof(DoctorsQueryHandler).GetTypeInfo().Assembly);
+        builder.Services.AddMediatR(typeof(DoctorsQueryHandler));
+        builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddTransient<Mediator>();
         builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
         builder.Services.AddScoped<IValidator<DoctorsQuery>, DoctorsQueryValidator>();
         builder.Services.AddControllers()

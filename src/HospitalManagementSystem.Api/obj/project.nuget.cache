@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pTGU27FO0HtWi8R9nNQ1vI0Yr0aYx2C6QFpD6Yu5L+9e+P9A1NF/8S/t6VDfzGnyDfsKzl0rP2tlWGseLyf/kA==",
+  "dgSpecHash": "LEHZ8qDFC36cOozE1DrfqmsIcOhpsGoQLf32ME01jC9c1gJwXILlERjPnMHjH2T9z/n4x4ZHR+HkdDoHXSV+HA==",
   "success": true,
   "projectFilePath": "C:\\Users\\james.lovesay_ivendi\\github\\PersonalProjects\\HospitalManagementSystem\\src\\HospitalManagementSystem.Api\\HospitalManagementSystem.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation\\11.4.0\\fluentvalidation.11.4.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.2\\fluentvalidation.aspnetcore.11.2.2.nupkg.sha512",
@@ -11,6 +12,7 @@
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.0.0\\mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
+    "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\james.lovesay_ivendi\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.0.0\\microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",

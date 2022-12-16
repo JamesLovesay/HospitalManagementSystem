@@ -21,7 +21,7 @@ namespace HospitalManagementSystem.Api.Queries
         //[StringLength(20, MinimumLength = 1)]
         public List<string>? Status { get; set; }
         //[StringLength(20, MinimumLength = 1)]
-        public List<string?>? Specialism { get; set; }
+        public List<string>? Specialism { get; set; }
 
     }
 }

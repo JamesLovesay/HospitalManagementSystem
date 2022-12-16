@@ -10,9 +10,10 @@ namespace HospitalManagementSystem.Api.Queries
         public int TotalPages { get; set; }
         public string? SortBy { get; set; }
         public string? SortDirection { get; set; }
+        public List<string>? Status { get; set; }
         public List<string>? Specialisms { get; set; }
         public List<ObjectId>? DoctorId { get; set; }
         public string? Name { get; set; }
-        public List<string>? Status { get; set; }
+
     }
 }

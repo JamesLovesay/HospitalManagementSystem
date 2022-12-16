@@ -5,6 +5,6 @@ namespace HospitalManagementSystem.Api.Repositories.Interfaces
 {
     public interface IDoctorsRepository
     {
-        Task<List<DoctorReadModel>?> GetDoctors(DoctorsQueryModel query);
+        Task<(List<DoctorReadModel> doctors, DoctorsQueryDetail detail)> GetDoctors(DoctorsQueryModel query);
     }
 }
