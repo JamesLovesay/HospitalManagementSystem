@@ -1,3 +1,10 @@
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.csproj.AssemblyReference.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.AssemblyInfoInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.AssemblyInfo.cs
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.csproj.CoreCompileInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\appsettings.json
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\HospitalManagementSystem.Api.exe
@@ -5,6 +12,7 @@ C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\s
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\HospitalManagementSystem.Api.runtimeconfig.json
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\HospitalManagementSystem.Api.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\HospitalManagementSystem.Api.pdb
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\DnsClient.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\FluentValidation.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
@@ -31,13 +39,6 @@ C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\s
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\HospitalManagementSystem.Infra.MongoDBStructure.pdb
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.csproj.AssemblyReference.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.AssemblyInfoInputs.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.AssemblyInfo.cs
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.csproj.CoreCompileInputs.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\staticwebassets\msbuild.HospitalManagementSystem.Api.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\staticwebassets\msbuild.build.HospitalManagementSystem.Api.props
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.HospitalManagementSystem.Api.props
@@ -52,4 +53,3 @@ C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\s
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.pdb
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\HospitalManagementSystem.Api.genruntimeconfig.cache
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\obj\Debug\net6.0\ref\HospitalManagementSystem.Api.dll
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\src\HospitalManagementSystem.Api\bin\Debug\net6.0\AutoMapper.dll

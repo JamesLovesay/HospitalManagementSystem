@@ -1,4 +1,10 @@
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\CoverletSourceRootsMapping
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.csproj.AssemblyReference.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\MvcTestingAppManifest.json
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.AssemblyInfoInputs.cache
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.AssemblyInfo.cs
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.csproj.CoreCompileInputs.cache
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\testhost.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\HospitalManagementSystem.Api.deps.json
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\HospitalManagementSystem.Api.runtimeconfig.json
@@ -311,6 +317,7 @@ C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\T
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\refs\System.Xml.XPath.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\refs\System.Xml.XPath.XDocument.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\refs\WindowsBase.dll
+C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\AutoMapper.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\Castle.Core.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\DnsClient.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\FluentAssertions.dll
@@ -426,16 +433,9 @@ C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\T
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\HospitalManagementSystem.Infra.MongoDBStructure.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\HospitalManagementSystem.Infra.MongoDBStructure.pdb
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\HospitalManagementSystem.Api.pdb
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.csproj.AssemblyReference.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\MvcTestingAppManifest.json
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.AssemblyInfoInputs.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.AssemblyInfo.cs
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.csproj.CoreCompileInputs.cache
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.csproj.CopyComplete
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\refint\HospitalManagementSystem.Api.Tests.dll
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.pdb
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\HospitalManagementSystem.Api.Tests.genruntimeconfig.cache
 C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\obj\Debug\net7.0\ref\HospitalManagementSystem.Api.Tests.dll
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\TestProject2\bin\Debug\net7.0\AutoMapper.dll

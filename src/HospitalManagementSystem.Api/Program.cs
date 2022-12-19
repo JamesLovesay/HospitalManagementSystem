@@ -17,6 +17,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using MediatR.Pipeline;
 using HospitalManagementSystem.Api.Controllers;
+using HospitalManagementSystem.Api.Commands;
 
 public class Program
 {
@@ -38,6 +39,7 @@ public class Program
         builder.Services.AddMediatR(typeof(DoctorsQueryHandler).GetTypeInfo().Assembly);
         builder.Services.AddMediatR(typeof(DoctorsQueryHandler));
         builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddMediatR(typeof(CreateDoctorCommand).GetTypeInfo().Assembly);
         builder.Services.AddTransient<Mediator>();
         builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
         builder.Services.AddScoped<IValidator<DoctorsQuery>, DoctorsQueryValidator>();

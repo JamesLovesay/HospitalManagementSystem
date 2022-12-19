@@ -4,6 +4,10 @@ using MediatR;
 using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Validators;
 using Serilog;
+using MongoDB.Bson;
+using System.Diagnostics.Eventing.Reader;
+using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Models;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
@@ -49,6 +53,35 @@ namespace HospitalManagementSystem.Api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"Error executing the query on doctors.");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommandResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorCommand cmd, CancellationToken ct)
+        {
+            var validation = await ModelValidation.ValidateModelAsync(ModelState, nameof(CreateDoctorCommand), HttpContext);
+
+            if (validation != null)
+                return validation;
+
+            try
+            {
+                var response = await _mediator.Send(cmd);
+                if (response != null)
+                {
+                    return StatusCode(StatusCodes.Status201Created, $"Doctor created successfully. New ID = {response}");
+                }
+
+                return Ok(response);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error creating Doctor {cmd.Name}");
                 return StatusCode(500);
             }
         }

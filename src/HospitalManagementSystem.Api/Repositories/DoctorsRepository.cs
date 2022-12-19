@@ -7,6 +7,7 @@ using HospitalManagementSystem.Infra.MongoDBStructure.Extensions;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.ReadModels;
+using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Repositories
 {
