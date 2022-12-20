@@ -30,7 +30,7 @@ namespace HospitalManagementSystem.Api.Handlers
                 var doctorId = ObjectId.GenerateNewId();
                 await _repository.UpsertDoctor(new DoctorReadModel
                 {
-                    DoctorId = doctorId,
+                    _id = doctorId.ToString(),
                     Name = request.Name,
                     HourlyChargingRate = request.HourlyChargingRate,
                     Status = (DoctorStatus)Enum.Parse(typeof(DoctorStatus), request.Status, true),

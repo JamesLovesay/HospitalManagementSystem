@@ -35,7 +35,7 @@ namespace HospitalManagementSystem.Api.Repositories
 
             var filters = new List<FilterDefinition<DoctorReadModel>>();
 
-            filters.AddFilter((x) => x.DoctorId, query.DoctorId);
+            filters.AddFilter((x) => x._id, query.DoctorId);
             filters.AddFilter((x) => x.Specialism, query.Specialisms);
             filters.AddFilter((x) => x.Status, query.Status);
             filters.AddFilter((x) => x.Name, query.Name);

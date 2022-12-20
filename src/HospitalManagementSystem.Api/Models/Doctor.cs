@@ -11,16 +11,20 @@ namespace HospitalManagementSystem.Api.Models
         public string DoctorId { get; set; }
         public string Name { get; set; }
         public decimal HourlyChargingRate { get; set; }
+
         [JsonConverter(typeof(StringEnumConverter))]
+        [BsonRepresentation(BsonType.String)]
         public DoctorStatus Status { get; set; }
+
         [JsonConverter(typeof(StringEnumConverter))]
+        [BsonRepresentation(BsonType.String)]
         public DoctorSpecialism Specialism { get; set; }
 
         public static Doctor From (DoctorReadModel model)
         {
             return new Doctor
             {
-                DoctorId = model.DoctorId.ToString(),
+                DoctorId = model._id,
                 Name = model.Name,
                 HourlyChargingRate= model.HourlyChargingRate,
                 Specialism = model.Specialism,

@@ -266,6 +266,29 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { "inactive" }), It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [Fact]
+        public async Task WhenGetDoctorsByQuery_ValidButNonExistentIdReturnsNoResults_ThenExpectedResult()
+        {
+            List<Doctor> returned = new List<Doctor>();
+            string doctorId = "264549568978495615485948";
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == new List<string> { doctorId }), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
+
+            HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?doctorid={doctorId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(await response.Content.ReadAsStringAsync());
+
+            result.Should().BeEquivalentTo(new DoctorsQueryResponse
+            {
+                Doctors = new List<Doctor>(),
+            });
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { doctorId }), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
         //[Fact]
         //public async Task WhenGetDoctorsByQuery_EmptyRequest_ThenExpectedResult()
         //{
@@ -333,6 +356,57 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
 
         //}
 
+        #endregion
+
+        #region Post Doctor Invalid
+
+        [Fact]
+        public async Task WhenPostDoctor_InvalidName_ThenExpectedResult()
+        {
+            DoctorReadModel newDoctor = new DoctorReadModel
+            {
+                Name = "",
+                HourlyChargingRate = 800,
+                Status = DoctorStatus.Inactive,
+                Specialism = DoctorSpecialism.Orthopaedics
+            };
+            var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task WhenPostDoctor_InvalidRate_ThenExpectedResult()
+        {
+            DoctorReadModel newDoctor = new DoctorReadModel
+            {
+                Name = "Test",
+                HourlyChargingRate = -1,
+                Status = DoctorStatus.Inactive,
+                Specialism = DoctorSpecialism.Orthopaedics
+            };
+            var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        #endregion
+
+        #region Post Doctor Valid
+
+        [Fact]
+        public async Task WhenPostDoctor_Valid_ThenExpectedResult()
+        {
+            DoctorReadModel newDoctor = new DoctorReadModel
+            {
+                Name = "Test",
+                HourlyChargingRate = 800,
+                Status = DoctorStatus.Inactive,
+                Specialism = DoctorSpecialism.Orthopaedics
+            };
+            var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
         #endregion
     }
 }

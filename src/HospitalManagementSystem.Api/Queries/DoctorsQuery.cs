@@ -7,7 +7,7 @@ namespace HospitalManagementSystem.Api.Queries
 {
     public class DoctorsQuery : IRequest<DoctorsQueryResponse>
     {
-        public List<ObjectId>? DoctorId { get; set; }
+        public List<string>? DoctorId { get; set; }
         //[Range(0, int.MaxValue)]
         public int? Page { get; set; }
         //[Range(0, 100)]
