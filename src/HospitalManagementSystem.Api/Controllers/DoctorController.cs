@@ -32,11 +32,6 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDoctors([FromQuery] DoctorsQuery query)
         {
-            //var validation = await ModelValidation.ValidateModelAsync(ModelState, nameof(DoctorsQuery), HttpContext);
-
-            //if (validation != null)
-            //    return validation;
-
             var validator = new DoctorsQueryValidator();
             var result = validator.Validate(query);
 
@@ -64,10 +59,10 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorCommand cmd, CancellationToken ct)
         {
-            var validation = await ModelValidation.ValidateModelAsync(ModelState, nameof(CreateDoctorCommand), HttpContext);
+            var validator = new CreateDoctorValidator();
+            var result = validator.Validate(cmd);
 
-            if (validation != null)
-                return validation;
+            if (!result.IsValid) return BadRequest(result.Errors);
 
             try
             {
