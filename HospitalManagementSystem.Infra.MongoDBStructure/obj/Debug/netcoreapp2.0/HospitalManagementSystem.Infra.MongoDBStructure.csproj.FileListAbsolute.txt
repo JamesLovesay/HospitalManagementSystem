@@ -1,5 +1,0 @@
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\netcoreapp2.0\HospitalManagementSystem.Infra.MongoDBStructure.csproj.AssemblyReference.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\netcoreapp2.0\HospitalManagementSystem.Infra.MongoDBStructure.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\netcoreapp2.0\HospitalManagementSystem.Infra.MongoDBStructure.AssemblyInfoInputs.cache
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\netcoreapp2.0\HospitalManagementSystem.Infra.MongoDBStructure.AssemblyInfo.cs
-C:\Users\james.lovesay_ivendi\github\PersonalProjects\HospitalManagementSystem\HospitalManagementSystem.Infra.MongoDBStructure\obj\Debug\netcoreapp2.0\HospitalManagementSystem.Infra.MongoDBStructure.csproj.CoreCompileInputs.cache
