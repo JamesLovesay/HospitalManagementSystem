@@ -27,18 +27,15 @@ namespace HospitalManagementSystem.Api.Models
                 DoctorId = model._id,
                 Name = model.Name,
                 HourlyChargingRate= model.HourlyChargingRate,
-                Specialism = model.Specialism,
-                Status = model.Status
+                Specialism = ParseJobSpecialisms(model.Specialism),
+                Status = ParseJobStatus(model.Status)
             };
         }
-    
-        //public Doctor(string name, decimal hourlyChargingRate, DoctorSpecialism doctorSpecialism, DoctorStatus status)
-        //{
-        //    DoctorId = Guid.NewGuid();
-        //    Name = name;
-        //    HourlyChargingRate = hourlyChargingRate;
-        //    Specialism = doctorSpecialism;
-        //    Status = status;
-        //}
+
+        private static DoctorStatus ParseJobStatus(string status)
+        => Enum.TryParse<DoctorStatus>(status, true, out var result) ? result : DoctorStatus.Inactive;
+
+        private static DoctorSpecialism ParseJobSpecialisms(string specialisms)
+        => Enum.TryParse<DoctorSpecialism>(specialisms, true, out var result) ? result : DoctorSpecialism.NotKnown;
     }
 }

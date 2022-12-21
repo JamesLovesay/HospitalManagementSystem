@@ -16,7 +16,7 @@ namespace HospitalManagementSystem.Api.Validators
 
             When(x => x.PageSize != null, () =>
             {
-                RuleFor(cmd => cmd.PageSize).GreaterThan(0).WithMessage("Page Size must be greaterthan 0");
+                RuleFor(cmd => cmd.PageSize).GreaterThan(0).WithMessage("Page Size must be greater than 0");
                 RuleFor(cmd => cmd.PageSize).LessThanOrEqualTo(QueryHelper.MaximumPageSize).WithMessage($"Page Size must be less than {QueryHelper.MaximumPageSize}");
             });
 

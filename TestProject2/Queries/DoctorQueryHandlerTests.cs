@@ -64,16 +64,16 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                         _id = doctor1Id.ToString(),
                         Name = "Dr A",
                         HourlyChargingRate = 100,
-                        Status = status1,
-                        Specialism = specialism1
+                        Status = status1.ToString(),
+                        Specialism = specialism1.ToString()
                 },
                 new DoctorReadModel
                 {
                         _id = doctor2Id.ToString(),
                         Name = "Dr B",
                         HourlyChargingRate = 300,
-                        Status = status2,
-                        Specialism = specialism2
+                        Status = status2.ToString(),
+                        Specialism = specialism2.ToString()
                 }
             };
 
