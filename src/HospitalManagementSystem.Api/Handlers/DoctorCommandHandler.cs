@@ -20,7 +20,11 @@ namespace HospitalManagementSystem.Api.Handlers
             try
             {
                 var doctorsResult = await _repository.GetDoctors(new Models.DoctorsQueryModel { });
-                var filtered = doctorsResult.doctors.Where(x => x.Name == request.Name).ToList();
+                var filtered = new List<DoctorReadModel>();
+                if (doctorsResult.doctors != null)
+                {
+                    filtered = doctorsResult.doctors.Where(x => x.Name == request.Name).ToList() ?? new List<DoctorReadModel>();
+                }
 
                 if (filtered.Count != 0)
                 {
