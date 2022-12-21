@@ -36,7 +36,7 @@ namespace HospitalManagementSystem.Api.Tests.Models
         {
             var data = new DoctorReadModel
             {
-                Specialism = specialism
+                Specialism = specialism.ToString()
             };
 
             var response = Doctor.From(data);
@@ -53,7 +53,7 @@ namespace HospitalManagementSystem.Api.Tests.Models
         {
             var data = new DoctorReadModel
             {
-                Status = status
+                Status = status.ToString()
             };
 
             var response = Doctor.From(data);

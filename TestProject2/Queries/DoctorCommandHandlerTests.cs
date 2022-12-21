@@ -28,8 +28,8 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                 _id = id.ToString(),
                 Name = "test",
                 HourlyChargingRate = 800,
-                Specialism = DoctorSpecialism.Orthopaedics,
-                Status = DoctorStatus.Inactive
+                Specialism = DoctorSpecialism.Orthopaedics.ToString(),
+                Status = DoctorStatus.Inactive.ToString()
             };
 
             _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task.FromResult(id));

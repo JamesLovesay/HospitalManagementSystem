@@ -37,8 +37,8 @@ namespace HospitalManagementSystem.Api.Handlers
                     _id = doctorId.ToString(),
                     Name = request.Name,
                     HourlyChargingRate = request.HourlyChargingRate,
-                    Status = (DoctorStatus)Enum.Parse(typeof(DoctorStatus), request.Status, true),
-                    Specialism = (DoctorSpecialism)Enum.Parse(typeof(DoctorSpecialism), request.Specialism, true),
+                    Status = request.Status,
+                    Specialism = request.Specialism,
                 }); ;
                 return doctorId;
             }

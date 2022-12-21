@@ -221,10 +221,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         {
             List<Doctor> returned = new List<Doctor>();
 
-            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.SortDirection == "asc" && y.SortBy == "name"), It.IsAny<CancellationToken>()))
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.SortDirection == "desc" && y.SortBy == "name"), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned, Detail = new DoctorsQueryDetail { Page = 1, PageSize = 20, TotalPages = 0, TotalRecords = 0 } });
 
-            HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?sortdirection=asc&sortby=name");
+            HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?sortdirection=desc&sortby=name");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -242,7 +242,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 }
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.SortDirection == "asc" && y.SortBy == "name"), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.SortDirection == "desc" && y.SortBy == "name"), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -250,7 +250,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         {
             List<Doctor> returned = new List<Doctor>();
 
-            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { "inactive" }), It.IsAny<CancellationToken>()))
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.Status.Contains("inactive")), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
 
             HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?status=inactive");
@@ -264,7 +264,29 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { "inactive" }), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status.Contains("inactive")), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenGetDoctorsByQuery_ValidButNonExistentSpecialismReturnsNoResults_ThenExpectedResult()
+        {
+            List<Doctor> returned = new List<Doctor>();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.Specialism.Contains("generalsurgery")), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
+
+            HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?specialism=generalsurgery");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            var result = JsonConvert.DeserializeObject<DoctorsQueryResponse>(await response.Content.ReadAsStringAsync());
+
+            result.Should().BeEquivalentTo(new DoctorsQueryResponse
+            {
+                Doctors = new List<Doctor>(),
+            });
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Specialism.Contains("generalsurgery")), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
