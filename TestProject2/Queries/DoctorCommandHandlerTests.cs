@@ -32,7 +32,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                 Status = DoctorStatus.Inactive
             };
 
-            _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task<UpdateResult?>.FromResult(id));
+            _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task.FromResult(id));
 
             var result = await _handler.Handle(new CreateDoctorCommand { Name = "test", HourlyChargingRate = 800, Specialism = "Orthopaedics", Status = "Inactive" }, new CancellationToken());
 

@@ -273,7 +273,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             List<Doctor> returned = new List<Doctor>();
             string doctorId = "264549568978495615485948";
 
-            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == new List<string> { doctorId }), It.IsAny<CancellationToken>()))
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
 
             HttpResponseMessage response = await Client.GetAsync($"/api/Doctors/query?doctorid={doctorId}");
@@ -287,7 +287,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status == new List<string> { doctorId }), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         //[Fact]
