@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Repositories;
+using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using Mongo2Go;
 using MongoDB.Bson;
@@ -13,7 +14,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
     public class DoctorsRepositoryTests
     {
         private readonly IMongoCollection<DoctorReadModel>? _doctorCollection;
-        private readonly DoctorsRepository _repository;
+        private readonly IDoctorsRepository _repository;
 
         private readonly ObjectId doctorId1 = new ObjectId("094354543459057938450398");
         private readonly ObjectId doctorId2 = new ObjectId("458094358094545845890988");
@@ -39,8 +40,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Specialism = DoctorSpecialism.Orthopaedics,
                     Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
-                    DoctorId = doctorId1,
-                    _id = new MongoDB.Bson.ObjectId(),
+                    _id = doctorId1.ToString(),
                 },
                 new DoctorReadModel
                 {
@@ -48,8 +48,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Specialism = DoctorSpecialism.Psychiatry,
                     Status = DoctorStatus.ActiveVisiting,
                     HourlyChargingRate = 500,
-                    DoctorId = doctorId2,
-                    _id = new MongoDB.Bson.ObjectId(),
+                    _id = doctorId2.ToString(),
                 },
                 new DoctorReadModel
                 {
@@ -57,8 +56,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Specialism = DoctorSpecialism.Neurology,
                     Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 600,
-                    DoctorId = doctorId3,
-                    _id = new MongoDB.Bson.ObjectId(),
+                    _id = doctorId3.ToString(),
                 },
                 new DoctorReadModel
                 {
@@ -66,8 +64,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Specialism = DoctorSpecialism.Psychology,
                     Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 700,
-                    DoctorId = doctorId4,
-                    _id = new MongoDB.Bson.ObjectId(),
+                    _id = doctorId4.ToString(),
                 },
                 new DoctorReadModel
                 {
@@ -75,8 +72,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Specialism = DoctorSpecialism.Urology,
                     Status = DoctorStatus.ActiveVisiting,
                     HourlyChargingRate = 600,
-                    DoctorId = doctorId5,
-                    _id = new MongoDB.Bson.ObjectId(),
+                    _id = doctorId5.ToString(),
                 },
                 new DoctorReadModel
                 {
@@ -84,8 +80,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Specialism = DoctorSpecialism.Orthopaedics,
                     Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
-                    DoctorId = doctorId6,
-                    _id = new MongoDB.Bson.ObjectId(),
+                    _id = doctorId6.ToString(),
                 }
             });
 
@@ -147,7 +142,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
                 }
-            }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
+            }, options => options.Excluding(x => x._id).Excluding(x => x._id));
         }
 
         [Fact]
@@ -177,7 +172,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 750,
                 }
-            }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
+            }, options => options.Excluding(x => x._id).Excluding(x => x._id));
         }
 
         [Fact]
@@ -222,7 +217,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Status = DoctorStatus.Inactive,
                     HourlyChargingRate = 600,
                 }
-            }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
+            }, options => options.Excluding(x => x._id).Excluding(x => x._id));
         }
 
         [Fact]
@@ -259,7 +254,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                     Status = DoctorStatus.ActivePermanent,
                     HourlyChargingRate = 800,
                 }
-            }, options => options.Excluding(x => x._id).Excluding(x => x.DoctorId));
+            }, options => options.Excluding(x => x._id).Excluding(x => x._id));
         }
 
         [Fact]
@@ -267,7 +262,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                DoctorId = new List<ObjectId>() { doctorId1 }
+                DoctorId = new List<string>() { doctorId1.ToString() }
             };
 
             var result = await _repository.GetDoctors(q);
@@ -278,7 +273,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             {
                 new DoctorReadModel
                 {
-                    DoctorId = doctorId1,
+                    _id = doctorId1.ToString(),
                     Name = "Dr Test A",
                     Specialism = DoctorSpecialism.Orthopaedics,
                     Status = DoctorStatus.ActivePermanent,
@@ -292,7 +287,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         {
             var q = new DoctorsQueryModel
             {
-                DoctorId = new List<ObjectId>() { doctorId1, doctorId2 }
+                DoctorId = new List<string>() { doctorId1.ToString(), doctorId2.ToString() }
             };
 
             var result = await _repository.GetDoctors(q);
@@ -320,7 +315,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Neurology,
                 Status = DoctorStatus.Inactive,
                 HourlyChargingRate = 600,
-                DoctorId = doctorId3,
+                _id = doctorId3.ToString(),
             }, options => options.Excluding(x => x._id));
 
             result.doctors[5].Should().BeEquivalentTo(new DoctorReadModel
@@ -329,7 +324,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Urology,
                 Status = DoctorStatus.ActiveVisiting,
                 HourlyChargingRate = 600,
-                DoctorId = doctorId5,
+                _id = doctorId5.ToString(),
             }, options => options.Excluding(x => x._id));
         }
 
@@ -351,7 +346,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Neurology,
                 Status = DoctorStatus.Inactive,
                 HourlyChargingRate = 600,
-                DoctorId = doctorId3,
+                _id = doctorId3.ToString(),
             }, options => options.Excluding(x => x._id));
 
             result.doctors[5].Should().BeEquivalentTo(new DoctorReadModel
@@ -360,7 +355,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Psychology,
                 Status = DoctorStatus.ActivePermanent,
                 HourlyChargingRate = 700,
-                DoctorId = doctorId4,
+                _id = doctorId4.ToString(),
             }, options => options.Excluding(x => x._id));
         }
 
@@ -382,7 +377,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Psychiatry,
                 Status = DoctorStatus.ActiveVisiting,
                 HourlyChargingRate = 500,
-                DoctorId = doctorId2,
+                _id = doctorId2.ToString(),
             }, options => options.Excluding(x => x._id));
 
             result.doctors[5].Should().BeEquivalentTo(new DoctorReadModel
@@ -391,7 +386,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Orthopaedics,
                 Status = DoctorStatus.ActivePermanent,
                 HourlyChargingRate = 800,
-                DoctorId = doctorId1,
+                _id = doctorId1.ToString(),
             }, options => options.Excluding(x => x._id));
         }
 
@@ -412,7 +407,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Neurology,
                 Status = DoctorStatus.Inactive,
                 HourlyChargingRate = 600,
-                DoctorId = doctorId3,
+                _id = doctorId3.ToString(),
             }, options => options.Excluding(x => x._id));
         }
 
@@ -436,7 +431,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Psychology,
                 Status = DoctorStatus.ActivePermanent,
                 HourlyChargingRate = 700,
-                DoctorId = doctorId4,
+                _id = doctorId4.ToString(),
             }, options => options.Excluding(x => x._id));
 
             result.doctors[1].Should().BeEquivalentTo(new DoctorReadModel
@@ -445,8 +440,34 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 Specialism = DoctorSpecialism.Urology,
                 Status = DoctorStatus.ActiveVisiting,
                 HourlyChargingRate = 600,
-                DoctorId = doctorId5,
+                _id = doctorId5.ToString(),
             }, options => options.Excluding(x => x._id));
         }
+
+        #region Post Doctor
+
+        [Fact]
+        public async Task WhenPostDoctor__ThenExpectedResult()
+        {
+            ObjectId id = ObjectId.GenerateNewId();
+            DoctorReadModel q = new DoctorReadModel
+            {
+                _id = id.ToString(),
+                Name = "test",
+                HourlyChargingRate = 800,
+                Status = DoctorStatus.Inactive,
+                Specialism = DoctorSpecialism.Orthopaedics
+            };
+
+            await _repository.UpsertDoctor(q);
+
+            var response = await _repository.GetDoctors(new DoctorsQueryModel { });
+
+            response.Should().NotBeNull();
+            response.doctors.Count().Should().Be(7);
+            response.doctors[0].Should().BeEquivalentTo(q);
+        }
+
+        #endregion
     }
 }

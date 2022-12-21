@@ -7,7 +7,7 @@ namespace HospitalManagementSystem.Api.Models
 {
     public class DoctorsQueryModel : IRequest<DoctorsQueryResponse>
     {
-        public List<ObjectId>? DoctorId { get; set; }
+        public List<string>? DoctorId { get; set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
         public List<DoctorSpecialism>? Specialisms { get; set; }
@@ -21,7 +21,7 @@ namespace HospitalManagementSystem.Api.Models
         }
         public DoctorsQueryModel(DoctorsQuery query)
         {
-            DoctorId = query.DoctorId == null ? null : new List<ObjectId>(query.DoctorId);
+            DoctorId = query.DoctorId == null ? null : new List<string>(query.DoctorId);
             Page = query.Page;
             PageSize = query.PageSize;
             Specialisms = query.Specialism == null ? null : query.Specialism.Select(x => ParseJobSpecialisms(x)).ToList();

@@ -25,10 +25,10 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             var status = nameof(DoctorStatus.ActiveVisiting);
             var specialism = nameof(DoctorSpecialism.Psychiatry);
 
-            _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<ObjectId> { doctorId }))))
+            _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<string> { doctorId.ToString() }))))
                 .ReturnsAsync((new List<DoctorReadModel>(), new DoctorsQueryDetail { Page = 1, PageSize = 2, TotalPages = 0, TotalRecords = 0 }));
 
-            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctorId }, Status = new List<string> { status }, Specialism = new List<string> { specialism } }, new CancellationToken());
+            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<string> { doctorId.ToString() }, Status = new List<string> { status }, Specialism = new List<string> { specialism } }, new CancellationToken());
 
             result.Should().NotBeNull();
 
@@ -61,8 +61,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             {
                 new DoctorReadModel
                 {
-                        _id = doctor1Id,
-                        DoctorId= doctor1Id,
+                        _id = doctor1Id.ToString(),
                         Name = "Dr A",
                         HourlyChargingRate = 100,
                         Status = status1,
@@ -70,8 +69,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                 },
                 new DoctorReadModel
                 {
-                        _id = doctor2Id,
-                        DoctorId= doctor2Id,
+                        _id = doctor2Id.ToString(),
                         Name = "Dr B",
                         HourlyChargingRate = 300,
                         Status = status2,
@@ -99,10 +97,10 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                 },
             };
 
-            _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<ObjectId> { doctor1Id, doctor2Id }))))
+            _repository.Setup(x => x.GetDoctors(It.Is<DoctorsQueryModel>(y => TestHelpers.IsEquivalent(y.DoctorId, new List<string> { doctor1Id.ToString(), doctor2Id.ToString() }))))
                 .ReturnsAsync((returnedDoctorReadModel, new DoctorsQueryDetail { Page = 1, PageSize = 20, TotalPages = 1, TotalRecords = 2 }));
 
-            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<ObjectId> { doctor1Id, doctor2Id }, Status = new List<string> { nameof(status1), nameof(status2) }, Specialism = new List<string> { nameof(specialism1), nameof(specialism2) } }, new CancellationToken());
+            var result = await _handler.Handle(new DoctorsQuery { DoctorId = new List<string> { doctor1Id.ToString(), doctor2Id.ToString() }, Status = new List<string> { nameof(status1), nameof(status2) }, Specialism = new List<string> { nameof(specialism1), nameof(specialism2) } }, new CancellationToken());
 
             result.Should().NotBeNull();
 

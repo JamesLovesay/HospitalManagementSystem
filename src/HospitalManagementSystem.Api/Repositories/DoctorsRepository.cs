@@ -7,6 +7,7 @@ using HospitalManagementSystem.Infra.MongoDBStructure.Extensions;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.ReadModels;
+using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Repositories
 {
@@ -34,7 +35,7 @@ namespace HospitalManagementSystem.Api.Repositories
 
             var filters = new List<FilterDefinition<DoctorReadModel>>();
 
-            filters.AddFilter((x) => x.DoctorId, query.DoctorId);
+            filters.AddFilter((x) => x._id, query.DoctorId);
             filters.AddFilter((x) => x.Specialism, query.Specialisms);
             filters.AddFilter((x) => x.Status, query.Status);
             filters.AddFilter((x) => x.Name, query.Name);
@@ -68,6 +69,28 @@ namespace HospitalManagementSystem.Api.Repositories
             };
 
             return (result.ToList(), resultDetail);
+        }
+
+        public async Task UpsertDoctor(DoctorReadModel cmd)
+        {
+            var doctor = Doctor.From(cmd);
+            var filter = Builders<Doctor>.Filter.Eq(x => x.DoctorId, doctor.DoctorId);
+            var update = Builders<Doctor>.Update
+                .Set(x => x.DoctorId, doctor.DoctorId)
+                .Set(x => x.Name, doctor.Name)
+                .Set(x => x.Status, doctor.Status)
+                .Set(x => x.HourlyChargingRate, doctor.HourlyChargingRate)
+                .Set(x => x.Specialism, doctor.Specialism);
+            var options = new UpdateOptions { IsUpsert = true };
+
+            try
+            {
+                await _db.GetCollection<Doctor>(typeof(Doctor).Name).UpdateOneAsync(filter, update, options);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

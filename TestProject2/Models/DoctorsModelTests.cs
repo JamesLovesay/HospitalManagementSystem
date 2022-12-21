@@ -91,7 +91,7 @@ namespace HospitalManagementSystem.Api.Tests.Models
         {
             var data = new DoctorReadModel
             {
-                DoctorId = id
+                _id = id.ToString(),
             };
 
             var response = Doctor.From(data);

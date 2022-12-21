@@ -4,6 +4,10 @@ using MediatR;
 using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Validators;
 using Serilog;
+using MongoDB.Bson;
+using System.Diagnostics.Eventing.Reader;
+using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Models;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
@@ -28,11 +32,6 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDoctors([FromQuery] DoctorsQuery query)
         {
-            //var validation = await ModelValidation.ValidateModelAsync(ModelState, nameof(DoctorsQuery), HttpContext);
-
-            //if (validation != null)
-            //    return validation;
-
             var validator = new DoctorsQueryValidator();
             var result = validator.Validate(query);
 
@@ -49,6 +48,31 @@ namespace HospitalManagementSystem.Api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"Error executing the query on doctors.");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommandResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorCommand cmd, CancellationToken ct)
+        {
+            var validator = new CreateDoctorValidator();
+            var result = validator.Validate(cmd);
+
+            if (!result.IsValid) return BadRequest(result.Errors);
+
+            try
+            {
+                var response = await _mediator.Send(cmd);
+
+                return StatusCode(StatusCodes.Status201Created, $"Doctor created successfully. New ID = {response}");
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error creating Doctor {cmd.Name}");
                 return StatusCode(500);
             }
         }
