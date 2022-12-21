@@ -67,12 +67,8 @@ namespace HospitalManagementSystem.Api.Controllers
             try
             {
                 var response = await _mediator.Send(cmd);
-                if (response != null)
-                {
-                    return StatusCode(StatusCodes.Status201Created, $"Doctor created successfully. New ID = {response}");
-                }
 
-                return Ok(response);
+                return StatusCode(StatusCodes.Status201Created, $"Doctor created successfully. New ID = {response}");
             }
             catch(Exception e)
             {

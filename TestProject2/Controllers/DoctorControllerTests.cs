@@ -1,4 +1,5 @@
 using FluentAssertions;
+using HospitalManagementSystem.Api.Commands;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
 using MongoDB.Bson;
@@ -363,12 +364,12 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         [Fact]
         public async Task WhenPostDoctor_InvalidName_ThenExpectedResult()
         {
-            DoctorReadModel newDoctor = new DoctorReadModel
+            CreateDoctorCommand newDoctor = new CreateDoctorCommand
             {
                 Name = "",
                 HourlyChargingRate = 800,
-                Status = DoctorStatus.Inactive,
-                Specialism = DoctorSpecialism.Orthopaedics
+                Status = "Inactive",
+                Specialism = "Orthopaedics"
             };
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
@@ -378,12 +379,42 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         [Fact]
         public async Task WhenPostDoctor_InvalidRate_ThenExpectedResult()
         {
-            DoctorReadModel newDoctor = new DoctorReadModel
+            CreateDoctorCommand newDoctor = new CreateDoctorCommand
             {
                 Name = "Test",
                 HourlyChargingRate = -1,
-                Status = DoctorStatus.Inactive,
-                Specialism = DoctorSpecialism.Orthopaedics
+                Status = "Inactive",
+                Specialism = "Orthopaedics"
+            };
+            var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task WhenPostDoctor_InvalidStatus_ThenExpectedResult()
+        {
+            CreateDoctorCommand newDoctor = new CreateDoctorCommand
+            {
+                Name = "Test",
+                HourlyChargingRate = 800,
+                Status = "Invalid",
+                Specialism = "Orthopaedics"
+            };
+            var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task WhenPostDoctor_InvalidSpecialism_ThenExpectedResult()
+        {
+            CreateDoctorCommand newDoctor = new CreateDoctorCommand
+            {
+                Name = "Test",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                Specialism = "Invalid"
             };
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
@@ -396,12 +427,12 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         [Fact]
         public async Task WhenPostDoctor_Valid_ThenExpectedResult()
         {
-            DoctorReadModel newDoctor = new DoctorReadModel
-            {
-                Name = "Test",
-                HourlyChargingRate = 800,
-                Status = DoctorStatus.Inactive,
-                Specialism = DoctorSpecialism.Orthopaedics
+            CreateDoctorCommand newDoctor = new CreateDoctorCommand 
+            { 
+                Name = "Test", 
+                HourlyChargingRate = 800, 
+                Status = "Inactive", 
+                Specialism = "Orthopaedics" 
             };
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
