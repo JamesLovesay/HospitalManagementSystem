@@ -2,10 +2,9 @@
 using HospitalManagementSystem.Api.Commands;
 using HospitalManagementSystem.Api.Handlers;
 using HospitalManagementSystem.Api.Models;
-using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
-using HospitalManagementSystem.Api.Tests.Test_Helpers;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using Moq;
 
 namespace HospitalManagementSystem.Api.Tests.Queries
@@ -33,7 +32,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
                 Status = DoctorStatus.Inactive
             };
 
-            _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task.FromResult(id));
+            _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task<UpdateResult?>.FromResult(id));
 
             var result = await _handler.Handle(new CreateDoctorCommand { Name = "test", HourlyChargingRate = 800, Specialism = "Orthopaedics", Status = "Inactive" }, new CancellationToken());
 

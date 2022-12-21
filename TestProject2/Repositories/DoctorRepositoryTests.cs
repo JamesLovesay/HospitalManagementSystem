@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Repositories;
+using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using Mongo2Go;
 using MongoDB.Bson;
@@ -13,7 +14,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
     public class DoctorsRepositoryTests
     {
         private readonly IMongoCollection<DoctorReadModel>? _doctorCollection;
-        private readonly DoctorsRepository _repository;
+        private readonly IDoctorsRepository _repository;
 
         private readonly ObjectId doctorId1 = new ObjectId("094354543459057938450398");
         private readonly ObjectId doctorId2 = new ObjectId("458094358094545845890988");
@@ -442,5 +443,31 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 _id = doctorId5.ToString(),
             }, options => options.Excluding(x => x._id));
         }
+
+        #region Post Doctor
+
+        [Fact]
+        public async Task WhenPostDoctor__ThenExpectedResult()
+        {
+            ObjectId id = ObjectId.GenerateNewId();
+            DoctorReadModel q = new DoctorReadModel
+            {
+                _id = id.ToString(),
+                Name = "test",
+                HourlyChargingRate = 800,
+                Status = DoctorStatus.Inactive,
+                Specialism = DoctorSpecialism.Orthopaedics
+            };
+
+            await _repository.UpsertDoctor(q);
+
+            var response = await _repository.GetDoctors(new DoctorsQueryModel { });
+
+            response.Should().NotBeNull();
+            response.doctors.Count().Should().Be(7);
+            response.doctors[0].Should().BeEquivalentTo(q);
+        }
+
+        #endregion
     }
 }
