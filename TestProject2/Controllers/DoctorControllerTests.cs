@@ -7,6 +7,7 @@ using Moq;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers
 {
@@ -487,6 +488,56 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+        #endregion
+
+        #region Get Doctor By ID Successful
+
+        [Fact]
+        public async Task WhenGetNonExistentDoctor_ThenExpectedResult()
+        {
+
+            var doctorId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<DoctorRecordQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DoctorRecordQueryResponse(true));
+
+            var response = await Client.GetAsync($"/api/Doctors/{doctorId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task WhenGetDoctorNotObjectId_ThenExpectedResult()
+        {
+            var response = await Client.GetAsync($"/api/Doctors/notanobjectid");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task WhenGetValidDoctor_ThenExpectedResult()
+        {
+            var doctorId = ObjectId.GenerateNewId().ToString();
+
+            var expectedResponse = new DoctorRecordQueryResponse
+            {
+                DoctorId = doctorId
+            };
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorRecordQuery>(y => y.DoctorId == doctorId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedResponse);
+
+            var response = await Client.GetAsync($"/api/Doctors/{doctorId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = JsonConvert.DeserializeObject<DoctorRecordQueryResponse>(await response.Content.ReadAsStringAsync());
+
+            result.Should().BeEquivalentTo(new DoctorRecordQueryResponse
+            {
+                DoctorId = doctorId
+            });
         }
         #endregion
     }

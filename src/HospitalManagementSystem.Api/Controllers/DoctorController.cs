@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using System.Diagnostics.Eventing.Reader;
 using HospitalManagementSystem.Api.Commands;
 using HospitalManagementSystem.Api.Models;
+using MongoDB.Driver.Core.WireProtocol.Messages.Encoders;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
@@ -61,16 +62,18 @@ namespace HospitalManagementSystem.Api.Controllers
             try
             {
                 var response = await _mediator.Send(query);
-
-                if(response.NotFoundInReadStore())
-                    return new NotFoundObjectResult(CommandResponse.From(query.DoctorId, $"Doctor not found for Id {query.DoctorId}"));
-
-                if (response.IsReady())
+                if(response != null)
                 {
-                    return Ok(response);
+                    if (response.NotFoundInReadStore())
+                        return new NotFoundObjectResult(CommandResponse.From(query.DoctorId, $"Doctor not found for Id {query.DoctorId}"));
+
+                    if (response.IsReady())
+                    {
+                        return Ok(response);
+                    }
                 }
 
-                return NoContent();
+                return NotFound();
             }
             catch (Exception e)
             {
