@@ -52,6 +52,35 @@ namespace HospitalManagementSystem.Api.Controllers
             }
         }
 
+        [HttpGet("{doctorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DoctorRecordQueryResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetDoctorById([FromRoute] DoctorRecordQuery query)
+        {
+            try
+            {
+                var response = await _mediator.Send(query);
+
+                if(response.NotFoundInReadStore())
+                    return new NotFoundObjectResult(CommandResponse.From(query.DoctorId, $"Doctor not found for Id {query.DoctorId}"));
+
+                if (response.IsReady())
+                {
+                    return Ok(response);
+                }
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception getting doctor Id = {doctorId}.", query.DoctorId);
+                return StatusCode(500);
+            }
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommandResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
