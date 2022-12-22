@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using System.Diagnostics.Eventing.Reader;
 using HospitalManagementSystem.Api.Commands;
 using HospitalManagementSystem.Api.Models;
+using MongoDB.Driver.Core.WireProtocol.Messages.Encoders;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
@@ -48,6 +49,38 @@ namespace HospitalManagementSystem.Api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"Error executing the query on doctors.");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("{doctorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DoctorRecordQueryResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetDoctorById([FromRoute] DoctorRecordQuery query)
+        {
+            if (query.DoctorId?.Length != 24) return BadRequest("DoctorId is invalid. Please enter a valid object Id of length 24 characters.");
+
+            try
+            {
+                var response = await _mediator.Send(query);
+                if(response != null)
+                {
+                    if (response.NotFoundInReadStore())
+                        return new NotFoundObjectResult(CommandResponse.From(query.DoctorId, $"Doctor not found for Id {query.DoctorId}"));
+
+                    if (response.IsReady())
+                    {
+                        return Ok(response);
+                    }
+                }
+
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception getting doctor Id = {doctorId}.", query.DoctorId);
                 return StatusCode(500);
             }
         }

@@ -92,5 +92,19 @@ namespace HospitalManagementSystem.Api.Repositories
                 throw;
             }
         }
+
+        public async Task<DoctorReadModel> GetDoctorById(string doctorId)
+        {
+            var filter = Builders<DoctorReadModel>.Filter.Eq(x => x._id, doctorId);
+            try
+            {
+                return (await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error on getting data from MongoDB. Exception={ex} Id={doctorId}");
+                throw;
+            }
+        }
     }
 }
