@@ -512,7 +512,11 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         {
             var response = await Client.GetAsync($"/api/Doctors/notanobjectid");
 
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"DoctorId is invalid. Please enter a valid object Id of length 24 characters.");
         }
 
         [Fact]

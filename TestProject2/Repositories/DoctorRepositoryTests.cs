@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HospitalManagementSystem.Api.Models;
+using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
@@ -87,6 +88,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             _repository = new DoctorsRepository(mongoFactory.Object, new Mock<ILogger>().Object);
         }
 
+        #region Get Doctors By Query
 
         [Fact]
         public async Task WhenGetDoctors_EmptyQuery_AllRecordsReturned()
@@ -443,6 +445,38 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
                 _id = doctorId5.ToString(),
             }, options => options.Excluding(x => x._id));
         }
+
+        #endregion
+
+        #region Get Doctor By Id
+
+        [Fact] 
+        public async Task WhenGetDoctorById_Found_ThenExpectedResult()
+        {
+            var doctorId = doctorId1.ToString();
+            var result = await _repository.GetDoctorById(doctorId);
+
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new DoctorReadModel
+            {
+                Name = "Dr Test A",
+                Specialism = DoctorSpecialism.Orthopaedics.ToString(),
+                Status = DoctorStatus.ActivePermanent.ToString(),
+                HourlyChargingRate = 800,
+                _id = doctorId,
+            });
+        }
+
+        [Fact]
+        public async Task WhenGetDoctorById_NotFound_ThenExpectedResult()
+        {
+            var doctorId = ObjectId.GenerateNewId().ToString();
+            var result = await _repository.GetDoctorById(doctorId);
+
+            result.Should().BeNull();
+        }
+
+        #endregion
 
         #region Post Doctor
 

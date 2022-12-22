@@ -20,7 +20,7 @@ namespace HospitalManagementSystem.Api.Tests.Models
 
         [Theory]
         [InlineData(nameof(ids))]
-        public void From_Name_MappedCorrectly(string id)
+        public void From_Id_MappedCorrectly(string id)
         {
             var data = new DoctorReadModel
             {
@@ -30,6 +30,66 @@ namespace HospitalManagementSystem.Api.Tests.Models
             var response = DoctorRecordQueryResponse.From(data);
 
             response.DoctorId.Should().Be(id);
+        }
+
+        [Theory]
+        [InlineData("test A")]
+        [InlineData("test B")]
+        public void From_Name_MappedCorrectly(string name)
+        {
+            var data = new DoctorReadModel
+            {
+                Name = name,
+            };
+
+            var response = DoctorRecordQueryResponse.From(data);
+
+            response.DoctorName.Should().Be(name);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(320)]
+        public void From_Rate_MappedCorrectly(decimal rate)
+        {
+            var data = new DoctorReadModel
+            {
+                HourlyChargingRate = rate,
+            };
+
+            var response = DoctorRecordQueryResponse.From(data);
+
+            response.HourlyChargingRate.Should().Be(rate);
+        }
+
+        [Theory]
+        [InlineData("inactive")]
+        [InlineData("activepermanent")]
+        public void From_Status_MappedCorrectly(string status)
+        {
+            var data = new DoctorReadModel
+            {
+                Status = status,
+            };
+
+            var response = DoctorRecordQueryResponse.From(data);
+
+            response.Status.Should().Be(status);
+        }
+
+        [Theory]
+        [InlineData("orthopaedics")]
+        [InlineData("neurology")]
+        public void From_Specialism_MappedCorrectly(string specialism)
+        {
+            var data = new DoctorReadModel
+            {
+                Specialism = specialism,
+            };
+
+            var response = DoctorRecordQueryResponse.From(data);
+
+            response.Specialism.Should().Be(specialism);
         }
 
     }

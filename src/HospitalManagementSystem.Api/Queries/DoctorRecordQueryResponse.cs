@@ -7,6 +7,10 @@ namespace HospitalManagementSystem.Api.Queries
         private readonly bool _notFoundInReadStore;
 
         public string DoctorId { get; set; }
+        public string DoctorName { get; set; }
+        public string Specialism {  get; set; }
+        public string Status { get; set; }
+        public decimal HourlyChargingRate { get; set; }
 
 
         public DoctorRecordQueryResponse() { }
@@ -25,6 +29,10 @@ namespace HospitalManagementSystem.Api.Queries
             => new DoctorRecordQueryResponse
             {
                 DoctorId = model._id,
+                DoctorName = model.Name,
+                Specialism = model.Specialism,
+                Status = model.Status,
+                HourlyChargingRate = model.HourlyChargingRate,
             };
 
         public bool IsReady()
