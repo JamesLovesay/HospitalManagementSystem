@@ -17,7 +17,7 @@ namespace HospitalManagementSystem.Api.Queries
         {
             var doctor = await _repository.GetDoctorById(request.DoctorId);
 
-            return doctor == null ? DoctorRecordQueryResponse.Empty() : DoctorRecordQueryResponse.From(doctor);
+            return doctor._id == null ? DoctorRecordQueryResponse.Empty() : DoctorRecordQueryResponse.From(doctor);
         }
     }
 }

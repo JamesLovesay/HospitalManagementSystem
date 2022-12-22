@@ -54,8 +54,6 @@ namespace HospitalManagementSystem.Api.Controllers
 
         [HttpGet("{doctorId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DoctorRecordQueryResponse))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDoctorById([FromRoute] DoctorRecordQuery query)
