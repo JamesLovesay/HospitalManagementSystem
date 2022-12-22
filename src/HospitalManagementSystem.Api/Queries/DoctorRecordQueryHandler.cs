@@ -29,8 +29,6 @@ namespace HospitalManagementSystem.Api.Queries
             {
                 return DoctorRecordQueryResponse.From(doctor);
             }
-
-            return doctor._id == null ? DoctorRecordQueryResponse.Empty() : DoctorRecordQueryResponse.From(doctor);
         }
     }
 }
