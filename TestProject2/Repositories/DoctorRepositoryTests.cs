@@ -506,7 +506,26 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
 
         #region Delete Doctor
 
+        [Fact]
+        public async Task WhenDeleteDoctorById_DoctorDoesNotExist_ThenExpectedResult()
+        {
+            var doctorId = ObjectId.GenerateNewId().ToString();
+            await _repository.DeleteDoctor(doctorId);
 
+            var doctors = await _repository.GetDoctors(new DoctorsQueryModel { });
+            doctors.doctors.Count().Should().Be(6);
+        }
+
+        [Fact]
+        public async Task WhenDeleteDoctorById_DoctorDoesExist_ThenExpectedResult()
+        {
+            var doctorId = doctorId1.ToString();
+            await _repository.DeleteDoctor(doctorId);
+
+            var result = await _repository.GetDoctors(new DoctorsQueryModel { });
+            result.doctors.Count().Should().Be(5);
+            result.doctors.Any(x => x._id == doctorId).Should().BeFalse();
+        }
 
         #endregion
     }

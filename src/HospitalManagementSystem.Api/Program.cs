@@ -41,7 +41,10 @@ public class Program
         builder.Services.AddMediatR(typeof(DoctorsQueryHandler).GetTypeInfo().Assembly);
         builder.Services.AddMediatR(typeof(DoctorsQueryHandler));
         builder.Services.AddMediatR(typeof(CreateDoctorCommand).GetTypeInfo().Assembly);
-        builder.Services.AddMediatR(typeof(DoctorCommandHandler).GetTypeInfo().Assembly);
+        builder.Services.AddMediatR(typeof(CreateDoctorCommand));
+        builder.Services.AddMediatR(typeof(DoctorDeleteCommand).GetTypeInfo().Assembly);
+        builder.Services.AddMediatR(typeof(CreateDoctorCommandHandler).GetTypeInfo().Assembly);
+        builder.Services.AddMediatR(typeof(DeleteDoctorCommandHandler).GetTypeInfo().Assembly);
         builder.Services.AddTransient<Mediator>();
         builder.Services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
         builder.Services.AddScoped<IValidator<DoctorsQuery>, DoctorsQueryValidator>();
