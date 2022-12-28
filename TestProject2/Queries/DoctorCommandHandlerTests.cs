@@ -39,5 +39,18 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             result.Should().NotBeNull();
             result.GetType().Should().Be(typeof(ObjectId));
         }
+
+        [Fact]
+        public async Task WhenDoctorDeleted_ExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            _repository.Setup(x => x.DeleteDoctor(id)).Returns(Task.FromResult(false));
+
+            var result = await _handler.Handle(new DoctorDeleteCommand { DoctorId = id }, new CancellationToken());
+
+            result.Should().BeFalse();
+            result.GetType().Should().Be(typeof(Boolean));
+        }
     }
 }
