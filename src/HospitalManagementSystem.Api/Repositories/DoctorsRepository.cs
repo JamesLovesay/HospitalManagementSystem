@@ -106,5 +106,19 @@ namespace HospitalManagementSystem.Api.Repositories
                 throw;
             }
         }
+
+        public async Task DeleteDoctor(string doctorId)
+        {
+            var doctorIdFilter = Builders<DoctorReadModel>.Filter.Eq(x => x._id, doctorId);
+
+            try
+            {
+                await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).DeleteOneAsync(doctorIdFilter);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

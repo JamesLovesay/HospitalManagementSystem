@@ -48,5 +48,23 @@ namespace HospitalManagementSystem.Api.Handlers
             }
             throw new NotImplementedException();
         }
+
+        public async Task<bool> Handle(DoctorDeleteCommand cmd, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var doctorReadModel = await _repository.GetDoctorById(cmd.DoctorId);
+                if (doctorReadModel != null)
+                {
+                    await _repository.DeleteDoctor(cmd.DoctorId);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -109,5 +109,35 @@ namespace HospitalManagementSystem.Api.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpDelete("{doctorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveDoctorAsync([FromRoute] string doctorId)
+        {
+            if (doctorId.Length != 24) return BadRequest("Doctor Id is invalid");
+
+            var cmd = new DoctorDeleteCommand
+            {
+                DoctorId = doctorId,
+            };
+
+            try
+            {
+                if (await _mediator.Send(cmd))
+                {
+                    return Ok($"Delete command for doctor issued successfully. DoctorId={doctorId}");
+                };
+                return NotFound($"Doctor not found. DoctorId={doctorId}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error Deleting Doctor. DoctorId={DoctorId}", cmd.DoctorId);
+                return StatusCode(500);
+            }
+        }
     }
 }
