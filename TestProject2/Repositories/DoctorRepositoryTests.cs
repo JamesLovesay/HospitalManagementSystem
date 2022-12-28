@@ -503,5 +503,11 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         }
 
         #endregion
+
+        #region Delete Doctor
+
+
+
+        #endregion
     }
 }

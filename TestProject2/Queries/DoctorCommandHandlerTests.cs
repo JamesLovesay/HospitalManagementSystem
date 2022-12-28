@@ -41,7 +41,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
         }
 
         [Fact]
-        public async Task WhenDoctorDeleted_ExpectedResult()
+        public async Task WhenNonExistentDoctorDeleted_ExpectedResult()
         {
             string id = ObjectId.GenerateNewId().ToString();
 
@@ -50,6 +50,29 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             var result = await _handler.Handle(new DoctorDeleteCommand { DoctorId = id }, new CancellationToken());
 
             result.Should().BeFalse();
+            result.GetType().Should().Be(typeof(Boolean));
+        }
+
+        [Fact]
+        public async Task WhenExistingDoctorDeleted_ExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+            var doctor = new DoctorReadModel
+            {
+                _id = id.ToString(),
+                Name = "test",
+                HourlyChargingRate = 800,
+                Specialism = DoctorSpecialism.Orthopaedics.ToString(),
+                Status = DoctorStatus.Inactive.ToString()
+            };
+
+            _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task.FromResult(id));
+
+            //_repository.Setup(x => x.DeleteDoctor(id)).Returns(Task.FromResult(true));
+
+            var result = await _handler.Handle(new DoctorDeleteCommand { DoctorId = id }, new CancellationToken());
+
+            result.Should().BeTrue();
             result.GetType().Should().Be(typeof(Boolean));
         }
     }
