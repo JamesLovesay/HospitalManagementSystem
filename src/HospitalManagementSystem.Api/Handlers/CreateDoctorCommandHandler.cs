@@ -6,11 +6,11 @@ using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Handlers
 {
-    public class DoctorCommandHandler : IRequestHandler<CreateDoctorCommand, ObjectId?>
+    public class CreateDoctorCommandHandler : IRequestHandler<CreateDoctorCommand, ObjectId?>
     {
         private readonly IDoctorsRepository _repository;
 
-        public DoctorCommandHandler(IDoctorsRepository repository)
+        public CreateDoctorCommandHandler(IDoctorsRepository repository)
         {
             _repository = repository;
         }
@@ -19,7 +19,7 @@ namespace HospitalManagementSystem.Api.Handlers
         {
             try
             {
-                var doctorsResult = await _repository.GetDoctors(new Models.DoctorsQueryModel { });
+                var doctorsResult = await _repository.GetDoctors(new DoctorsQueryModel { });
                 var filtered = new List<DoctorReadModel>();
                 if (doctorsResult.doctors != null)
                 {
@@ -46,7 +46,6 @@ namespace HospitalManagementSystem.Api.Handlers
             {
                 throw;
             }
-            throw new NotImplementedException();
         }
     }
 }

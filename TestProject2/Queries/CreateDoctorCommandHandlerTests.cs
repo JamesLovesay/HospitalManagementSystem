@@ -9,14 +9,14 @@ using Moq;
 
 namespace HospitalManagementSystem.Api.Tests.Queries
 {
-    public class DoctorCommandHandlerTests
+    public class CreateDoctorCommandHandlerTests
     {
         private readonly Mock<IDoctorsRepository> _repository = new Mock<IDoctorsRepository>();
-        private readonly DoctorCommandHandler _handler;
+        private readonly CreateDoctorCommandHandler _handler;
 
-        public DoctorCommandHandlerTests()
+        public CreateDoctorCommandHandlerTests()
         {
-            _handler = new DoctorCommandHandler(_repository.Object);
+            _handler = new CreateDoctorCommandHandler(_repository.Object);
         }
 
         [Fact]

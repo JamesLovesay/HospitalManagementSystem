@@ -491,7 +491,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         }
         #endregion
 
-        #region Get Doctor By ID Successful
+        #region Get Doctor By ID
 
         [Fact]
         public async Task WhenGetNonExistentDoctor_ThenExpectedResult()
@@ -543,6 +543,57 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 DoctorId = doctorId
             });
         }
+        #endregion
+
+        #region Delete Doctor
+
+        [Fact]
+        public async Task WhenDeleteDoctor_InvalidId_ThenExpectedResult()
+        {
+            var doctorId = "invalid ID";
+
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<DoctorDeleteCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
+
+            var response = await Client.DeleteAsync($"/api/Doctors/{doctorId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Doctor Id is invalid");
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task WhenDeleteDoctor_NoIdProvided_ThenExpectedResult(string id)
+        {
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<DoctorDeleteCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
+
+            var response = await Client.DeleteAsync($"/api/Doctors/{id}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.MethodNotAllowed);
+        }
+
+        [Fact]
+        public async Task WhenDeleteDoctor_ValidId_ThenExpectedResult()
+        {
+            string doctorId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<DoctorDeleteCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
+
+            var response = await Client.DeleteAsync($"/api/Doctors/{doctorId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Delete command for doctor issued successfully. DoctorId={doctorId}");
+        }
+
         #endregion
     }
 }

@@ -10,5 +10,6 @@ namespace HospitalManagementSystem.Api.Repositories.Interfaces
         Task PublishAsync<T>(Guid modelId, Action<T> action) where T : BaseReadModel, new();
         Task UpsertDoctor(DoctorReadModel cmd);
         Task <DoctorReadModel> GetDoctorById(string doctorId);
+        Task DeleteDoctor(string doctorId);
     }
 }
