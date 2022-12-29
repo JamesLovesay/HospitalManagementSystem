@@ -3,6 +3,7 @@ using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
+using HospitalManagementSystem.Api.Tests.Controllers;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using Mongo2Go;
 using MongoDB.Bson;
@@ -525,6 +526,47 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var result = await _repository.GetDoctors(new DoctorsQueryModel { });
             result.doctors.Count().Should().Be(5);
             result.doctors.Any(x => x._id == doctorId).Should().BeFalse();
+        }
+
+        #endregion
+
+        #region Put Doctor
+
+        [Fact]
+        public async Task WhenPutDoctorRate_DoctorExists_ThenDoctorAmendedExpectedResult()
+        {
+            DoctorReadModel upsertedDoctor = new DoctorReadModel
+            {
+                _id = doctorId1.ToString(),
+                Name = "Dr Test A",
+                Specialism = DoctorSpecialism.Orthopaedics.ToString(),
+                Status = DoctorStatus.ActivePermanent.ToString(),
+                HourlyChargingRate = 900,
+            };
+
+            await _repository.UpsertDoctor(upsertedDoctor);
+
+            var result = await _repository.GetDoctorById(upsertedDoctor._id);
+            result.HourlyChargingRate.Should().Be(900);
+        }
+
+        [Fact]
+        public async Task WhenPutDoctorStatusName_DoctorExists_ThenDoctorAmendedExpectedResult()
+        {
+            DoctorReadModel upsertedDoctor = new DoctorReadModel
+            {
+                _id = doctorId1.ToString(),
+                Name = "Dr Test Z",
+                Specialism = DoctorSpecialism.Orthopaedics.ToString(),
+                Status = DoctorStatus.Inactive.ToString(),
+                HourlyChargingRate = 900,
+            };
+
+            await _repository.UpsertDoctor(upsertedDoctor);
+
+            var result = await _repository.GetDoctorById(upsertedDoctor._id);
+            result.Name.Should().Be("Dr Test Z");
+            result.Status.Should().Be(DoctorStatus.Inactive.ToString());
         }
 
         #endregion
