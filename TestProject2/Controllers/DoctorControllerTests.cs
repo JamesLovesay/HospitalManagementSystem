@@ -725,7 +725,6 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var result = await response.Content.ReadAsStringAsync();
         }
 
-
         #endregion
     }
 }
