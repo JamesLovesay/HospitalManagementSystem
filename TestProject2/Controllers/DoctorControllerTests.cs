@@ -595,5 +595,136 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         }
 
         #endregion
+
+        #region Put Doctor
+
+
+        [Fact]
+        public async Task WhenPutDoctor_InvalidName_ThenBadRequestExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                DoctorId = id,
+            };
+            var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task WhenPutDoctor_InvalidRate_ThenBadRequestExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "test name",
+                HourlyChargingRate = -800,
+                Status = "Inactive",
+                DoctorId = id,
+            };
+            var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Rate must be greater than 0");
+        }
+
+        [Fact]
+        public async Task WhenPutDoctor_InvalidStatus_ThenBadRequestExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "test name",
+                HourlyChargingRate = 800,
+                Status = "Invalid",
+                DoctorId = id,
+            };
+            var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Status value(s) supplied were invalid: Invalid");
+        }
+
+        [Fact]
+        public async Task WhenPutDoctor_InvalidId_ThenBadRequestExpectedResult()
+        {
+            string id = "not an id";
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "test name",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                DoctorId = id,
+            };
+
+            var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Please enter a valid DoctorId");
+        }
+
+        [Fact]
+        public async Task WhenPutDoctor_ValidButNonExistentId_ThenNotFoundExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "test name",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                DoctorId = id,
+            };
+
+            var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Doctor not found for Id {id}");
+        }
+
+        [Fact]
+        public async Task WhenPutDoctor_Valid_ThenOkExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "test name",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                DoctorId = id,
+            };
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DoctorUpdateCommand>(y => y.DoctorId == id), It.IsAny<CancellationToken>()))
+                 .ReturnsAsync(true);
+
+            var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await response.Content.ReadAsStringAsync();
+        }
+
+        #endregion
     }
 }
