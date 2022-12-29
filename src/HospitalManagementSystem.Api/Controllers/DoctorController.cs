@@ -60,7 +60,7 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDoctorById([FromRoute] DoctorRecordQuery query)
         {
-            if (query.DoctorId?.Length != 24) return BadRequest("DoctorId is invalid. Please enter a valid object Id of length 24 characters.");
+            if (!ObjectId.TryParse(query.DoctorId, out ObjectId id)) return BadRequest("DoctorId is invalid. Please enter a valid object Id of length 24 characters.");
 
             try
             {
@@ -118,7 +118,7 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RemoveDoctorAsync([FromRoute] string doctorId)
         {
-            if (doctorId.Length != 24) return BadRequest("Doctor Id is invalid");
+            if (!ObjectId.TryParse(doctorId, out ObjectId id)) return BadRequest("Doctor Id is invalid");
 
             var cmd = new DoctorDeleteCommand
             {
@@ -141,21 +141,22 @@ namespace HospitalManagementSystem.Api.Controllers
         }
 
 
-        [HttpPut("{doctorId}/rate")]
+        [HttpPut("{doctorId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutDoctorRate([FromBody] DoctorUpdateCommand cmd, [FromRoute] string doctorId)
         {
-            if (doctorId.Length != 24)
-                return new NotFoundObjectResult(CommandResponse.From(doctorId, $"Invalid Doctor Id {doctorId}"));
+            if(!ObjectId.TryParse(doctorId, out ObjectId id))
+                return BadRequest("Please enter a valid DoctorId");
+
+            if(doctorId != cmd.DoctorId) return BadRequest("Invalid id provided.");
 
             var validator = new UpdateDoctorCommandValidator();
             var result = validator.Validate(cmd);
 
             if (!result.IsValid) return BadRequest(result.Errors);
-
 
             try
             {
@@ -163,7 +164,7 @@ namespace HospitalManagementSystem.Api.Controllers
                 {
                     return Ok($"Update command for doctor issued successfully. DoctorId={doctorId}");
                 }
-                return NotFound($"Doctor not found. DoctorId={doctorId}");
+                return new NotFoundObjectResult(CommandResponse.From(cmd.DoctorId, $"Doctor not found for Id {cmd.DoctorId}"));
             }
             catch (Exception ex)
             {
