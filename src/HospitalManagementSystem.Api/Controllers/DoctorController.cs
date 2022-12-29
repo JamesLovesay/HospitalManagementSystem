@@ -139,5 +139,37 @@ namespace HospitalManagementSystem.Api.Controllers
                 return StatusCode(500);
             }
         }
+
+
+        [HttpPut("{doctorId}/rate")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutDoctorRate([FromBody] DoctorUpdateCommand cmd, [FromRoute] string doctorId)
+        {
+            if (doctorId.Length != 24)
+                return new NotFoundObjectResult(CommandResponse.From(doctorId, $"Invalid Doctor Id {doctorId}"));
+
+            var validator = new UpdateDoctorCommandValidator();
+            var result = validator.Validate(cmd);
+
+            if (!result.IsValid) return BadRequest(result.Errors);
+
+
+            try
+            {
+                if (await _mediator.Send(cmd))
+                {
+                    return Ok($"Update command for doctor issued successfully. DoctorId={doctorId}");
+                }
+                return NotFound($"Doctor not found. DoctorId={doctorId}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception updating doctor. DoctorId={doctorId}", doctorId);
+                return StatusCode(500);
+            }
+        }
     }
 }
