@@ -8,21 +8,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{81ED3324-B176-4343-A6C1-15758864A933}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Api", "src\HospitalManagementSystem.Api\HospitalManagementSystem.Api.csproj", "{1A60D76F-D711-426A-960F-191B2733B75D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2} = {680BF4C0-3548-4EB1-9449-0D8FC54723F2}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BF12752-A0CA-4C52-A215-CE7945AAB965}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Infra.MongoDBStructure", "HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj", "{680BF4C0-3548-4EB1-9449-0D8FC54723F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Infra.MongoDBStructure", "src\HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj", "{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Api.Tests", "TestProject2\HospitalManagementSystem.Api.Tests.csproj", "{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Api.Tests", "Tests\HospitalManagementSystem.Api.Tests\HospitalManagementSystem.Api.Tests.csproj", "{96E43310-9C16-4ED2-AB4A-84435B23930C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A60D76F-D711-426A-960F-191B2733B75D} = {1A60D76F-D711-426A-960F-191B2733B75D}
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2} = {680BF4C0-3548-4EB1-9449-0D8FC54723F2}
+		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0} = {24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}
 	EndProjectSection
 EndProject
 Global
@@ -35,22 +32,22 @@ Global
 		{1A60D76F-D711-426A-960F-191B2733B75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A60D76F-D711-426A-960F-191B2733B75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A60D76F-D711-426A-960F-191B2733B75D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1A60D76F-D711-426A-960F-191B2733B75D} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
-		{680BF4C0-3548-4EB1-9449-0D8FC54723F2} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
-		{F585DF32-8CBE-432F-8B9F-8C7A6758F0D5} = {81ED3324-B176-4343-A6C1-15758864A933}
+		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
+		{96E43310-9C16-4ED2-AB4A-84435B23930C} = {81ED3324-B176-4343-A6C1-15758864A933}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C19BCDDF-B4F2-420B-855D-189C05048831}

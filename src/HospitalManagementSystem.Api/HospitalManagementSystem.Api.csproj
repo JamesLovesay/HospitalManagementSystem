@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj" />
+    <ProjectReference Include="..\HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj" />
   </ItemGroup>
 
 </Project>

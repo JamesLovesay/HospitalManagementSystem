@@ -4,7 +4,6 @@ using HospitalManagementSystem.Api.Handlers;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using Moq;
 
 namespace HospitalManagementSystem.Api.Tests.Queries

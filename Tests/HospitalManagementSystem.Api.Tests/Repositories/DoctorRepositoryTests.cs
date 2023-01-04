@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
 using HospitalManagementSystem.Api.Models;
-using HospitalManagementSystem.Api.Queries;
-using HospitalManagementSystem.Api.Repositories;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
-using HospitalManagementSystem.Api.Tests.Controllers;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
+using HospitalManagementSystem.Api.Repositories;
 using Mongo2Go;
 using MongoDB.Bson;
 using MongoDB.Driver;
