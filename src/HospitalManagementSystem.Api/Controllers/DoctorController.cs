@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HospitalManagementSystem.Api.Queries;
 using MediatR;
-using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Validators;
-using Serilog;
 using MongoDB.Bson;
-using System.Diagnostics.Eventing.Reader;
 using HospitalManagementSystem.Api.Commands;
-using HospitalManagementSystem.Api.Models;
-using MongoDB.Driver.Core.WireProtocol.Messages.Encoders;
 
 namespace HospitalManagementSystem.Api.Controllers
 {
