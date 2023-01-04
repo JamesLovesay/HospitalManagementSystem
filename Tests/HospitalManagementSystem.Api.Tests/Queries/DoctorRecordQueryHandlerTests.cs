@@ -2,14 +2,8 @@
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
-using HospitalManagementSystem.Api.Tests.Test_Helpers;
 using MongoDB.Bson;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HospitalManagementSystem.Api.Tests.Queries
 {

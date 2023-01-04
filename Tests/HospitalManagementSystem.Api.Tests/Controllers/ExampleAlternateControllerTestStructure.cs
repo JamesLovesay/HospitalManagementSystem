@@ -1,18 +1,4 @@
-﻿using HospitalManagementSystem.Api.Queries;
-using HospitalManagementSystem.Api.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using MongoDB.Bson;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-
-namespace HospitalManagementSystem.Api.Tests.Controllers
+﻿namespace HospitalManagementSystem.Api.Tests.Controllers
 {
     public class ExampleAlternateControllerTestStructure
     {
