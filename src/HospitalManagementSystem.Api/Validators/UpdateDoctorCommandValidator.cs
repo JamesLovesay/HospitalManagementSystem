@@ -15,13 +15,6 @@ namespace HospitalManagementSystem.Api.Validators
                 .WithMessage(x => GetInvalidStatusErrorMessage(x.Status));
             });
 
-            When(x => x.Name != null, () =>
-            {
-                RuleFor(cmd => cmd)
-                .Must(x => x.Name.Length >= 0)
-                .WithMessage(x => "Name cannot be empty");
-            });
-
             RuleFor(cmd => cmd)
                 .Must(x => x.HourlyChargingRate >= 0)
                 .WithMessage(x => "Hourly charging Rate must be greater than 0");

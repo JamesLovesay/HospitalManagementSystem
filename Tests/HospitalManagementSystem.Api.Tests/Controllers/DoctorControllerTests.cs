@@ -425,6 +425,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"The Name field is required.");
         }
 
         [Fact]
@@ -440,6 +444,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Hourly charging Rate must be greater than 0");
         }
 
         [Fact]
@@ -455,6 +463,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Status value(s) supplied were invalid: Invalid");
         }
 
         [Fact]
@@ -470,6 +482,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Specialism value(s) supplied were invalid: Invalid");
         }
         #endregion
 
