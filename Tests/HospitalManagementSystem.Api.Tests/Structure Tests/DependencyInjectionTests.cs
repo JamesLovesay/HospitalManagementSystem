@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace HospitalManagementSystem.Api.Tests.Structure_Tests
             var logger = serviceProvider.GetService<ILogger>();
 
             // Assert
-            Assert.NotNull(logger);
+            logger.Should().NotBeNull();
         }
     }
 }
