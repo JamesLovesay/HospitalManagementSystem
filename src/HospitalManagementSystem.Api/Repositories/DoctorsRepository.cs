@@ -7,7 +7,6 @@ using HospitalManagementSystem.Infra.MongoDBStructure.Extensions;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.ReadModels;
-using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Repositories
 {
@@ -51,8 +50,8 @@ namespace HospitalManagementSystem.Api.Repositories
                 Sort = sort
             };
 
-            var countResult = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).CountDocumentsAsync(filter);
-            var result = await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter, options);
+            var countResult = await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).CountDocumentsAsync(filter);
+            var result = await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).FindAsync(filter, options);
 
             var resultDetail = new DoctorsQueryDetail
             {
@@ -73,19 +72,18 @@ namespace HospitalManagementSystem.Api.Repositories
 
         public async Task UpsertDoctor(DoctorReadModel cmd)
         {
-            var doctor = Doctor.From(cmd);
-            var filter = Builders<Doctor>.Filter.Eq(x => x.DoctorId, doctor.DoctorId);
-            var update = Builders<Doctor>.Update
-                .Set(x => x.DoctorId, doctor.DoctorId)
-                .Set(x => x.Name, doctor.Name)
-                .Set(x => x.Status, doctor.Status)
-                .Set(x => x.HourlyChargingRate, doctor.HourlyChargingRate)
-                .Set(x => x.Specialism, doctor.Specialism);
+            var filter = Builders<DoctorReadModel>.Filter.Eq(x => x._id, cmd._id);
+            var update = Builders<DoctorReadModel>.Update
+                .Set(x => x._id, cmd._id)
+                .Set(x => x.Name, cmd.Name)
+                .Set(x => x.Status, cmd.Status)
+                .Set(x => x.HourlyChargingRate, cmd.HourlyChargingRate)
+                .Set(x => x.Specialism, cmd.Specialism);
             var options = new UpdateOptions { IsUpsert = true };
 
             try
             {
-                await _db.GetCollection<Doctor>(typeof(Doctor).Name).UpdateOneAsync(filter, update, options);
+                await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).UpdateOneAsync(filter, update, options);
             }
             catch (Exception)
             {
@@ -98,7 +96,7 @@ namespace HospitalManagementSystem.Api.Repositories
             var filter = Builders<DoctorReadModel>.Filter.Eq(x => x._id, doctorId);
             try
             {
-                return (await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).FindAsync(filter)).FirstOrDefault();
+                return (await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).FindAsync(filter)).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -113,7 +111,7 @@ namespace HospitalManagementSystem.Api.Repositories
 
             try
             {
-                await _db.GetCollection<DoctorReadModel>(typeof(Doctor).Name).DeleteOneAsync(doctorIdFilter);
+                await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).DeleteOneAsync(doctorIdFilter);
             }
             catch (Exception)
             {

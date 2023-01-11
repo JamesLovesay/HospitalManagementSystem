@@ -17,12 +17,12 @@ namespace HospitalManagementSystem.Infra.MongoDBStructure
         {
             try
             {
-                //alternate connection code from MongoDB Atlas
-
                 var settings = MongoClientSettings.FromConnectionString("mongodb+srv://JamesLovesay:jQ70LRjw4SFnsFs3@hospitalmanagementsyste.oqbsjn2.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 _client = new MongoClient(settings);
                 _db = _client.GetDatabase("HospitalManagementSystem");
+
+                //alternate connection code from MongoDB Atlas
 
                 //var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(ComposeConnectionString(config)));
                 //BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));

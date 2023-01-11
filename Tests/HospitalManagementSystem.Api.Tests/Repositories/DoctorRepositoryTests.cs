@@ -8,8 +8,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Serilog;
-using System.Linq.Expressions;
-using Moq.Protected;
 
 namespace HospitalManagementSystem.Api.Tests.Repositories
 {
@@ -34,7 +32,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var database = client.GetDatabase("DoctorsRepositoryTests");
             mongoFactory.Setup(x => x.GetDatabase()).Returns(database);
 
-            _doctorCollection = database.GetCollection<DoctorReadModel>(nameof(Doctor));
+            _doctorCollection = database.GetCollection<DoctorReadModel>(nameof(DoctorReadModel));
             _doctorCollection.InsertMany(new List<DoctorReadModel> {
                 new DoctorReadModel
                 {
