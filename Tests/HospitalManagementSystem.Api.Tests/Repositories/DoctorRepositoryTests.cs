@@ -8,12 +8,14 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Serilog;
+using System.Linq.Expressions;
+using Moq.Protected;
 
 namespace HospitalManagementSystem.Api.Tests.Repositories
 {
     public class DoctorsRepositoryTests
     {
-        private readonly IMongoCollection<DoctorReadModel>? _doctorCollection;
+        private IMongoCollection<DoctorReadModel>? _doctorCollection;
         private readonly IDoctorsRepository _repository;
 
         private readonly ObjectId doctorId1 = new ObjectId("094354543459057938450398");
@@ -483,7 +485,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         public async Task WhenPostDoctor__ThenExpectedResult()
         {
             ObjectId id = ObjectId.GenerateNewId();
-            DoctorReadModel q = new DoctorReadModel
+            DoctorReadModel q = new()
             {
                 _id = id.ToString(),
                 Name = "test",
@@ -499,6 +501,32 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             response.Should().NotBeNull();
             response.doctors.Count().Should().Be(7);
             response.doctors[0].Should().BeEquivalentTo(q);
+        }
+
+        [Fact]
+        public async Task UpsertDoctor_ShouldThrowException_WhenInsertFails()
+        {
+            var cmd = new DoctorReadModel
+            {
+                _id = ObjectId.GenerateNewId().ToString(),
+                Name = "name",
+                Status = "ActivePermanent",
+                HourlyChargingRate = 200,
+                Specialism = "Urology"
+            };
+
+            var mockCollection = new Mock<IMongoCollection<DoctorReadModel>>();
+            var callbackInvoked = false;
+            mockCollection.Setup(x => x.UpdateOneAsync(It.IsAny<FilterDefinition<DoctorReadModel>>(),
+                            It.IsAny<UpdateDefinition<DoctorReadModel>>(), It.IsAny<UpdateOptions>(), It.IsAny<CancellationToken>()))
+                            .Callback(() => callbackInvoked = true)
+                            .Throws<Exception>();
+
+            _doctorCollection = mockCollection.Object;
+
+            await _repository.UpsertDoctor(cmd);
+
+            callbackInvoked.Should().BeTrue();
         }
 
         #endregion
