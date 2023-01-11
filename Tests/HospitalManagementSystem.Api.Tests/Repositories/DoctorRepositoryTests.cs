@@ -8,13 +8,14 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Serilog;
+using HospitalManagementSystem.Infra.MongoDBStructure;
 
 namespace HospitalManagementSystem.Api.Tests.Repositories
 {
     public class DoctorsRepositoryTests
     {
         private IMongoCollection<DoctorReadModel>? _doctorCollection;
-        private readonly IDoctorsRepository _repository;
+        private IDoctorsRepository _repository;
 
         private readonly ObjectId doctorId1 = new ObjectId("094354543459057938450398");
         private readonly ObjectId doctorId2 = new ObjectId("458094358094545845890988");
@@ -449,6 +450,23 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
 
         #region Get Doctor By Id
 
+        [Fact]
+        public async Task GetDoctorById_ThrowsException_ThenExpectedResult()
+        {
+            var mockCollection = new Mock<IMongoCollection<DoctorReadModel>>();
+            mockCollection.Setup(x => x.FindAsync(
+                    It.IsAny<FilterDefinition<DoctorReadModel>>(), 
+                    It.IsAny<FindOptions<DoctorReadModel, DoctorReadModel>>(), 
+                    It.IsAny<CancellationToken>())
+                    )
+                   .ThrowsAsync(new Exception("Mongo operation failed"));
+
+            _doctorCollection = mockCollection.Object;
+
+            var exception = await Assert.ThrowsAsync<Exception>(() => _repository.GetDoctorById(ObjectId.GenerateNewId().ToString()));
+            exception.Message.Should().Be("Mongo operation failed");
+        }
+
         [Fact] 
         public async Task WhenGetDoctorById_Found_ThenExpectedResult()
         {
@@ -530,6 +548,16 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         #endregion
 
         #region Delete Doctor
+
+        [Fact]
+        public async Task DeleteDoctor_ThrowsException_WhenIdNotFound()
+        {
+            var invalidId = new ObjectId().ToString();
+
+            var exception = await Assert.ThrowsAsync<Exception>(() => _repository.DeleteDoctor(invalidId));
+
+            exception.Should().NotBeNull();
+        }
 
         [Fact]
         public async Task WhenDeleteDoctorById_DoctorDoesNotExist_ThenExpectedResult()
