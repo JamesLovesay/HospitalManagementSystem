@@ -522,7 +522,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         [Fact]
         public async Task UpsertDoctor_ShouldThrowException_WhenInsertFails()
         {
-            var cmd = new DoctorReadModel
+            var doctor = new DoctorReadModel
             {
                 _id = ObjectId.GenerateNewId().ToString(),
                 Name = "name",
@@ -540,7 +540,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
 
             _doctorCollection = mockCollection.Object;
 
-            await _repository.UpsertDoctor(cmd);
+            await _repository.UpsertDoctor(doctor);
 
             callbackInvoked.Should().BeTrue();
         }
@@ -553,6 +553,15 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         public async Task DeleteDoctor_ThrowsException_WhenIdNotFound()
         {
             var invalidId = new ObjectId().ToString();
+
+            var mockCollection = new Mock<IMongoCollection<DoctorReadModel>>();
+            mockCollection.Setup(x => x.DeleteOneAsync(
+                    It.IsAny<FilterDefinition<DoctorReadModel>>(),
+                    It.IsAny<CancellationToken>())
+                    )
+                   .ThrowsAsync(new Exception("Mongo operation failed"));
+
+            _doctorCollection = mockCollection.Object;
 
             var exception = await Assert.ThrowsAsync<Exception>(() => _repository.DeleteDoctor(invalidId));
 
