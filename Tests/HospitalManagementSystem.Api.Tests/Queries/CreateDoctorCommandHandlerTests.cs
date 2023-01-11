@@ -41,42 +41,42 @@ namespace HospitalManagementSystem.Api.Tests.Queries
             result.GetType().Should().Be(typeof(ObjectId));
         }
 
-        //[Fact]
-        //public async Task WhenDoctorExists_ThrowErrorExpectedResult()
-        //{
-        //    ObjectId id = ObjectId.GenerateNewId();
-        //    var doctor = new DoctorReadModel
-        //    {
-        //        _id = id.ToString(),
-        //        Name = "test",
-        //        HourlyChargingRate = 800,
-        //        Specialism = DoctorSpecialism.Orthopaedics.ToString(),
-        //        Status = DoctorStatus.Inactive.ToString()
-        //    };
+        [Fact]
+        public async Task WhenDoctorExists_ThrowErrorExpectedResult()
+        {
+            ObjectId id = ObjectId.GenerateNewId();
+            var doctor = new DoctorReadModel
+            {
+                _id = id.ToString(),
+                Name = "test",
+                HourlyChargingRate = 800,
+                Specialism = DoctorSpecialism.Orthopaedics.ToString(),
+                Status = DoctorStatus.Inactive.ToString()
+            };
 
-        //    _repository.Setup(x => x.GetDoctors(new DoctorsQueryModel { }))
-        //        .ReturnsAsync((new List<DoctorReadModel> { doctor }, new DoctorsQueryDetail { }));
+            _repository.Setup(x => x.GetDoctors(It.IsAny<DoctorsQueryModel>()))
+                .ReturnsAsync((new List<DoctorReadModel> { doctor }, new DoctorsQueryDetail { }));
 
-        //    await Assert.ThrowsAsync<DoctorExistsException>(() => _handler.Handle(new CreateDoctorCommand { Name = "test", HourlyChargingRate = 800, Specialism = "Orthopaedics", Status = "Inactive" }, CancellationToken.None));
-        //}
+            await Assert.ThrowsAsync<DoctorExistsException>(() => _handler.Handle(new CreateDoctorCommand { Name = "test", HourlyChargingRate = 800, Specialism = "Orthopaedics", Status = "Inactive" }, CancellationToken.None));
+        }
 
-        //[Fact]
-        //public async Task CreateDoctorCommandHandler_ThrowsException_OnError()
-        //{
-        //    _repository
-        //        .Setup(x => x.GetDoctors(new DoctorsQueryModel { }))
-        //        .Throws(new Exception());
+        [Fact]
+        public async Task CreateDoctorCommandHandler_ThrowsException_OnError()
+        {
+            _repository
+                .Setup(x => x.GetDoctors(It.IsAny<DoctorsQueryModel>()))
+                .Throws(new Exception());
 
-        //    var command = new CreateDoctorCommand { Name = "name" };
-        //    ObjectId? result = null;
+            var command = new CreateDoctorCommand { Name = "name" };
+            ObjectId? result = null;
 
-        //    try
-        //    {
-        //        result = await _handler.Handle(command, CancellationToken.None);
-        //    }
-        //    catch (Exception e) { }
+            try
+            {
+                result = await _handler.Handle(command, CancellationToken.None);
+            }
+            catch (Exception e) { }
 
-        //    result.Should().BeNull();
-        //}
+            result.Should().BeNull();
+        }
     }
 }
