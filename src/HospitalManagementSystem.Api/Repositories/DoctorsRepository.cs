@@ -18,15 +18,6 @@ namespace HospitalManagementSystem.Api.Repositories
         {
         }
 
-        public async Task PublishAsync<T>(Guid modelId, Action<T> action) where T : BaseReadModel, new()
-        {
-            var model = await GetModelAsync<T>(modelId);
-
-            action.Invoke(model);
-
-            await SaveModelAsync(model);
-        }
-
         public async Task<(List<DoctorReadModel> doctors, DoctorsQueryDetail detail)> GetDoctors(DoctorsQueryModel query)
         {
             var page = (query.Page ?? 1) < 1 ? 1 : query.Page ?? 1;
@@ -81,42 +72,33 @@ namespace HospitalManagementSystem.Api.Repositories
                 .Set(x => x.Specialism, cmd.Specialism);
             var options = new UpdateOptions { IsUpsert = true };
 
-            try
-            {
-                await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).UpdateOneAsync(filter, update, options);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).UpdateOneAsync(filter, update, options);
         }
 
         public async Task<DoctorReadModel> GetDoctorById(string doctorId)
         {
             var filter = Builders<DoctorReadModel>.Filter.Eq(x => x._id, doctorId);
-            try
-            {
-                return (await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).FindAsync(filter)).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Error on getting data from MongoDB. Exception={ex} Id={doctorId}");
-                throw;
-            }
+
+            return (await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).FindAsync(filter)).FirstOrDefault();
         }
 
         public async Task DeleteDoctor(string doctorId)
         {
             var doctorIdFilter = Builders<DoctorReadModel>.Filter.Eq(x => x._id, doctorId);
 
-            try
-            {
-                await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).DeleteOneAsync(doctorIdFilter);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _db.GetCollection<DoctorReadModel>(typeof(DoctorReadModel).Name).DeleteOneAsync(doctorIdFilter);
         }
+
+        // unused method
+
+        //public async Task PublishAsync<T>(Guid modelId, Action<T> action) where T : BaseReadModel, new()
+        //{
+        //    var model = await GetModelAsync<T>(modelId);
+
+        //    action.Invoke(model);
+
+        //    await SaveModelAsync(model);
+        //}
+
     }
 }

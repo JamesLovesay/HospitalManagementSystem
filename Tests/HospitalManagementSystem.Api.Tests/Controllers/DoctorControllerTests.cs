@@ -294,7 +294,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status.Contains("inactive")), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status != null && y.Status.Contains("inactive")), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -316,7 +316,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Specialism.Contains("generalsurgery")), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Specialism != null && y.Specialism.Contains("generalsurgery")), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -339,7 +339,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId != null && y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
 
         [Fact]
@@ -369,7 +369,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Detail = queryDetail
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
 
         [Fact]

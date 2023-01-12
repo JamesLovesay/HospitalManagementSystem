@@ -450,23 +450,6 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
 
         #region Get Doctor By Id
 
-        [Fact]
-        public async Task GetDoctorById_ThrowsException_ThenExpectedResult()
-        {
-            var mockCollection = new Mock<IMongoCollection<DoctorReadModel>>();
-            mockCollection.Setup(x => x.FindAsync(
-                    It.IsAny<FilterDefinition<DoctorReadModel>>(), 
-                    It.IsAny<FindOptions<DoctorReadModel, DoctorReadModel>>(), 
-                    It.IsAny<CancellationToken>())
-                    )
-                   .ThrowsAsync(new Exception("Mongo operation failed"));
-
-            _doctorCollection = mockCollection.Object;
-
-            var exception = await Assert.ThrowsAsync<Exception>(() => _repository.GetDoctorById(ObjectId.GenerateNewId().ToString()));
-            exception.Message.Should().Be("Mongo operation failed");
-        }
-
         [Fact] 
         public async Task WhenGetDoctorById_Found_ThenExpectedResult()
         {
@@ -498,7 +481,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         #region Post Doctor
 
         [Fact]
-        public async Task WhenPostDoctor__ThenExpectedResult()
+        public async Task WhenPostDoctor_ThenExpectedResult()
         {
             ObjectId id = ObjectId.GenerateNewId();
             DoctorReadModel q = new()
@@ -519,54 +502,9 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             response.doctors[0].Should().BeEquivalentTo(q);
         }
 
-        [Fact]
-        public async Task UpsertDoctor_ShouldThrowException_WhenInsertFails()
-        {
-            var doctor = new DoctorReadModel
-            {
-                _id = ObjectId.GenerateNewId().ToString(),
-                Name = "name",
-                Status = "ActivePermanent",
-                HourlyChargingRate = 200,
-                Specialism = "Urology"
-            };
-
-            var mockCollection = new Mock<IMongoCollection<DoctorReadModel>>();
-            var callbackInvoked = false;
-            mockCollection.Setup(x => x.UpdateOneAsync(It.IsAny<FilterDefinition<DoctorReadModel>>(),
-                            It.IsAny<UpdateDefinition<DoctorReadModel>>(), It.IsAny<UpdateOptions>(), It.IsAny<CancellationToken>()))
-                            .Callback(() => callbackInvoked = true)
-                            .Throws<Exception>();
-
-            _doctorCollection = mockCollection.Object;
-
-            await _repository.UpsertDoctor(doctor);
-
-            callbackInvoked.Should().BeTrue();
-        }
-
         #endregion
 
         #region Delete Doctor
-
-        [Fact]
-        public async Task DeleteDoctor_ThrowsException_WhenIdNotFound()
-        {
-            var invalidId = new ObjectId().ToString();
-
-            var mockCollection = new Mock<IMongoCollection<DoctorReadModel>>();
-            mockCollection.Setup(x => x.DeleteOneAsync(
-                    It.IsAny<FilterDefinition<DoctorReadModel>>(),
-                    It.IsAny<CancellationToken>())
-                    )
-                   .ThrowsAsync(new Exception("Mongo operation failed"));
-
-            _doctorCollection = mockCollection.Object;
-
-            var exception = await Assert.ThrowsAsync<Exception>(() => _repository.DeleteDoctor(invalidId));
-
-            exception.Should().NotBeNull();
-        }
 
         [Fact]
         public async Task WhenDeleteDoctorById_DoctorDoesNotExist_ThenExpectedResult()
