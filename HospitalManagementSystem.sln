@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BF12752-A0CA-4C52-A215-CE7945AAB965}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.runsettings = .runsettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Infra.MongoDBStructure", "src\HospitalManagementSystem.Infra.MongoDBStructure\HospitalManagementSystem.Infra.MongoDBStructure.csproj", "{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}"
@@ -21,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Ap
 		{1A60D76F-D711-426A-960F-191B2733B75D} = {1A60D76F-D711-426A-960F-191B2733B75D}
 		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0} = {24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalManagementSystem.Infra.MongoDBStructure.Tests", "Tests\HospitalManagementSystem.Infra.MongoDBStructure.Tests\HospitalManagementSystem.Infra.MongoDBStructure.Tests.csproj", "{92EE44A7-6999-40B1-A9A2-E18918DE87E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +43,10 @@ Global
 		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96E43310-9C16-4ED2-AB4A-84435B23930C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92EE44A7-6999-40B1-A9A2-E18918DE87E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92EE44A7-6999-40B1-A9A2-E18918DE87E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92EE44A7-6999-40B1-A9A2-E18918DE87E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92EE44A7-6999-40B1-A9A2-E18918DE87E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +55,7 @@ Global
 		{1A60D76F-D711-426A-960F-191B2733B75D} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
 		{24EB3203-AE5D-4BCE-B1E6-2926F3EC0AE0} = {813DF35D-FBA6-4017-A357-10FCBCAA88C8}
 		{96E43310-9C16-4ED2-AB4A-84435B23930C} = {81ED3324-B176-4343-A6C1-15758864A933}
+		{92EE44A7-6999-40B1-A9A2-E18918DE87E0} = {81ED3324-B176-4343-A6C1-15758864A933}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C19BCDDF-B4F2-420B-855D-189C05048831}

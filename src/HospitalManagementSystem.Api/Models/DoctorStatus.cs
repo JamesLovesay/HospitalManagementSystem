@@ -2,7 +2,7 @@
 {
     public enum DoctorStatus
     {
-        // Must be kept in laphabetical order to protect sort function in repository
+        // Must be kept in alphabetical order to protect sort function in repository
         ActivePermanent,
         ActiveVisiting,
         Inactive

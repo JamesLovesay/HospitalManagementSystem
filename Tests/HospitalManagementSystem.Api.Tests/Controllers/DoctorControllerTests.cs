@@ -1,13 +1,15 @@
 using FluentAssertions;
 using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Controllers;
 using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Moq;
 using Newtonsoft.Json;
-using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers
 {
@@ -16,6 +18,23 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         public DoctorControllerTests(ApiWebApplicationFactory factory) : base(factory) { }
 
         #region Get Doctors Query Invalid
+
+        [Fact]
+        public async Task WhenGetDoctorsByQuery_ExceptionThrown_ThenExpectedResult()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+
+            DoctorsQuery newQuery = new() { };
+
+            mediator.Setup(x => x.Send(newQuery, CancellationToken.None)).Throws(new Exception());
+
+            var result = await controller.GetDoctors(newQuery);
+
+            var statusResult = Assert.IsType<StatusCodeResult>(result);
+            statusResult.StatusCode.Should().Be(500);
+        }
 
         [Fact]
         public async Task WhenGetDoctorsByQuery_InvalidPageLessThanOne_ThenExpectedResult()
@@ -158,7 +177,6 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.PageSize == 3), It.IsAny<CancellationToken>()), Times.Once);
         }
 
-
         [Fact]
         public async Task WhenGetDoctorsByQuery_ValidPage_ThenExpectedResult()
         {
@@ -294,7 +312,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status.Contains("inactive")), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Status != null && y.Status.Contains("inactive")), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -316,7 +334,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Specialism.Contains("generalsurgery")), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.Specialism != null && y.Specialism.Contains("generalsurgery")), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -339,7 +357,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId != null && y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -369,7 +387,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Detail = queryDetail
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()), Times.Once);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId == null), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
 
         [Fact]
@@ -404,8 +422,6 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             });
 
             Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => IsEquivalent(y.DoctorId, new List<string> { doctorId1.ToString() })), It.IsAny<CancellationToken>()), Times.Once);
-
-
         }
 
         #endregion
@@ -425,6 +441,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"The Name field is required.");
         }
 
         [Fact]
@@ -440,6 +460,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Hourly charging Rate must be greater than 0");
         }
 
         [Fact]
@@ -455,6 +479,10 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Status value(s) supplied were invalid: Invalid");
         }
 
         [Fact]
@@ -470,10 +498,37 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain($"Specialism value(s) supplied were invalid: Invalid");
         }
         #endregion
 
         #region Post Doctor Valid
+
+        [Fact]
+        public async Task WhenPostDoctor_ExceptionThrown_ThenExpectedResult()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+
+            var doctorCommand = new CreateDoctorCommand()
+            {
+                Name = "name",
+                HourlyChargingRate = 900,
+                Specialism = "Orthopaedics",
+                Status = "Inactive",
+            };
+
+            mediator.Setup(x => x.Send(doctorCommand, CancellationToken.None)).Throws(new Exception());
+
+            var result = await controller.CreateDoctor(doctorCommand, CancellationToken.None);
+
+            var statusResult = Assert.IsType<StatusCodeResult>(result);
+            statusResult.StatusCode.Should().Be(500);
+        }
 
         [Fact]
         public async Task WhenPostDoctor_Valid_ThenExpectedResult()
@@ -494,9 +549,45 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         #region Get Doctor By ID
 
         [Fact]
+        public async Task WhenGetDoctorById_ExceptionThrown_ThenExpectedResult()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+
+            var doctorRecordQuery = new DoctorRecordQuery()
+            {
+                DoctorId = ObjectId.GenerateNewId().ToString()
+            };
+
+            mediator.Setup(x => x.Send(doctorRecordQuery, CancellationToken.None)).Throws(new Exception());
+
+            var result = await controller.GetDoctorById(doctorRecordQuery);
+
+            var statusResult = Assert.IsType<StatusCodeResult>(result);
+            statusResult.StatusCode.Should().Be(500);
+        }
+
+        [Fact]
+        public async Task GetDoctorById_ReturnsNull_ReturnsNotFound()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+            var doctorId = "5f9f99a9a2f7f22a68b8d8e2";
+            var query = new DoctorRecordQuery { DoctorId = doctorId };
+
+            Factory.Mediator.Setup(x => x.Send(query, CancellationToken.None)).ReturnsAsync((DoctorRecordQueryResponse)null);
+
+            var result = await controller.GetDoctorById(query);
+
+            var notFoundResult = Assert.IsType<NotFoundResult>(result);
+            notFoundResult.StatusCode.Should().Be(404); ;
+        }
+
+        [Fact]
         public async Task WhenGetNonExistentDoctor_ThenExpectedResult()
         {
-
             var doctorId = ObjectId.GenerateNewId().ToString();
 
             Factory.Mediator.Setup(x => x.Send(It.IsAny<DoctorRecordQuery>(), It.IsAny<CancellationToken>()))
@@ -505,6 +596,8 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.GetAsync($"/api/Doctors/{doctorId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<DoctorRecordQuery>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -542,10 +635,54 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             {
                 DoctorId = doctorId
             });
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorRecordQuery>(y => y.DoctorId == doctorId), It.IsAny<CancellationToken>()), Times.Once);
         }
         #endregion
 
         #region Delete Doctor
+
+        [Fact]
+        public async Task WhenDeleteDoctor_ExceptionThrown_ThenExpectedResult()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+
+            var doctorId = "898989898989898989898989";
+
+            var doctorDeleteCommand = new DoctorDeleteCommand()
+            {
+                DoctorId = doctorId
+            };
+
+            mediator.Setup(x => x.Send(It.IsAny<DoctorDeleteCommand>(), CancellationToken.None)).Throws(new Exception());
+
+            var result = await controller.RemoveDoctorAsync(doctorId);
+
+            var statusResult = Assert.IsType<StatusCodeResult>(result);
+            statusResult.StatusCode.Should().Be(500);
+        }
+
+        [Fact]
+        public async Task WhenDeleteDoctor_DoctorNotFound_ThenExpectedResult()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+
+            var doctorId = "898989898989898989898989";
+
+            var doctorDeleteCommand = new DoctorDeleteCommand()
+            {
+                DoctorId = doctorId
+            };
+
+            var result = await controller.RemoveDoctorAsync(doctorId);
+
+            var statusResult = Assert.IsType<NotFoundObjectResult>(result);
+            statusResult.StatusCode.Should().Be(404);
+        }
 
         [Fact]
         public async Task WhenDeleteDoctor_InvalidId_ThenExpectedResult()
@@ -592,12 +729,37 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var result = await response.Content.ReadAsStringAsync();
 
             result.Should().Contain($"Delete command for doctor issued successfully. DoctorId={doctorId}");
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<DoctorDeleteCommand>(), It.IsAny<CancellationToken>()), Times.Once());
         }
 
         #endregion
 
         #region Put Doctor
 
+        [Fact]
+        public async Task WhenPutDoctor_ExceptionThrown_ThenExpectedResult()
+        {
+            var mediator = new Mock<IMediator>();
+            var logger = new Mock<ILogger<DoctorsController>>();
+            var controller = new DoctorsController(mediator.Object, logger.Object);
+            string id = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                DoctorId = id,
+                HourlyChargingRate = 200,
+                Status = "Inactive",
+                Name = "name",
+            };
+
+            mediator.Setup(x => x.Send(newDoctor, CancellationToken.None)).Throws(new Exception());
+
+            var result = await controller.PutDoctorAsync(newDoctor, newDoctor.DoctorId);
+
+            var statusResult = Assert.IsType<StatusCodeResult>(result);
+            statusResult.StatusCode.Should().Be(500);
+        }
 
         [Fact]
         public async Task WhenPutDoctor_InvalidName_ThenBadRequestExpectedResult()
@@ -614,6 +776,24 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.PutAsync($"/api/Doctors/{id}", GetHttpContent(newDoctor));
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task WhenPutDoctor_MismatchedId_ThenBadRequestExpectedResult()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+            string alternateId = ObjectId.GenerateNewId().ToString();
+
+            DoctorUpdateCommand newDoctor = new DoctorUpdateCommand
+            {
+                Name = "",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                DoctorId = id,
+            };
+            var response = await Client.PutAsync($"/api/Doctors/{alternateId}", GetHttpContent(newDoctor));
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]

@@ -141,7 +141,7 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutDoctorRate([FromBody] DoctorUpdateCommand cmd, [FromRoute] string doctorId)
+        public async Task<IActionResult> PutDoctorAsync([FromBody] DoctorUpdateCommand cmd, [FromRoute] string doctorId)
         {
             if(!ObjectId.TryParse(doctorId, out ObjectId id))
                 return BadRequest("Please enter a valid DoctorId");

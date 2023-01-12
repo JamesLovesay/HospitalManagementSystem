@@ -76,24 +76,4 @@ public class Program
 
         app.Run();
     }
-
-    //public static void Configure(HostBuilderContext context, IServiceCollection services)
-    //{
-    //    // Add services to the container.
-    //    services.AddSingleton<MongoConfig>();
-    //    services.AddSingleton(typeof(Serilog.ILogger), _ => Log.Logger);
-    //    services.AddSingleton<IMongoFactory, MongoFactory>();
-    //    services.AddSingleton<IReadStore, ReadStore>();
-    //    services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
-    //    services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
-    //    services.AddScoped<IValidator<DoctorsQuery>, DoctorsQueryValidator>();
-    //    services.AddControllers();
-    //    services.AddTransient<IValidator<DoctorsQuery>, DoctorsQueryValidator>();
-    //    services.AddEndpointsApiExplorer();
-    //    services.AddSwaggerGen();
-    //}
-
-    //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-    //WebHost.CreateDefaultBuilder(args)
-    //    .UseStartup<Startup>();
 }

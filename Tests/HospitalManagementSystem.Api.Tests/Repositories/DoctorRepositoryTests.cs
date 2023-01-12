@@ -8,13 +8,14 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Serilog;
+using HospitalManagementSystem.Infra.MongoDBStructure;
 
 namespace HospitalManagementSystem.Api.Tests.Repositories
 {
     public class DoctorsRepositoryTests
     {
-        private readonly IMongoCollection<DoctorReadModel>? _doctorCollection;
-        private readonly IDoctorsRepository _repository;
+        private IMongoCollection<DoctorReadModel>? _doctorCollection;
+        private IDoctorsRepository _repository;
 
         private readonly ObjectId doctorId1 = new ObjectId("094354543459057938450398");
         private readonly ObjectId doctorId2 = new ObjectId("458094358094545845890988");
@@ -32,7 +33,7 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
             var database = client.GetDatabase("DoctorsRepositoryTests");
             mongoFactory.Setup(x => x.GetDatabase()).Returns(database);
 
-            _doctorCollection = database.GetCollection<DoctorReadModel>(nameof(Doctor));
+            _doctorCollection = database.GetCollection<DoctorReadModel>(nameof(DoctorReadModel));
             _doctorCollection.InsertMany(new List<DoctorReadModel> {
                 new DoctorReadModel
                 {
@@ -480,10 +481,10 @@ namespace HospitalManagementSystem.Api.Tests.Repositories
         #region Post Doctor
 
         [Fact]
-        public async Task WhenPostDoctor__ThenExpectedResult()
+        public async Task WhenPostDoctor_ThenExpectedResult()
         {
             ObjectId id = ObjectId.GenerateNewId();
-            DoctorReadModel q = new DoctorReadModel
+            DoctorReadModel q = new()
             {
                 _id = id.ToString(),
                 Name = "test",

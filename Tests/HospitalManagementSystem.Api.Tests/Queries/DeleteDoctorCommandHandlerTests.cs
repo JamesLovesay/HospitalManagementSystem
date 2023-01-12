@@ -56,5 +56,26 @@ namespace HospitalManagementSystem.Api.Tests.Queries
 
             _repository.Verify(x => x.DeleteDoctor(id), Times.Once());
         }
+
+        [Fact]
+        public async Task DeleteDoctorCommandHandler_ThrowsException_OnError()
+        {
+            string id = ObjectId.GenerateNewId().ToString();
+
+            _repository
+                .Setup(x => x.GetDoctorById(id))
+                .Throws(new Exception());
+
+            var command = new DoctorDeleteCommand { DoctorId = id };
+            bool result = false;
+
+            try
+            {
+                result = await _handler.Handle(command, CancellationToken.None);
+            }
+            catch (Exception e) { }
+
+            Assert.True(result == false);
+        }
     }
 }

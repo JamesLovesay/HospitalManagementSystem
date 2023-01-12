@@ -28,7 +28,7 @@ namespace HospitalManagementSystem.Api.Handlers
 
                 if (filtered.Count != 0)
                 {
-                    return null;
+                    throw new DoctorExistsException("Doctor with this name already exists.");
                 };
 
                 var doctorId = ObjectId.GenerateNewId();
