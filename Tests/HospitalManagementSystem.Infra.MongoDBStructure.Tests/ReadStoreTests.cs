@@ -31,6 +31,14 @@ namespace HospitalManagementSystem.Infra.MongoDBStructure.Tests
         }
 
         [Fact]
+        public void IsEnabledReturnsTrue()
+        {
+            var testModel = new TestReadModel() { };
+            var response = testModel.IsEnabled();
+            Assert.True(response);
+        }
+
+        [Fact]
         public async Task TestGetModelAsync()
         {
             var model = new TestReadModel { Id = Guid.NewGuid() };
