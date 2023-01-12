@@ -5,9 +5,7 @@ using HospitalManagementSystem.Api.Queries;
 using MongoDB.Bson;
 using Moq;
 using Newtonsoft.Json;
-using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers
 {
@@ -157,7 +155,6 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
 
             Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.PageSize == 3), It.IsAny<CancellationToken>()), Times.Once);
         }
-
 
         [Fact]
         public async Task WhenGetDoctorsByQuery_ValidPage_ThenExpectedResult()
@@ -339,7 +336,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
                 Doctors = new List<Doctor>(),
             });
 
-            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId != null && y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.AtLeastOnce);
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorId != null && y.DoctorId.Contains(doctorId)), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -404,8 +401,6 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             });
 
             Factory.Mediator.Verify(x => x.Send(It.Is<DoctorsQuery>(y => IsEquivalent(y.DoctorId, new List<string> { doctorId1.ToString() })), It.IsAny<CancellationToken>()), Times.Once);
-
-
         }
 
         #endregion
@@ -521,6 +516,8 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var response = await Client.GetAsync($"/api/Doctors/{doctorId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<DoctorRecordQuery>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -558,6 +555,8 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             {
                 DoctorId = doctorId
             });
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DoctorRecordQuery>(y => y.DoctorId == doctorId), It.IsAny<CancellationToken>()), Times.Once);
         }
         #endregion
 
@@ -608,6 +607,8 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             var result = await response.Content.ReadAsStringAsync();
 
             result.Should().Contain($"Delete command for doctor issued successfully. DoctorId={doctorId}");
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<DoctorDeleteCommand>(), It.IsAny<CancellationToken>()), Times.Once());
         }
 
         #endregion
