@@ -1,8 +1,5 @@
 ﻿using HospitalManagementSystem.Infra.MongoDBStructure.Config;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Serilog;
 
@@ -22,7 +19,7 @@ namespace HospitalManagementSystem.Infra.MongoDBStructure
                 _client = new MongoClient(settings);
                 _db = _client.GetDatabase("HospitalManagementSystem");
 
-                //alternate connection code from MongoDB Atlas
+                //alternate connection code to MongoDB
 
                 //var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(ComposeConnectionString(config)));
                 //BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
