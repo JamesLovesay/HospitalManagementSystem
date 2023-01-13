@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HospitalManagementSystem.Infra.MongoDBStructure.Interfaces
+﻿namespace HospitalManagementSystem.Infra.MongoDBStructure.Interfaces
 {
     public interface IReadModel
     {

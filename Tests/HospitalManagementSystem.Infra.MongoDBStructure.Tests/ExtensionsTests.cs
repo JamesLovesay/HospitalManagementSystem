@@ -180,7 +180,6 @@ namespace HospitalManagementSystem.Infra.MongoDBStructure.Tests
         private class TestDocument
         {
             public bool IsActive { get; set; }
-
             public string? Name { get; set; }
             public int Age { get; set; }
         }

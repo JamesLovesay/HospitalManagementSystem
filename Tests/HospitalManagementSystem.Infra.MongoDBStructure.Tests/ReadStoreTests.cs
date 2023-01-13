@@ -65,7 +65,7 @@ namespace HospitalManagementSystem.Infra.MongoDBStructure.Tests
             }
             else
             {
-                Assert.Equal(result, null);
+                Assert.Null(result);
             }
         }
 
