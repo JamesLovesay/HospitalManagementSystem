@@ -1,7 +1,5 @@
-﻿using HospitalManagementSystem.Api.Helpers;
-using HospitalManagementSystem.Api.Queries;
+﻿using HospitalManagementSystem.Api.Queries;
 using MediatR;
-using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Models
 {
