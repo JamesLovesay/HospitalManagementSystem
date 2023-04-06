@@ -58,7 +58,7 @@ namespace HospitalManagementSystem.Api.Validators.Patients
             {
                 RuleFor(cmd => cmd.DateOfBirth)
                     .Must(dateString => DateTime.TryParseExact(dateString, QueryHelper.DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-                    .WithMessage($"DateOfBirth must match the format {QueryHelper.DateTimeFormat}");
+                    .WithMessage($"AdmissionDate must match the format {QueryHelper.DateTimeFormat}");
 
             });
 

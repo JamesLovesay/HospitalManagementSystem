@@ -11,6 +11,10 @@ using Moq;
 using HospitalManagementSystem.Api.Helpers;
 using System.Net;
 using HospitalManagementSystem.Api.Models.Patients;
+using HospitalManagementSystem.Api.Commands;
+using MongoDB.Bson;
+using Newtonsoft.Json;
+using HospitalManagementSystem.Api.Queries;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers.Patients
 {
@@ -219,6 +223,98 @@ namespace HospitalManagementSystem.Api.Tests.Controllers.Patients
             var okResult = Assert.IsType<OkObjectResult>(result);
             var resultValue = Assert.IsType<PatientsQueryResponse>(okResult.Value);
             Assert.Equal(response, resultValue);
+        }
+
+        #endregion
+
+        #region Get Patient By Id
+
+        [Fact]
+        public async Task WhenGetPatientById_ValidRequest_ThenExpectedResult()
+        {
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            var expectedResponse = new PatientRecordQueryResponse
+            {
+                PatientId = patientId
+            };
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedResponse);
+
+            var response = await Client.GetAsync($"/api/Patients/{patientId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = JsonConvert.DeserializeObject<PatientRecordQueryResponse>(await response.Content.ReadAsStringAsync());
+
+            result.Should().BeEquivalentTo(new PatientRecordQueryResponse
+            {
+                PatientId = patientId
+            });
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenGetPatientById_InvalidObjectId_ThenBadRequest()
+        {
+            var patientId = "invalidObjectId";
+
+            var response = await Client.GetAsync($"/api/Patients/{patientId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            result.Should().Contain("PatientId is invalid. Please enter a valid object Id of length 24 characters.");
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<PatientRecordQuery>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task WhenGetPatientById_NullResponse_ThenNotFound()
+        {
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((PatientRecordQueryResponse)null);
+
+            var response = await Client.GetAsync($"/api/Patients/{patientId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenGetPatientById_NotFound_ThenNotFound()
+        {
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new PatientRecordQueryResponse(true));
+
+            var response = await Client.GetAsync($"/api/Patients/{patientId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenGetPatientById_ExceptionThrown_ThenInternalServerError()
+        {
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new Exception("Test Exception"));
+
+            var response = await Client.GetAsync($"/api/Patients/{patientId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<PatientRecordQuery>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         #endregion
