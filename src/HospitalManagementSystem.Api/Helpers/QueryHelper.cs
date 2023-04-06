@@ -47,6 +47,7 @@ namespace HospitalManagementSystem.Api.Helpers
             nameof(GenderValue.Female),
             nameof(GenderValue.NonBinary)
         };
+        public const string DateTimeFormat = "yyyy-MM-dd";
 
         public static (SortDefinition<DoctorReadModel> sortDefinition, string option, string direction) GetDoctorSortDetails(string sortBy, string sortDirection)
         {
