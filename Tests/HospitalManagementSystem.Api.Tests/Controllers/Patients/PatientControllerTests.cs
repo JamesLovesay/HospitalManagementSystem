@@ -1,20 +1,21 @@
 ﻿using FluentAssertions;
-using FluentValidation.Results;
-using FluentValidation;
+using HospitalManagementSystem.Api.Commands.Patients;
 using HospitalManagementSystem.Api.Controllers;
+using HospitalManagementSystem.Api.Helpers;
+using HospitalManagementSystem.Api.Models.Patients;
 using HospitalManagementSystem.Api.Queries.Patients;
+using HospitalManagementSystem.Api.Validators.Patients;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
-using HospitalManagementSystem.Api.Helpers;
-using System.Net;
-using HospitalManagementSystem.Api.Models.Patients;
-using HospitalManagementSystem.Api.Commands;
 using MongoDB.Bson;
+using Moq;
 using Newtonsoft.Json;
-using HospitalManagementSystem.Api.Queries;
+using System.Net;
+using System.Net.Http.Json;
+using Moq.Language.Flow;
+using FluentValidation;
+using MongoDB.Driver;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers.Patients
 {
@@ -41,7 +42,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers.Patients
         {
             // Arrange
             var query = new PatientsQuery { /* valid query parameters */ };
-            var response = new PatientsQueryResponse { Patients = new List<Api.Models.Patients.Patient>() };
+            var response = new PatientsQueryResponse { Patients = new List<Patient>() };
 
             var mediator = new Mock<IMediator>();
             mediator.Setup(x => x.Send(query, CancellationToken.None)).ReturnsAsync(response);
@@ -318,5 +319,336 @@ namespace HospitalManagementSystem.Api.Tests.Controllers.Patients
         }
 
         #endregion
+
+        #region Delete Patient
+
+        [Fact]
+        public async Task WhenDeletePatient_ValidPatientId_ReturnsNoContent()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DeletePatientCommand>(c => c.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
+
+            // Act
+            var response = await Client.DeleteAsync($"/api/Patients/{patientId}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DeletePatientCommand>(c => c.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenDeletePatient_InvalidPatientId_ReturnsBadRequest()
+        {
+            // Arrange
+            var invalidPatientId = "invalid-patient-id";
+
+            // Act
+            var response = await Client.DeleteAsync($"/api/Patients/{invalidPatientId}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task WhenDeletePatient_PatientNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DeletePatientCommand>(c => c.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
+
+            // Act
+            var response = await Client.DeleteAsync($"/api/Patients/{patientId}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DeletePatientCommand>(c => c.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenDeletePatient_ExceptionThrown_ReturnsInternalServerError()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DeletePatientCommand>(c => c.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            var response = await Client.DeleteAsync($"/api/Patients/{patientId}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DeletePatientCommand>(c => c.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task WhenDeletePatient_Unsuccessful_ThenNotFound()
+        {
+            var patientId = ObjectId.GenerateNewId().ToString();
+
+            Factory.Mediator.Setup(x => x.Send(It.Is<DeletePatientCommand>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
+
+            var response = await Client.DeleteAsync($"/api/Patients/{patientId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            Factory.Mediator.Verify(x => x.Send(It.Is<DeletePatientCommand>(y => y.PatientId == patientId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        #endregion
+
+        #region Post Patient
+
+        [Fact]
+        public async Task WhenCreatePatientWithValidCommand_ThenPatientCreatedSuccessfully()
+        {
+            try
+            {
+                // Arrange
+                var expectedPatientId = ObjectId.GenerateNewId();
+                var command = new CreatePatientCommand
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                    Gender = "Male",
+                    PhoneNumber = "5551234"
+                };
+
+                Factory.Mediator.Setup(x => x.Send(It.IsAny<CreatePatientCommand>(), It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(expectedPatientId);
+
+                // Act
+                var response = await Client.PostAsJsonAsync("/api/Patients", command);
+
+                // Assert
+                response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+                var content = await response.Content.ReadAsStringAsync();
+                content.Should().Contain("Patient created successfully");
+
+                Factory.Mediator.Verify(x => x.Send(
+                    It.IsAny<CreatePatientCommand>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
+            }
+            finally
+            {
+                Factory.Mediator.Invocations.Clear();
+            }
+        }
+
+        [Fact]
+        public async Task WhenCreatePatientWithInvalidCommand_ThenBadRequest()
+        {
+            // Arrange
+            var command = new CreatePatientCommand
+            {
+                FirstName = "",
+                LastName = "",
+                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                Gender = "",
+                PhoneNumber = ""
+            };
+
+            // Act
+            var response = await Client.PostAsJsonAsync("/api/Patients", command);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task WhenCreatePatientThrowsException_ThenInternalServerError()
+        {
+            try
+            {
+                // Arrange
+                var command = new CreatePatientCommand
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                    Gender = "Male",
+                    PhoneNumber = "07770551234"
+                };
+
+                Factory.Mediator.Setup(x => x.Send(It.IsAny<CreatePatientCommand>(), It.IsAny<CancellationToken>()))
+                    .ThrowsAsync(new Exception());
+
+                // Act
+                var response = await Client.PostAsJsonAsync("/api/Patients", command);
+
+                // Assert
+                response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+
+                Factory.Mediator.Verify(x => x.Send(It.IsAny<CreatePatientCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+            }
+            finally
+            {
+                Factory.Mediator.Invocations.Clear();
+            }
+        }
+
+        [Fact]
+        public async Task WhenCreatePatient_InvalidData_ThenBadRequest()
+        {
+            try
+            {
+                var invalidCmd = new CreatePatientCommand
+                {
+                    FirstName = "",
+                    LastName = "Doe",
+                    DateOfBirth = DateTime.UtcNow.AddYears(-200).ToString(),
+                    PhoneNumber = "1234567890"
+                };
+
+                var validator = new CreatePatientCommandValidator();
+                var result = validator.Validate(invalidCmd);
+
+                Factory.Mediator.Setup(x => x.Send(It.IsAny<CreatePatientCommand>(), It.IsAny<CancellationToken>()))
+                    .Throws(new ValidationException(result.Errors));
+
+                var response = await Client.PostAsJsonAsync("/api/Patients", invalidCmd);
+
+                response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+                var content = await response.Content.ReadAsStringAsync();
+                content.Should().Contain(result.Errors.First().ErrorMessage);
+
+                Factory.Mediator.Verify(x => x.Send(It.IsAny<CreatePatientCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+
+            }
+            finally
+            {
+                Factory.Mediator.Invocations.Clear();
+            }
+        }
+
+        #endregion
+
+        #region Put Patient
+
+        [Fact]
+        public async Task GivenValidPatientIdAndCommand_WhenUpdatePatient_ThenReturnOkResult()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+            var command = new UpdatePatientCommand
+            {
+                PatientId = patientId,
+                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                Gender = "Male",
+                PhoneNumber = "5551234"
+            };
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<UpdatePatientCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+
+            // Act
+            var response = await Client.PutAsJsonAsync($"/api/Patients/{patientId}", command);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await response.Content.ReadAsStringAsync();
+            content.Should().Contain($"Update command for patient issued successfully. PatientId={patientId}");
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<UpdatePatientCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenInvalidPatientId_WhenUpdatePatient_ThenReturnBadRequestResult()
+        {
+            // Arrange
+            var invalidPatientId = "invalid_id";
+            var command = new UpdatePatientCommand
+            {
+                PatientId = invalidPatientId,
+                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                Gender = "Male",
+                PhoneNumber = "5551234"
+            };
+
+            // Act
+            var response = await Client.PutAsJsonAsync($"/api/Patients/{invalidPatientId}", command);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task GivenMismatchedPatientIdInCommand_WhenUpdatePatient_ThenReturnBadRequestResult()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+            var command = new UpdatePatientCommand
+            {
+                PatientId = ObjectId.GenerateNewId().ToString(),
+                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                Gender = "Male",
+                PhoneNumber = "5551234"
+            };
+
+            // Act
+            var response = await Client.PutAsJsonAsync($"/api/Patients/{patientId}", command);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task GivenInvalidCommand_WhenUpdatePatient_ThenReturnBadRequestResult()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+            var command = new UpdatePatientCommand
+            {
+                PatientId = patientId,
+                DateOfBirth = "Invalid Date",
+                Gender = "Male",
+                PhoneNumber = "5551234"
+            };
+
+            // Act
+            var response = await Client.PutAsync($"/api/Patients/{patientId}", GetHttpContent(command));
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task GivenPatientNotFound_WhenUpdatePatient_ThenReturnNotFoundResult()
+        {
+            // Arrange
+            var patientId = ObjectId.GenerateNewId().ToString();
+            var command = new UpdatePatientCommand
+            {
+                PatientId = patientId,
+                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                Gender = "Male",
+                PhoneNumber = "5551234"
+            };
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<UpdatePatientCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
+
+            // Act
+            var response = await Client.PutAsync($"/api/Patients/{patientId}", GetHttpContent(command));
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            var content = await response.Content.ReadAsStringAsync();
+            content.Should().Contain($"Patient not found for Id {patientId}");
+
+            Factory.Mediator.Verify(x => x.Send(It.IsAny<UpdatePatientCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+
+            #endregion
+        }
     }
 }

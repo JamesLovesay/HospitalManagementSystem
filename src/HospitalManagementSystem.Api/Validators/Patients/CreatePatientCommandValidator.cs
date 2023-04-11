@@ -8,11 +8,11 @@ public class CreatePatientCommandValidator : AbstractValidator<CreatePatientComm
     public CreatePatientCommandValidator()
     {
         RuleFor(x => x.FirstName)
-            .NotEmpty().WithMessage("First Name is required.")
+            .NotEmpty().WithMessage("The FirstName field is required.")
             .MaximumLength(50).WithMessage("First Name must not exceed 50 characters.");
 
         RuleFor(x => x.LastName)
-            .NotEmpty().WithMessage("Last Name is required.")
+            .NotEmpty().WithMessage("The LastName field is required.")
             .MaximumLength(50).WithMessage("Last Name must not exceed 50 characters.");
 
         When(x => x.PhoneNumber != null, () =>

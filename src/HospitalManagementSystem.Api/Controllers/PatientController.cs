@@ -92,7 +92,7 @@ namespace HospitalManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreatePatient([FromBody] CreatePatientCommand cmd, CancellationToken ct)
+        public async Task<IActionResult> CreatePatient([FromBody] CreatePatientCommand cmd)
         {
             var validator = new CreatePatientCommandValidator();
             var result = validator.Validate(cmd);
@@ -103,7 +103,7 @@ namespace HospitalManagementSystem.Api.Controllers
             {
                 var patientId = await _mediator.Send(cmd);
 
-                return StatusCode(StatusCodes.Status201Created, $"Doctor created successfully. New ID = {patientId}");
+                return StatusCode(StatusCodes.Status201Created, $"Patient created successfully. New ID = {patientId}");
             }
             catch (Exception e)
             {
@@ -112,7 +112,7 @@ namespace HospitalManagementSystem.Api.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{patientId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CommandResponse))]
@@ -144,7 +144,7 @@ namespace HospitalManagementSystem.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{patientId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -157,7 +157,7 @@ namespace HospitalManagementSystem.Api.Controllers
             {
                 if (await _mediator.Send(new DeletePatientCommand(patientId)))
                 {
-                    return Ok($"Delete command for patient issued successfully. PatientId={patientId}");
+                    return NoContent();
                 };
                 return NotFound($"Patient not found. DoctorId={patientId}");
             }

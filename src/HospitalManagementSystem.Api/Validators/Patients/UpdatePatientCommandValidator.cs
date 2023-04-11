@@ -66,6 +66,11 @@ namespace HospitalManagementSystem.Api.Validators.Patients
         }
 
         private bool DateNotInFuture(string? dateString)
-            => DateTime.Parse(dateString) <= DateTime.Today;
+        {
+            DateTime date;
+            DateTime.TryParse(dateString, out date);
+            return  date <= DateTime.Today;
+        }
+
     }
 }
