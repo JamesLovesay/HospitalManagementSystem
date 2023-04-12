@@ -44,7 +44,7 @@ namespace HospitalManagementSystem.Api.Handlers.Patients
                     PatientStatus = request.Status,
                     Email = request.Email,
                     PhoneNumber = request.PhoneNumber,
-                    RoomId = (int)request.RoomId,
+                    RoomId = request.RoomId,
                 });
                 return patientId;
             }

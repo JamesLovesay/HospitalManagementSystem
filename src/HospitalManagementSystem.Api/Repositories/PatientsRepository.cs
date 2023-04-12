@@ -80,17 +80,45 @@ namespace HospitalManagementSystem.Api.Repositories
         public async Task UpsertPatient(PatientReadModel cmd)
         {
             var filter = Builders<PatientReadModel>.Filter.Eq(x => x._id, cmd._id);
-            var update = Builders<PatientReadModel>.Update
-                .Set(x => x._id, cmd._id)
-                .Set(x => x.Name, cmd.Name)
-                .Set(x => x.DateOfBirth, cmd.DateOfBirth)
-                .Set(x => x.Gender, cmd.Gender)
-                .Set(x => x.PhoneNumber, cmd.PhoneNumber)
-                .Set(x => x.Email, cmd.Email)
-                .Set(x => x.AdmissionDate, cmd.AdmissionDate)
-                .Set(x => x.IsAdmitted, cmd.IsAdmitted)
-                .Set(x => x.RoomId, cmd.RoomId)
-                .Set(x => x.PatientStatus, cmd.PatientStatus);
+            var update = Builders<PatientReadModel>.Update.Set(x => x._id, cmd._id);
+
+            if (!string.IsNullOrWhiteSpace(cmd._id))
+            {
+                update = update.Set(x => x._id, cmd._id);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.Name))
+            {
+                update = update.Set(x => x.Name, cmd.Name);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.DateOfBirth))
+            {
+                update = update.Set(x => x.DateOfBirth, cmd.DateOfBirth);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.Gender))
+            {
+                update = update.Set(x => x.Gender, cmd.Gender);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.PhoneNumber))
+            {
+                update = update.Set(x => x.PhoneNumber, cmd.PhoneNumber);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.Email))
+            {
+                update = update.Set(x => x.Email, cmd.Email);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.PatientStatus))
+            {
+                update = update.Set(x => x.PatientStatus, cmd.PatientStatus);
+            }
+            if (!string.IsNullOrWhiteSpace(cmd.AdmissionDate))
+            {
+                update = update.Set(x => x.AdmissionDate, cmd.AdmissionDate);
+            }
+            if (cmd.RoomId.HasValue)
+            {
+                update = update.Set(x => x.RoomId, cmd.RoomId);
+            }
+            update = update.Set(x => x.IsAdmitted, cmd.IsAdmitted);
 
             var options = new UpdateOptions { IsUpsert = true };
 

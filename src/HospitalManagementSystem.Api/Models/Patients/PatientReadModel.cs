@@ -10,7 +10,7 @@
         public string? PatientStatus { get; set; }
         public bool IsAdmitted { get; set; }
         public string? AdmissionDate { get; set; }
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
         public string? PhoneNumber { get; set; }
 
     }
