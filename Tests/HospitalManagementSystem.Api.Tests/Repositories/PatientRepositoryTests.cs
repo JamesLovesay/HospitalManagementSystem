@@ -219,4 +219,60 @@ public class PatientRepositoryTests
     }
 
     #endregion
+
+    #region Upsert Patient
+
+    [Fact]
+    public async Task UpsertPatient_NewPatient_InsertsPatientIntoDatabase()
+    {
+        // Arrange
+        var newPatient = new PatientReadModel { _id = "123", Name = "John Doe", Gender = "Male", PhoneNumber = "1234567890" };
+
+        // Act
+        await _repository.UpsertPatient(newPatient);
+        var result = await _repository.GetPatientById("123");
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(newPatient);
+    }
+
+    [Fact]
+    public async Task UpsertPatient_ExistingPatient_UpdatesPatientInDatabase()
+    {
+        // Arrange
+        var priorResult = await _repository.GetPatients(new PatientsQueryModel { isAdmitted = true });
+        priorResult.patients.Should().Contain(p => p._id == patientId1.ToString());
+
+        var updatedPatient = new PatientReadModel { _id = patientId1.ToString(), Name = "Jane Doe", Gender = "Female", PhoneNumber = "0987654321" };
+
+        // Act
+        await _repository.UpsertPatient(updatedPatient);
+        var result = await _repository.GetPatientById(patientId1.ToString());
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(updatedPatient, options => options
+            .Excluding(x => x.DateOfBirth)
+            .Excluding(x => x.Email)
+            .Excluding(x => x.PatientStatus)
+            .Excluding(x => x.AdmissionDate)
+            .Excluding(x => x.RoomId)
+        );
+    }
+
+    [Fact]
+    public async Task UpsertPatient_NullCommand_ThrowsArgumentNullException()
+    {
+        // Arrange
+        PatientReadModel nullCommand = null!;
+
+        // Act
+        Func<Task> action = async () => await _repository.UpsertPatient(nullCommand);
+
+        // Assert
+        await action.Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    #endregion
 }

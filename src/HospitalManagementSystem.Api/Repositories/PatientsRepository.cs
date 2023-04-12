@@ -83,6 +83,8 @@ namespace HospitalManagementSystem.Api.Repositories
 
         public async Task UpsertPatient(PatientReadModel cmd)
         {
+            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+
             var filter = Builders<PatientReadModel>.Filter.Eq(x => x._id, cmd._id);
             var update = Builders<PatientReadModel>.Update.Set(x => x._id, cmd._id);
 
