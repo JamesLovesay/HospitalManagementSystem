@@ -58,58 +58,72 @@ namespace HospitalManagementSystem.Api.Tests.Queries.Patients
         [Fact]
         public void WhenExistingPatientCreated_ThenThrowPatientExistsException()
         {
-            // Arrange
-            var existingPatient = new PatientReadModel
+            try
             {
-                Name = "John Doe",
-                DateOfBirth = new DateTime(1990, 01, 01).ToString()
-            };
+                // Arrange
+                var existingPatient = new PatientReadModel
+                {
+                    Name = "John Doe",
+                    DateOfBirth = new DateTime(1990, 01, 01).ToString()
+                };
 
-            var patientsResult = new List<PatientReadModel>
+                var patientsResult = new List<PatientReadModel>
             {
                 existingPatient
             };
 
-            _repository.Setup(x => x.GetPatients(It.IsAny<PatientsQueryModel>())).ReturnsAsync((patientsResult, new PatientsQueryDetail()));
+                _repository.Setup(x => x.GetPatients(It.IsAny<PatientsQueryModel>())).ReturnsAsync((patientsResult, new PatientsQueryDetail()));
 
-            var command = new CreatePatientCommand
+                var command = new CreatePatientCommand
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                    Gender = "Male",
+                    PhoneNumber = "07770123456",
+                    IsAdmitted = true,
+                };
+
+                // Act
+                Func<Task> action = async () => await _handler.Handle(command, CancellationToken.None);
+
+                // Assert
+                action.Should().ThrowAsync<PatientExistsException>().WithMessage("Patient with this name already exists.");
+            }
+            finally
             {
-                FirstName = "John",
-                LastName = "Doe",
-                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
-                Gender = "Male",
-                PhoneNumber = "07770123456",
-                IsAdmitted = true,
-            };
-
-            // Act
-            Func<Task> action = async () => await _handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            action.Should().ThrowAsync<PatientExistsException>().WithMessage("Patient with this name already exists.");
+                _repository.Invocations.Clear();
+            }
         }
 
         [Fact]
         public void WhenErrorOccurs_ThenThrowException()
         {
-            // Arrange
-            var command = new CreatePatientCommand
+            try
             {
-                FirstName = "John",
-                LastName = "Doe",
-                DateOfBirth = new DateTime(1990, 01, 01).ToString(),
-                Gender = "Male",
-                PhoneNumber = "07770123456",
-                IsAdmitted = true,
-            };
+                // Arrange
+                var command = new CreatePatientCommand
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    DateOfBirth = new DateTime(1990, 01, 01).ToString(),
+                    Gender = "Male",
+                    PhoneNumber = "07770123456",
+                    IsAdmitted = true,
+                };
 
-            _repository.Setup(x => x.GetPatients(It.IsAny<PatientsQueryModel>())).ThrowsAsync(new Exception("An error occurred."));
+                _repository.Setup(x => x.GetPatients(It.IsAny<PatientsQueryModel>())).ThrowsAsync(new Exception("An error occurred."));
 
-            // Act
-            Func<Task> action = async () => await _handler.Handle(command, CancellationToken.None);
+                // Act
+                Func<Task> action = async () => await _handler.Handle(command, CancellationToken.None);
 
-            // Assert
-            action.Should().ThrowAsync<Exception>().WithMessage("Error when creating patient John Doe");
+                // Assert
+                action.Should().ThrowAsync<Exception>().WithMessage("Error when creating patient John Doe");
+            }
+            finally 
+            { 
+                _repository.Invocations.Clear();
+            }
         }
     }
 }

@@ -20,63 +20,77 @@ public class PatientRecordQueryHandlerTests
     [Fact]
     public async Task Handle_ExistingPatient_ReturnsPatientRecordQueryResponse()
     {
-        // Arrange
-        var patientId = "1";
-        var patientReadModel = new PatientReadModel
+        try
         {
-            _id = patientId,
-            Name = "Jane Smith",
-            DateOfBirth = "01/01/1980",
-            AdmissionDate = "01/01/2022",
-            Gender = "Female",
-            PatientStatus = "Admitted",
-            PhoneNumber = "0987654321",
-            Email = "janesmith@example.com",
-            IsAdmitted = true,
-            RoomId = 2
-        };
-        _mockRepo.Setup(x => x.GetPatientById(patientId)).ReturnsAsync(patientReadModel);
+            // Arrange
+            var patientId = "1";
+            var patientReadModel = new PatientReadModel
+            {
+                _id = patientId,
+                Name = "Jane Smith",
+                DateOfBirth = "01/01/1980",
+                AdmissionDate = "01/01/2022",
+                Gender = "Female",
+                PatientStatus = "Admitted",
+                PhoneNumber = "0987654321",
+                Email = "janesmith@example.com",
+                IsAdmitted = true,
+                RoomId = 2
+            };
+            _mockRepo.Setup(x => x.GetPatientById(patientId)).ReturnsAsync(patientReadModel);
 
-        var query = new PatientRecordQuery
+            var query = new PatientRecordQuery
+            {
+                PatientId = patientId
+            };
+
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.PatientId.Should().Be(patientId);
+            result.PatientName.Should().Be(patientReadModel.Name);
+            result.DateOfBirth.Should().Be(patientReadModel.DateOfBirth);
+            result.AdmissionDate.Should().Be(patientReadModel.AdmissionDate);
+            result.Gender.Should().Be(patientReadModel.Gender);
+            result.PatientStatus.Should().Be(patientReadModel.PatientStatus);
+            result.PhoneNumber.Should().Be(patientReadModel.PhoneNumber);
+            result.EmailAddress.Should().Be(patientReadModel.Email);
+            result.IsAdmitted.Should().Be(patientReadModel.IsAdmitted);
+            result.RoomId.Should().Be(patientReadModel.RoomId);
+        }
+        finally
         {
-            PatientId = patientId
-        };
-
-        // Act
-        var result = await _handler.Handle(query, CancellationToken.None);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.PatientId.Should().Be(patientId);
-        result.PatientName.Should().Be(patientReadModel.Name);
-        result.DateOfBirth.Should().Be(patientReadModel.DateOfBirth);
-        result.AdmissionDate.Should().Be(patientReadModel.AdmissionDate);
-        result.Gender.Should().Be(patientReadModel.Gender);
-        result.PatientStatus.Should().Be(patientReadModel.PatientStatus);
-        result.PhoneNumber.Should().Be(patientReadModel.PhoneNumber);
-        result.EmailAddress.Should().Be(patientReadModel.Email);
-        result.IsAdmitted.Should().Be(patientReadModel.IsAdmitted);
-        result.RoomId.Should().Be(patientReadModel.RoomId);
+            _mockRepo.Invocations.Clear();
+        }
     }
 
     [Fact]
     public async Task Handle_NonExistingPatient_ReturnsEmptyPatientRecordQueryResponse()
     {
-        // Arrange
-        var patientId = "1";
-        _mockRepo.Setup(x => x.GetPatientById(patientId)).ReturnsAsync((PatientReadModel?)null);
-
-        var query = new PatientRecordQuery
+        try
         {
-            PatientId = patientId
-        };
+            // Arrange
+            var patientId = "1";
+            _mockRepo.Setup(x => x.GetPatientById(patientId)).ReturnsAsync((PatientReadModel?)null);
 
-        // Act
-        var result = await _handler.Handle(query, CancellationToken.None);
+            var query = new PatientRecordQuery
+            {
+                PatientId = patientId
+            };
 
-        // Assert
-        result.Should().NotBeNull();
-        result.NotFoundInReadStore().Should().BeTrue();
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.NotFoundInReadStore().Should().BeTrue();
+        }
+        finally
+        {
+            _mockRepo.Invocations.Clear();
+        }
     }
 
     [Fact]

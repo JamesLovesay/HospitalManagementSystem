@@ -44,30 +44,44 @@ public class DeletePatientCommandHandlerTests
     [Fact]
     public async Task Handle_WhenPatientNotFound_ReturnsFalse()
     {
-        // Arrange
-        var patientId = "1";
-        var cmd = new DeletePatientCommand(patientId);
-        _repositoryMock.Setup(repo => repo.GetPatientById(It.IsAny<string>())).Returns(Task.FromResult<PatientReadModel?>(null));
+        try
+        {
+            // Arrange
+            var patientId = "1";
+            var cmd = new DeletePatientCommand(patientId);
+            _repositoryMock.Setup(repo => repo.GetPatientById(It.IsAny<string>())).Returns(Task.FromResult<PatientReadModel?>(null));
 
-        // Act
-        var result = await _handler.Handle(cmd, CancellationToken.None);
+            // Act
+            var result = await _handler.Handle(cmd, CancellationToken.None);
 
-        // Assert
-        result.Should().BeFalse();
-        _repositoryMock.Verify(repo => repo.DeletePatient(patientId), Times.Never);
+            // Assert
+            result.Should().BeFalse();
+            _repositoryMock.Verify(repo => repo.DeletePatient(patientId), Times.Never);
+        }
+        finally
+        {
+            _repositoryMock.Invocations.Clear();
+        }
+
     }
 
     [Fact]
     public async Task Handle_WhenExceptionThrown_ThrowsExceptionWithCorrectMessage()
     {
-        // Arrange
-        var cmd = new DeletePatientCommand ("1");
-        _repositoryMock.Setup(repo => repo.GetPatientById("1")).ThrowsAsync(new Exception("Test Exception"));
+        try
+        {
+            // Arrange
+            var cmd = new DeletePatientCommand("1");
+            _repositoryMock.Setup(repo => repo.GetPatientById("1")).ThrowsAsync(new Exception("Test Exception"));
 
-        // Act & Assert
-        var exception = await Assert.ThrowsAsync<Exception>(() => _handler.Handle(cmd, CancellationToken.None));
-        exception.Message.Should().Be($"Error whilst deleting patient {cmd.PatientId}");
-        exception.InnerException.Should().BeNull();
-
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<Exception>(() => _handler.Handle(cmd, CancellationToken.None));
+            exception.Message.Should().Be($"Error whilst deleting patient {cmd.PatientId}");
+            exception.InnerException.Should().BeNull();
+        }
+        finally
+        {
+            _repositoryMock.Invocations.Clear();
+        }
     }
 }
