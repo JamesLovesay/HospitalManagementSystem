@@ -5,7 +5,7 @@ using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Bson;
 using Moq;
 
-namespace HospitalManagementSystem.Api.Tests.Queries
+namespace HospitalManagementSystem.Api.Tests.Queries.Doctors
 {
     public class DoctorRecordQueryHandlerTests
     {
@@ -31,7 +31,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
 
             result.Should().BeEquivalentTo(new DoctorRecordQueryResponse
             {
-                DoctorId = null,  
+                DoctorId = null,
             });
 
             result.NotFoundInReadStore().Should().BeTrue();

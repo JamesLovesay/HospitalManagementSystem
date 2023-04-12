@@ -7,7 +7,7 @@ using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Bson;
 using Moq;
 
-namespace HospitalManagementSystem.Api.Tests.Queries
+namespace HospitalManagementSystem.Api.Tests.Queries.Doctors
 {
     public class CreateDoctorCommandHandlerTests
     {

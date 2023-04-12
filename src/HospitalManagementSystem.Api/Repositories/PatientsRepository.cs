@@ -19,6 +19,8 @@ namespace HospitalManagementSystem.Api.Repositories
 
         public async Task DeletePatient(string patientId)
         {
+            if (string.IsNullOrWhiteSpace(patientId)) { throw new ArgumentNullException(nameof(patientId)); }
+
             var patientIdFilter = Builders<PatientReadModel>.Filter.Eq(x => x._id, patientId);
 
             await _db.GetCollection<PatientReadModel>(typeof(PatientReadModel).Name).DeleteOneAsync(patientIdFilter);
@@ -26,6 +28,8 @@ namespace HospitalManagementSystem.Api.Repositories
 
         public async Task<PatientReadModel?> GetPatientById(string patientId)
         {
+            if (string.IsNullOrWhiteSpace(patientId)) { throw new ArgumentNullException(nameof(patientId)); }
+
             var filter = Builders<PatientReadModel>.Filter.Eq(x => x._id, patientId);
 
             return (await _db.GetCollection<PatientReadModel>(typeof(PatientReadModel).Name).FindAsync(filter)).FirstOrDefault();
