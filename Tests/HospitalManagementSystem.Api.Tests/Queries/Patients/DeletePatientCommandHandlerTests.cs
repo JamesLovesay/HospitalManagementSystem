@@ -4,7 +4,6 @@ using HospitalManagementSystem.Api.Handlers.Patients;
 using HospitalManagementSystem.Api.Models.Patients;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using Moq;
-using System;
 
 namespace HospitalManagementSystem.Api.Tests.Queries.Patients;
 
