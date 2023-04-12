@@ -24,7 +24,7 @@ namespace HospitalManagementSystem.Api.Repositories
             await _db.GetCollection<PatientReadModel>(typeof(PatientReadModel).Name).DeleteOneAsync(patientIdFilter);
         }
 
-        public async Task<PatientReadModel> GetPatientById(string patientId)
+        public async Task<PatientReadModel?> GetPatientById(string patientId)
         {
             var filter = Builders<PatientReadModel>.Filter.Eq(x => x._id, patientId);
 
