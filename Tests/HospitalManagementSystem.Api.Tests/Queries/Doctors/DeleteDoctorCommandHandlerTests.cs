@@ -6,7 +6,7 @@ using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Bson;
 using Moq;
 
-namespace HospitalManagementSystem.Api.Tests.Queries
+namespace HospitalManagementSystem.Api.Tests.Queries.Doctors
 {
     public class DeleteDoctorCommandHandlerTests
     {
@@ -15,7 +15,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
 
         public DeleteDoctorCommandHandlerTests()
         {
-            _repository= new Mock<IDoctorsRepository>();
+            _repository = new Mock<IDoctorsRepository>();
             _handler = new DeleteDoctorCommandHandler(_repository.Object);
         }
 

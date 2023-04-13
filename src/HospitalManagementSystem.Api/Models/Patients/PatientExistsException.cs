@@ -3,7 +3,7 @@
 namespace HospitalManagementSystem.Api.Models.Patients
 {
     [Serializable]
-    internal class PatientExistsException : Exception
+    public class PatientExistsException : Exception
     {
         public PatientExistsException()
         {

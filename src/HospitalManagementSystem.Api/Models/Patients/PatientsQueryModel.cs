@@ -6,7 +6,7 @@ namespace HospitalManagementSystem.Api.Models.Patients
 {
     public class PatientsQueryModel : IRequest<PatientsQueryResponse>
     {
-        public List<string?> PatientId { get; set; }
+        public List<string?> PatientId { get; set; } = new List<string?>();
         public int? Page { get; set; }
         public int? PageSize { get; set; }
         public string? Status { get; set; }

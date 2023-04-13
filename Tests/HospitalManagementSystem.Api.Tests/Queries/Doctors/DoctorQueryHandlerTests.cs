@@ -6,7 +6,7 @@ using HospitalManagementSystem.Api.Tests.Test_Helpers;
 using MongoDB.Bson;
 using Moq;
 
-namespace HospitalManagementSystem.Api.Tests.Queries
+namespace HospitalManagementSystem.Api.Tests.Queries.Doctors
 {
     public class DoctorQueryHandlerTests
     {

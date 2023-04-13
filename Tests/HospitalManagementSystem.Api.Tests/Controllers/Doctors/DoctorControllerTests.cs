@@ -11,7 +11,7 @@ using Moq;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace HospitalManagementSystem.Api.Tests.Controllers
+namespace HospitalManagementSystem.Api.Tests.Controllers.Doctors
 {
     public class DoctorControllerTests : DoctorControllerTestBase
     {
@@ -130,7 +130,7 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         public async Task WhenGetDoctorsByQuery_ValidButNonExistentNameReturnsNoResults_ThenExpectedResult()
         {
             List<Doctor> returned = new List<Doctor>();
-            
+
             Factory.Mediator.Setup(x => x.Send(It.Is<DoctorsQuery>(y => y.DoctorName == "not a name"), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DoctorsQueryResponse { Doctors = returned });
 
@@ -165,12 +165,12 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
             result.Should().BeEquivalentTo(new DoctorsQueryResponse
             {
                 Doctors = new List<Doctor>(),
-                Detail = new DoctorsQueryDetail 
-                { 
-                    Page = 1, 
-                    PageSize = 3, 
-                    TotalPages = 0, 
-                    TotalRecords = 0 
+                Detail = new DoctorsQueryDetail
+                {
+                    Page = 1,
+                    PageSize = 3,
+                    TotalPages = 0,
+                    TotalRecords = 0
                 }
             });
 
@@ -533,12 +533,12 @@ namespace HospitalManagementSystem.Api.Tests.Controllers
         [Fact]
         public async Task WhenPostDoctor_Valid_ThenExpectedResult()
         {
-            CreateDoctorCommand newDoctor = new CreateDoctorCommand 
-            { 
-                Name = "Test", 
-                HourlyChargingRate = 800, 
-                Status = "Inactive", 
-                Specialism = "Orthopaedics" 
+            CreateDoctorCommand newDoctor = new CreateDoctorCommand
+            {
+                Name = "Test",
+                HourlyChargingRate = 800,
+                Status = "Inactive",
+                Specialism = "Orthopaedics"
             };
             var response = await Client.PostAsync($"/api/Doctors", GetHttpContent(newDoctor));
 

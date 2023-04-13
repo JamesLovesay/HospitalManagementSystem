@@ -7,14 +7,14 @@ namespace HospitalManagementSystem.Api.Models.Patients
         public string? PatientId { get; set; }
         [Required]
         public string? Name { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
-        public DateTime AdmissionDate { get; set; }
+        public DateTime? AdmissionDate { get; set; }
         public bool IsAdmitted { get; set; }
-        public PatientStatus Status { get; set; }
+        public PatientStatus? Status { get; set; }
         public int? RoomId { get; set; }
-        public GenderValue Gender { get; set; }
+        public GenderValue? Gender { get; set; }
 
         public static Patient From(PatientReadModel model)
         {
@@ -26,8 +26,8 @@ namespace HospitalManagementSystem.Api.Models.Patients
                 RoomId = model.RoomId,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
-                AdmissionDate = DateTime.Parse(model.AdmissionDate),
-                DateOfBirth = DateTime.Parse(model.DateOfBirth),
+                AdmissionDate = ParseDate(model.AdmissionDate),
+                DateOfBirth = ParseDate(model.DateOfBirth),
                 Gender = ParseGenderValue(model.Gender),
                 Status = ParsePatientStatus(model.PatientStatus)
             };
@@ -39,10 +39,14 @@ namespace HospitalManagementSystem.Api.Models.Patients
         private static GenderValue ParseGenderValue(string gender)
         => Enum.TryParse<GenderValue>(gender, true, out var result) ? result : GenderValue.Unknown;
 
-        public int GetAge()
+        private static DateTime? ParseDate(string date)
+        => DateTime.TryParse(date, out var result) ? result : null;
+
+        public int? GetAge()
         {
+            if (DateOfBirth == null) return null;
             var today = DateTime.Today;
-            var age = today.Year - DateOfBirth.Year;
+            var age = today.Year - DateOfBirth.Value.Year;
             if (DateOfBirth > today.AddYears(-age)) age--;
 
             return age;

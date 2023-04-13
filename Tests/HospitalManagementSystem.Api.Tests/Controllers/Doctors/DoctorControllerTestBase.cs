@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Text;
 
-namespace HospitalManagementSystem.Api.Tests.Controllers
+namespace HospitalManagementSystem.Api.Tests.Controllers.Doctors
 {
     public class DoctorControllerTestBase : IClassFixture<ApiWebApplicationFactory>
     {

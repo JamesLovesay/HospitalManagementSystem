@@ -16,7 +16,7 @@ namespace HospitalManagementSystem.Api.Queries.Patients
         public string AdmissionDate { get; set; }
         public bool IsAdmitted { get; set; }
         public string PatientStatus { get; set; }
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
 
         public PatientRecordQueryResponse() { }
 

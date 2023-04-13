@@ -2,6 +2,7 @@
 using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Models.Patients;
 using HospitalManagementSystem.Api.Queries.Patients;
+using System.Globalization;
 
 namespace HospitalManagementSystem.Api.Validators.Patients
 {
@@ -44,17 +45,32 @@ namespace HospitalManagementSystem.Api.Validators.Patients
                 RuleFor(cmd => cmd.Gender).Must(x => QueryHelper.PatientGenderValues.Any(y => y.Equals(x, StringComparison.InvariantCultureIgnoreCase)))
                 .WithMessage("Gender can only be Male, Female, or NonBinary");
             });
+
+            When(x => x.DateOfBirth != null, () =>
+            {
+                RuleFor(cmd => cmd.DateOfBirth)
+                    .Must(dateString => DateTime.TryParseExact(dateString, QueryHelper.DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                    .WithMessage($"DateOfBirth must match the format {QueryHelper.DateTimeFormat}");
+
+            });
+
+            When(x => x.AdmissionDate != null, () =>
+            {
+                RuleFor(cmd => cmd.DateOfBirth)
+                    .Must(dateString => DateTime.TryParseExact(dateString, QueryHelper.DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                    .WithMessage($"AdmissionDate must match the format {QueryHelper.DateTimeFormat}");
+
+            });
+
+            When(x => x.Status != null, () =>
+            {
+                RuleFor(cmd => cmd)
+                .Must(x => IsValidStatus(x.Status).valid)
+                .WithMessage($"Status value supplied was invalid. Can only be Discharged, Admitted or InTreatment");
+            });
         }
 
         private static (bool valid, string status) IsValidStatus(string status)
             => (Enum.TryParse<PatientStatus>(status, true, out var result), status);
-
-        private static string GetInvalidStatusErrorMessage(List<string> statusList)
-            => $"Status value(s) supplied were invalid: {GetInvalidStatus(statusList)}";
-
-        private static string GetInvalidStatus(List<string> statusList)
-            => string.Join(", ", statusList.Select(x => IsValidStatus(x))
-            .Where(x => !x.valid)
-            .Select(x => x.status));
     }
 }

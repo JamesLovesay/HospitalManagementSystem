@@ -8,7 +8,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Serilog;
-using HospitalManagementSystem.Infra.MongoDBStructure;
 
 namespace HospitalManagementSystem.Api.Tests.Repositories
 {

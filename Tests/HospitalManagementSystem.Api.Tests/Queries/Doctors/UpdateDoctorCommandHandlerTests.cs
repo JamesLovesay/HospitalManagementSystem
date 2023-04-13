@@ -6,7 +6,7 @@ using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Bson;
 using Moq;
 
-namespace HospitalManagementSystem.Api.Tests.Queries
+namespace HospitalManagementSystem.Api.Tests.Queries.Doctors
 {
     public class UpdateDoctorCommandHandlerTests
     {
@@ -36,7 +36,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
 
             _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task.FromResult(id));
 
-            var result = await _handler.Handle(new Commands.DoctorUpdateCommand { DoctorId = id, HourlyChargingRate = 800, Name = "name", Status = "Inactive"}, new CancellationToken());
+            var result = await _handler.Handle(new DoctorUpdateCommand { DoctorId = id, HourlyChargingRate = 800, Name = "name", Status = "Inactive" }, new CancellationToken());
 
             result.Should().BeTrue();
 
@@ -63,7 +63,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
 
             _repository.Setup(x => x.UpsertDoctor(doctor)).Returns(Task.FromResult(id));
 
-            var result = await _handler.Handle(new Commands.DoctorUpdateCommand { DoctorId = id, HourlyChargingRate = null }, new CancellationToken());
+            var result = await _handler.Handle(new DoctorUpdateCommand { DoctorId = id, HourlyChargingRate = null }, new CancellationToken());
 
             result.Should().BeTrue();
 
@@ -75,7 +75,7 @@ namespace HospitalManagementSystem.Api.Tests.Queries
         {
             var id = ObjectId.GenerateNewId().ToString();
 
-            var result = await _handler.Handle(new Commands.DoctorUpdateCommand { DoctorId = id, HourlyChargingRate = 800 }, new CancellationToken());
+            var result = await _handler.Handle(new DoctorUpdateCommand { DoctorId = id, HourlyChargingRate = 800 }, new CancellationToken());
 
             result.Should().BeFalse();
         }
