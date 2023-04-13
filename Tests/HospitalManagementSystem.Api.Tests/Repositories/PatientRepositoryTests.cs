@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+using HospitalManagementSystem.Api.Helpers;
 using HospitalManagementSystem.Api.Models.Patients;
+using HospitalManagementSystem.Api.Queries.Patients;
 using HospitalManagementSystem.Api.Repositories;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
@@ -100,7 +102,7 @@ public class PatientRepositoryTests
                 new PatientReadModel
                 {
                     Name = "Example TestF",
-                    DateOfBirth = "1994-01-01",
+                    DateOfBirth = "1984-01-01",
                     AdmissionDate = "2022-06-01",
                     IsAdmitted = true,
                     RoomId = 104,
@@ -272,6 +274,361 @@ public class PatientRepositoryTests
 
         // Assert
         await action.Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    #endregion
+
+    #region Get Patients Query
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnPatientsAndDetail_WhenCalledWithQuery()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 1,
+            PageSize = 10,
+            Gender = "Male",
+            isAdmitted = true,
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = 10,
+            TotalRecords = 2,
+            TotalPages = 1,
+            SortBy = "Name",
+            SortDirection = "DESC",
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().BeEquivalentTo(new List<PatientReadModel>()
+        {
+            new PatientReadModel
+            {
+                Name = "Example TestA",
+                DateOfBirth = "1989-01-01",
+                AdmissionDate = "2022-01-01",
+                IsAdmitted = true,
+                RoomId = 101,
+                Gender = "Male",
+                PatientStatus = "Inpatient",
+                _id = patientId1.ToString(),
+                Email = "testA@test.com",
+                PhoneNumber = "45465467657676"
+            },
+            new PatientReadModel
+            {
+                Name = "Example TestC",
+                DateOfBirth = "1991-01-01",
+                AdmissionDate = "2022-03-01",
+                IsAdmitted = true,
+                RoomId = 103,
+                Gender = "Male",
+                PatientStatus = "Inpatient",
+                _id = patientId3.ToString(),
+                Email = "testC@test.com",
+                PhoneNumber = "454667657677676"
+            }
+        });
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public void GetPatients_ShouldThrowArgumentNullException_WhenCalledWithNullQuery()
+    {
+        // Arrange
+        PatientsQueryModel query = null!;
+
+        // Act
+        Func<Task> act = async () => await _repository.GetPatients(query);
+
+        // Assert
+        act.Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnDefaultPageSize_WhenPageSizeIsNull()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 1,
+            Gender = "Female",
+            isAdmitted = false,
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = QueryHelper.DefaultPageSize,
+            TotalRecords = 1,
+            TotalPages = 1,
+            SortBy = "Name",
+            SortDirection = "DESC",
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().BeEquivalentTo(new List<PatientReadModel>()
+        {
+            new PatientReadModel
+            {
+                Name = "Example TestD",
+                DateOfBirth = "1992-01-01",
+                AdmissionDate = "2022-04-01",
+                IsAdmitted = false,
+                Gender = "Female",
+                PatientStatus = "Outpatient",
+                _id = patientId4.ToString(),
+                Email = "testD@test.com",
+                PhoneNumber = "45465469879789676"
+            }
+        });
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnFirstPage_WhenPageIsLessThanOne()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 0,
+            PageSize = 1,
+            Name = "Example TestB",
+            isAdmitted = true
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = 1,
+            TotalRecords = 1,
+            TotalPages = 1,
+            SortBy = "Name",
+            SortDirection = "DESC",
+            Name = "Example TestB",
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().BeEquivalentTo(new List<PatientReadModel>()
+        {
+            new PatientReadModel
+            {
+                Name = "Example TestB",
+                DateOfBirth = "1990-01-01",
+                AdmissionDate = "2022-02-01",
+                IsAdmitted = true,
+                RoomId = 102,
+                Gender = "Female",
+                PatientStatus = "Inpatient",
+                _id = patientId2.ToString(),
+                Email = "testB@test.com",
+                PhoneNumber = "45465446557676"
+            }
+        });
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnEmptyList_WhenNoRecordsFound()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 1,
+            PageSize = 10,
+            Name = "Unknown",
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = 10,
+            TotalRecords = 0,
+            TotalPages = 0,
+            SortBy = "Name",
+            SortDirection = "DESC",
+            Name = "Unknown"
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().BeEmpty();
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnPaginatedPatients_WhenPageSizeIsLessThanTotalRecords()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 1,
+            PageSize = 1
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = 1,
+            TotalRecords = 2,
+            TotalPages = 2,
+            SortBy = "Name",
+            SortDirection = "DESC"
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().HaveCount(1);
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnAllPatients_WhenPageSizeIsGreaterThanTotalRecords()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 1,
+            PageSize = 10,
+            isAdmitted = true
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = 10,
+            TotalRecords = 4,
+            TotalPages = 1,
+            SortBy = "Name",
+            SortDirection = "DESC"
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().HaveCount(4);
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnDefaultPage_WhenPageIsNull()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            PageSize = 10,
+            isAdmitted = false
+        };
+
+        var expectedDetail = new PatientsQueryDetail
+        {
+            Page = 1,
+            PageSize = 10,
+            TotalRecords = 2,
+            TotalPages = 1,
+            SortBy = "Name",
+            SortDirection = "DESC",
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Count().Should().Be(2);
+        detail.Should().BeEquivalentTo(expectedDetail);
+    }
+
+    [Fact]
+    public async Task GetPatients_ShouldReturnSortedPatients_WhenCalledWithSortDetails()
+    {
+        // Arrange
+        var query = new PatientsQueryModel
+        {
+            Page = 1,
+            PageSize = 10,
+            SortBy = "DateOfBirth",
+            SortDirection = "ASC",
+            isAdmitted = true
+        };
+
+        // Act
+        var (patients, detail) = await _repository.GetPatients(query);
+
+        // Assert
+        patients.Should().BeEquivalentTo(new List<PatientReadModel>()
+        {
+            new PatientReadModel
+            {
+                Name = "Example TestF",
+                DateOfBirth = "1984-01-01",
+                AdmissionDate = "2022-06-01",
+                IsAdmitted = true,
+                RoomId = 104,
+                Gender = "Female",
+                PatientStatus = "Inpatient",
+                _id = patientId6.ToString(),
+                Email = "testF@test.com",
+                PhoneNumber = "4546765767677676"
+            },
+            new PatientReadModel
+            {
+                Name = "Example TestA",
+                DateOfBirth = "1989-01-01",
+                AdmissionDate = "2022-01-01",
+                IsAdmitted = true,
+                RoomId = 101,
+                Gender = "Male",
+                PatientStatus = "Inpatient",
+                _id = patientId1.ToString(),
+                Email = "testA@test.com",
+                PhoneNumber = "45465467657676"
+            },
+            new PatientReadModel
+            {
+                Name = "Example TestB",
+                DateOfBirth = "1990-01-01",
+                AdmissionDate = "2022-02-01",
+                IsAdmitted = true,
+                RoomId = 102,
+                Gender = "Female",
+                PatientStatus = "Inpatient",
+                _id = patientId2.ToString(),
+                Email = "testB@test.com",
+                PhoneNumber = "45465446557676"
+            },
+            new PatientReadModel
+            {
+                Name = "Example TestC",
+                DateOfBirth = "1991-01-01",
+                AdmissionDate = "2022-03-01",
+                IsAdmitted = true,
+                RoomId = 103,
+                Gender = "Male",
+                PatientStatus = "Inpatient",
+                _id = patientId3.ToString(),
+                Email = "testC@test.com",
+                PhoneNumber = "454667657677676"
+            }
+        });
+
+        detail.Should().NotBeNull();
     }
 
     #endregion

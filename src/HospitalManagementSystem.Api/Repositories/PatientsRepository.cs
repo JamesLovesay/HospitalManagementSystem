@@ -50,7 +50,6 @@ namespace HospitalManagementSystem.Api.Repositories
             filters.AddFilter((x) => x.PatientStatus, query.Status);
             filters.AddFilter((x) => x.Gender, query.Gender);
 
-
             var filter = filters.Consolidate();
 
             var (sort, sortBy, sortDirection) = QueryHelper.GetPatientSortDetails(query.SortBy, query.SortDirection);
