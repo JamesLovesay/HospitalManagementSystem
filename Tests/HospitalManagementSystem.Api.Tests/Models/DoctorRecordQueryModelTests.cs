@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using HospitalManagementSystem.Api.Models;
-using HospitalManagementSystem.Api.Queries;
+using HospitalManagementSystem.Api.Models.Doctors;
+using HospitalManagementSystem.Api.Queries.Doctors;
 using MongoDB.Bson;
 
 namespace HospitalManagementSystem.Api.Tests.Models

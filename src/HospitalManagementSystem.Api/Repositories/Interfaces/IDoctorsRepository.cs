@@ -1,5 +1,5 @@
-﻿using HospitalManagementSystem.Api.Models;
-using HospitalManagementSystem.Api.Queries;
+﻿using HospitalManagementSystem.Api.Models.Doctors;
+using HospitalManagementSystem.Api.Queries.Doctors;
 using HospitalManagementSystem.Infra.MongoDBStructure.ReadModels;
 
 namespace HospitalManagementSystem.Api.Repositories.Interfaces

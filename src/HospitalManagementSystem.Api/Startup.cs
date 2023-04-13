@@ -1,18 +1,18 @@
 ﻿using FluentValidation;
 using HospitalManagementSystem.Api.Models;
-using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Api.Repositories;
-using HospitalManagementSystem.Api.Validators;
 using HospitalManagementSystem.Infra.MongoDBStructure.Config;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using Serilog;
 using MediatR;
-using HospitalManagementSystem.Api.Commands;
-using HospitalManagementSystem.Api.Handlers;
 using MediatR.Pipeline;
 using System.Text.Json.Serialization;
+using HospitalManagementSystem.Api.Commands.Doctors;
+using HospitalManagementSystem.Api.Handlers.Doctors;
+using HospitalManagementSystem.Api.Queries.Doctors;
+using HospitalManagementSystem.Api.Validators.Doctors;
 
 namespace HospitalManagementSystem.Api
 {

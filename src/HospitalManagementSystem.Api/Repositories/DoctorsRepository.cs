@@ -1,12 +1,12 @@
 ﻿using HospitalManagementSystem.Api.Helpers;
-using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Driver;
-using HospitalManagementSystem.Api.Queries;
 using HospitalManagementSystem.Infra.MongoDBStructure.Extensions;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure;
 using HospitalManagementSystem.Infra.MongoDBStructure.ReadModels;
+using HospitalManagementSystem.Api.Models.Doctors;
+using HospitalManagementSystem.Api.Queries.Doctors;
 
 namespace HospitalManagementSystem.Api.Repositories
 {

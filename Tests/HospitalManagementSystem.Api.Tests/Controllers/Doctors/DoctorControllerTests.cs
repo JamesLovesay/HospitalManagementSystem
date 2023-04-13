@@ -1,8 +1,8 @@
 using FluentAssertions;
-using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Commands.Doctors;
 using HospitalManagementSystem.Api.Controllers;
-using HospitalManagementSystem.Api.Models;
-using HospitalManagementSystem.Api.Queries;
+using HospitalManagementSystem.Api.Models.Doctors;
+using HospitalManagementSystem.Api.Queries.Doctors;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

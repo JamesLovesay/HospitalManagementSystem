@@ -1,8 +1,10 @@
 ﻿using FluentAssertions;
 using HospitalManagementSystem.Api.Commands;
-using HospitalManagementSystem.Api.Handlers;
-using HospitalManagementSystem.Api.Models;
+using HospitalManagementSystem.Api.Commands.Doctors;
+using HospitalManagementSystem.Api.Handlers.Doctors;
+using HospitalManagementSystem.Api.Models.Doctors;
 using HospitalManagementSystem.Api.Queries;
+using HospitalManagementSystem.Api.Queries.Doctors;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using MongoDB.Bson;
 using Moq;

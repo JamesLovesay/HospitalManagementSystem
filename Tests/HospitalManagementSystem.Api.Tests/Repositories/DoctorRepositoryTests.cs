@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using HospitalManagementSystem.Api.Models;
 using HospitalManagementSystem.Api.Repositories.Interfaces;
 using HospitalManagementSystem.Infra.MongoDBStructure.Interfaces;
 using HospitalManagementSystem.Api.Repositories;
@@ -8,6 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Serilog;
+using HospitalManagementSystem.Api.Models.Doctors;
 
 namespace HospitalManagementSystem.Api.Tests.Repositories
 {

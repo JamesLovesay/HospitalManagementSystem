@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using HospitalManagementSystem.Api.Queries;
 using MediatR;
-using HospitalManagementSystem.Api.Validators;
 using MongoDB.Bson;
 using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Commands.Doctors;
+using HospitalManagementSystem.Api.Queries.Doctors;
+using HospitalManagementSystem.Api.Validators.Doctors;
 
 namespace HospitalManagementSystem.Api.Controllers
 {

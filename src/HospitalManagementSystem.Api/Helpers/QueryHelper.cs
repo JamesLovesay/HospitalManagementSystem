@@ -1,4 +1,4 @@
-﻿using HospitalManagementSystem.Api.Models;
+﻿using HospitalManagementSystem.Api.Models.Doctors;
 using HospitalManagementSystem.Api.Models.Patients;
 using MongoDB.Driver;
 
