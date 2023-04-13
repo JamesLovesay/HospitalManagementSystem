@@ -16,6 +16,8 @@ public class AppointmentsRepository : ReadStore, IAppointmentRepository
 
     public async Task<AppointmentReadModel?> GetAppointmentById(int id)
     {
+        if (id <= 0) throw new ArgumentException("Appointment ID cannot be negative");
+
         var filter = Builders<AppointmentReadModel>.Filter.Eq(a => a.Id, id);
         return (await _db.GetCollection<AppointmentReadModel>(typeof(AppointmentReadModel).Name).FindAsync(filter)).FirstOrDefault();
     }
