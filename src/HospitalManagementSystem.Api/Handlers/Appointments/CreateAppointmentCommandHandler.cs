@@ -19,6 +19,26 @@ public class CreateAppointmentCommandHandler : IRequestHandler<CreateAppointment
 
     public async Task<Guid> Handle(CreateAppointmentCommand command, CancellationToken cancellationToken)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+
+        if (!command.PatientId.HasValue)
+        {
+            throw new ArgumentException("PatientId is required", nameof(command.PatientId));
+        }
+
+        if (!command.DoctorId.HasValue)
+        {
+            throw new ArgumentException("DoctorId is required", nameof(command.DoctorId));
+        }
+
+        if (string.IsNullOrWhiteSpace(command.StartTime))
+        {
+            throw new ArgumentException("StartTime cannot be null or empty", nameof(command.StartTime));
+        }
+
         var appointment = new Appointment(Guid.NewGuid(), command.Description, command.PatientId, command.StartTime, command.EndTime, command.DoctorName, command.PatientName, command.DoctorId);
 
         await _repository.AddAppointment(appointment);

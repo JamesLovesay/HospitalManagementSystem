@@ -98,4 +98,50 @@ public class AppointmentsRepositoryTests
     }
 
     #endregion
+
+    #region Add Appointment
+
+    //[Fact]
+    //public async Task AddAppointment_ShouldInsertAppointmentIntoDatabase()
+    //{
+    //    // Arrange
+    //    var appointmentId = Guid.NewGuid();
+    //    var appointment = new Appointment (appointmentId, "Test Appointment", 2, "2022-12-12T02-02-02", "2022-12-12T02-02-02", "testDoctor", "testPatient", 5);
+
+    //    // Act
+    //    var result = await _repository.AddAppointment(appointment);
+
+    //    // Assert
+    //    result.Should().Be(appointment.Id);
+
+    //    var returnedAppointment = await _repository.GetAppointmentById((int)appointmentId);
+
+    //    returnedAppointment.Should().NotBeNull();
+    //    returnedAppointment.Id.Should().Be(appointmentId);
+    //    returnedAppointment.PatientName.Should().Be("testPatient");
+    //}
+
+    [Fact]
+    public async Task AddAppointment_NullAppointment_ThrowsArgumentNullException()
+    {
+        // Arrange, Act, Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _repository.AddAppointment(null!));
+    }
+
+    [Fact]
+    public async Task AddAppointment_ValidAppointment_ReturnsAppointmentId()
+    {
+        // Arrange
+        var appointmentIdNumber = Guid.NewGuid();
+        var appointment = new Appointment(appointmentIdNumber, "Test Appointment", 2, "2022-12-12T02-02-02", "2022-12-12T02-02-02", "testDoctor", "testPatient", 5);
+
+        // Act
+        var result = await _repository.AddAppointment(appointment);
+
+        // Assert
+        result.Should().NotBe(Guid.Empty);
+        result.Should().Be(appointment.Id);
+    }
+
+    #endregion
 }

@@ -14,6 +14,8 @@ public class Appointment
     public string? PatientName { get; set; }
     public string? DoctorName { get; set; }
 
+    public Appointment() { }
+
     public Appointment(Guid id, string? description, int? patientId, string startTime, string endTime, string doctorName, string patientName, int? doctorId)
     {
         Id = id;

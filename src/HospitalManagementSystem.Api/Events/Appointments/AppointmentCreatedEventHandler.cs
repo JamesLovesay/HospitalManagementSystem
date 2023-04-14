@@ -15,6 +15,11 @@ public class AppointmentCreatedEventHandler : IEventHandler<AppointmentCreatedEv
 
     public async Task Handle(AppointmentCreatedEvent notification, CancellationToken cancellationToken)
     {
+        if (notification == null || notification?.Appointment == null || notification?.Appointment?.Id == null)
+        {
+            return;
+        }
+
         // Retrieve the patient by ID
         var patient = await _patientRepository.GetPatientById(notification.Appointment?.PatientId?.ToString());
 
