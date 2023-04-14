@@ -1,11 +1,17 @@
 ﻿using FluentAssertions;
+using HospitalManagementSystem.Api.Commands.Appointments;
+using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Controllers;
 using HospitalManagementSystem.Api.Models.Appointments;
 using HospitalManagementSystem.Api.Models.Patients;
 using HospitalManagementSystem.Api.Queries.Appointments;
 using HospitalManagementSystem.Api.Queries.Patients;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
 using System.Net;
+using HospitalManagementSystem.Api.Commands.Patients;
 
 namespace HospitalManagementSystem.Api.Tests.Controllers.Appointments;
 
@@ -89,6 +95,98 @@ public class AppointmentControllerTests : AppointmentControllerTestsBase
         {
             Factory.Mediator.Invocations.Clear();
         }
+    }
+
+    #endregion
+
+    #region Create Appointment
+
+    [Fact]
+    public async Task CreateAppointment_ValidCommand_ReturnsCreatedAtAction()
+    {
+        try
+        {
+            // Arrange
+            var command = new CreateAppointmentCommand
+            {
+                Description = "Consultation",
+                PatientId = 1,
+                DoctorId = 2,
+                StartTime = "2022-04-12T14:30:00",
+                EndTime = "2022-04-12T15:30:00",
+                DoctorName = "Dr. Smith",
+                PatientName = "John Doe"
+            };
+
+            var appointmentId = Guid.NewGuid();
+            Factory.Mediator.Setup(x => x.Send(It.IsAny<CreateAppointmentCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(appointmentId);
+
+            // Act
+            var result = await Client.PostAsync($"/api/Appointments", GetHttpContent(command));
+
+            // Assert
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            Factory.Mediator.Verify(m => m.Send(It.IsAny<CreateAppointmentCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+        finally
+        {
+            Factory.Mediator.Invocations.Clear();
+        }
+
+    }
+
+    [Fact]
+    public async Task CreateAppointment_InvalidCommand_ReturnsBadRequest()
+    {
+        // Arrange
+        var command = new CreateAppointmentCommand
+        {
+            Description = "Consultation",
+            PatientId = 1,
+            DoctorId = 2,
+            StartTime = "not a date",
+            EndTime = "not a date",
+            DoctorName = "",
+            PatientName = ""
+        };
+
+        // Act
+        var result = await Client.PostAsync($"/api/Appointments", GetHttpContent(command));
+
+        // Assert
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateAppointment_ExceptionThrown_ReturnsStatusCode500()
+    {
+        // Arrange
+        var command = new CreateAppointmentCommand
+        {
+            Description = "Consultation",
+            PatientId = 1,
+            DoctorId = 2,
+            StartTime = "2022-04-12T14:30:00",
+            EndTime = "2022-04-12T15:30:00",
+            DoctorName = "Dr. Smith",
+            PatientName = "John Doe"
+        };
+
+        Factory.Mediator.Setup(m => m.Send(It.IsAny<CreateAppointmentCommand>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await Client.PostAsync($"/api/Appointments", GetHttpContent(command));
+
+        // Assert
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+
+        Factory.Mediator.Verify(x => x.Send(It.IsAny<CreateAppointmentCommand>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     #endregion

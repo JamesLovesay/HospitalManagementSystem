@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.Api.Models.Patients
+﻿using HospitalManagementSystem.Api.Models.Appointments;
+
+namespace HospitalManagementSystem.Api.Models.Patients
 {
     public class PatientReadModel
     {
@@ -12,6 +14,7 @@
         public string? AdmissionDate { get; set; }
         public int? RoomId { get; set; }
         public string? PhoneNumber { get; set; }
+        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
     }
 }

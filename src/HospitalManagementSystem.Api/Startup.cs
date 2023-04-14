@@ -13,6 +13,8 @@ using HospitalManagementSystem.Api.Commands.Doctors;
 using HospitalManagementSystem.Api.Handlers.Doctors;
 using HospitalManagementSystem.Api.Queries.Doctors;
 using HospitalManagementSystem.Api.Validators.Doctors;
+using HospitalManagementSystem.Api.Events.Appointments;
+using System;
 
 namespace HospitalManagementSystem.Api
 {
@@ -35,6 +37,7 @@ namespace HospitalManagementSystem.Api
             services.AddMediatR(typeof(DoctorDeleteCommand).Assembly);
             services.AddMediatR(typeof(CreateDoctorCommandHandler).Assembly);
             services.AddMediatR(typeof(DeleteDoctorCommandHandler).Assembly);
+            services.AddTransient<IEventHandler<AppointmentCreatedEvent>, AppointmentCreatedEventHandler>();
             services.AddTransient<Mediator>();
             services.AddSingleton<IDoctorsRepository, DoctorsRepository>();
             services.AddTransient<IValidator<DoctorsQuery>, DoctorsQueryValidator>();

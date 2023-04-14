@@ -1,5 +1,8 @@
 ﻿using HospitalManagementSystem.Api.Commands;
+using HospitalManagementSystem.Api.Commands.Appointments;
 using HospitalManagementSystem.Api.Queries.Appointments;
+using HospitalManagementSystem.Api.Validators.Appointments;
+using HospitalManagementSystem.Api.Validators.Patients;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
@@ -50,24 +53,29 @@ public class AppointmentsController : Controller
         }
     }
 
-    //[HttpPost]
-    //[ProducesResponseType(StatusCodes.Status201Created)]
-    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //public async Task<IActionResult> CreateAppointment([FromBody] CreateAppointmentCommand command)
-    //{
-    //    try
-    //    {
-    //        var appointmentId = await _mediator.Send(command);
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommandResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> CreateAppointment([FromBody] CreateAppointmentCommand command)
+    {
+        var validator = new CreateAppointmentCommandValidator();
+        var result = validator.Validate(command);
 
-    //        return CreatedAtAction(nameof(GetAppointmentById), new { id = appointmentId }, null);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        _logger.LogError(e, "Error creating appointment.");
-    //        return StatusCode(500);
-    //    }
-    //}
+        if (!result.IsValid) return BadRequest(result.Errors);
+
+        try
+        {
+            var appointmentId = await _mediator.Send(command);
+
+            return CreatedAtAction(nameof(GetAppointmentById), new { id = appointmentId }, null);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error creating appointment.");
+            return StatusCode(500);
+        }
+    }
 
     //[HttpPut("{id}")]
     //[ProducesResponseType(StatusCodes.Status204NoContent)]
